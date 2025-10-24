@@ -1,0 +1,390 @@
+{
+  "ADTroubleshootingConfiguration": {
+    "Version": "1.0.0",
+    "Author": "Adrian Johnson (adrian207@gmail.com)",
+    "Date": "October 2025",
+    "Description": "Active Directory troubleshooting configuration template",
+    "ServerName": "DC-SERVER01",
+    "DomainName": "contoso.com",
+    "TroubleshootingLevel": "Standard",
+    "TroubleshootingType": "All",
+    "IncludeRemediation": false,
+    "IncludePerformanceAnalysis": true,
+    "IncludeEventLogAnalysis": true,
+    "IncludeHealthChecks": true,
+    "IncludeSecurityAnalysis": true,
+    "IncludeComplianceCheck": true,
+    "IncludeReplicationCheck": true,
+    "IncludeFSMOCheck": true,
+    "IncludeDNSCheck": true,
+    "IncludeTimeSyncCheck": true,
+    "IncludeCustomTroubleshooting": false,
+    "CustomTroubleshootingScript": "",
+    "OutputFormat": "HTML",
+    "OutputPath": "",
+    "GenerateReport": false,
+    "ReportFormat": "PDF",
+    "ReportPath": "",
+    "HealthChecks": {
+      "DomainController": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3,
+        "IncludeDetails": true
+      },
+      "Replication": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3,
+        "IncludeDetails": true
+      },
+      "FSMO": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3,
+        "IncludeDetails": true
+      },
+      "DNS": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3,
+        "IncludeDetails": true
+      },
+      "TimeSync": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3,
+        "IncludeDetails": true
+      }
+    },
+    "PerformanceAnalysis": {
+      "Enabled": true,
+      "DurationMinutes": 60,
+      "Metrics": ["CPU", "Memory", "Disk", "Network"],
+      "Thresholds": {
+        "CPU": 80,
+        "Memory": 80,
+        "Disk": 80,
+        "Network": 80
+      }
+    },
+    "EventLogAnalysis": {
+      "Enabled": true,
+      "LogLevel": "All",
+      "MaxEvents": 1000,
+      "HoursBack": 24,
+      "Logs": ["Application", "System", "Security"]
+    },
+    "SecurityAnalysis": {
+      "Enabled": true,
+      "IncludeDetails": true,
+      "IncludeAudit": true,
+      "IncludeAccess": true,
+      "IncludeKerberos": true,
+      "IncludeLDAPS": true,
+      "IncludeTrust": true
+    },
+    "ComplianceCheck": {
+      "Enabled": true,
+      "IncludeDetails": true,
+      "IncludeStandards": true,
+      "IncludePolicies": true,
+      "IncludeAudit": true,
+      "Standards": ["FIPS140-2", "CommonCriteria", "ISO27001", "PCIDSS", "HIPAA", "SOX", "GDPR", "NIST"],
+      "Policies": ["SecurityPolicy", "AccessControlPolicy", "AuditPolicy", "EncryptionPolicy", "KeyManagementPolicy", "CertificateLifecyclePolicy", "CrossForestTrustPolicy", "SmartcardPolicy", "WindowsHelloPolicy", "BitLockerPolicy", "HSMPolicy", "CustomPolicy"]
+    },
+    "ReplicationCheck": {
+      "Enabled": true,
+      "CheckInterval": 300,
+      "Timeout": 30,
+      "RetryCount": 3,
+      "IncludeDetails": true
+    },
+    "FSMOCheck": {
+      "Enabled": true,
+      "CheckInterval": 300,
+      "Timeout": 30,
+      "RetryCount": 3,
+      "IncludeDetails": true
+    },
+    "DNSCheck": {
+      "Enabled": true,
+      "CheckInterval": 300,
+      "Timeout": 30,
+      "RetryCount": 3,
+      "IncludeDetails": true,
+      "IncludeZones": true,
+      "IncludeRecords": true,
+      "IncludeReplication": true
+    },
+    "TimeSyncCheck": {
+      "Enabled": true,
+      "CheckInterval": 300,
+      "Timeout": 30,
+      "RetryCount": 3,
+      "IncludeDetails": true,
+      "IncludeNTP": true,
+      "IncludeW32Time": true
+    },
+    "TroubleshootingRules": {
+      "HealthRules": {
+        "DomainControllerDown": {
+          "Enabled": true,
+          "Severity": "Critical",
+          "Threshold": 1,
+          "Duration": 60,
+          "Remediation": "Restart Domain Controller Service"
+        },
+        "ReplicationFailed": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 1,
+          "Duration": 300,
+          "Remediation": "Check Replication Topology"
+        },
+        "FSMORoleMissing": {
+          "Enabled": true,
+          "Severity": "Critical",
+          "Threshold": 1,
+          "Duration": 60,
+          "Remediation": "Transfer FSMO Roles"
+        },
+        "DNSResolutionFailed": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 1,
+          "Duration": 300,
+          "Remediation": "Check DNS Configuration"
+        },
+        "TimeSyncFailed": {
+          "Enabled": true,
+          "Severity": "Medium",
+          "Threshold": 1,
+          "Duration": 600,
+          "Remediation": "Check Time Synchronization"
+        }
+      },
+      "PerformanceRules": {
+        "CPUHigh": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 80,
+          "Duration": 300,
+          "Remediation": "Check CPU Usage"
+        },
+        "MemoryHigh": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 80,
+          "Duration": 300,
+          "Remediation": "Check Memory Usage"
+        },
+        "DiskHigh": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 80,
+          "Duration": 300,
+          "Remediation": "Check Disk Usage"
+        },
+        "NetworkHigh": {
+          "Enabled": true,
+          "Severity": "Medium",
+          "Threshold": 80,
+          "Duration": 300,
+          "Remediation": "Check Network Usage"
+        }
+      },
+      "EventRules": {
+        "CriticalEvents": {
+          "Enabled": true,
+          "Severity": "Critical",
+          "EventIDs": [1074, 1076, 6005, 6006, 6008, 6009],
+          "Duration": 60,
+          "Remediation": "Check Critical Events"
+        },
+        "ErrorEvents": {
+          "Enabled": true,
+          "Severity": "High",
+          "EventIDs": [1000, 1001, 1002, 1003, 1004, 1005],
+          "Duration": 300,
+          "Remediation": "Check Error Events"
+        },
+        "WarningEvents": {
+          "Enabled": true,
+          "Severity": "Medium",
+          "EventIDs": [1006, 1007, 1008, 1009, 1010, 1011],
+          "Duration": 600,
+          "Remediation": "Check Warning Events"
+        }
+      }
+    },
+    "RemediationActions": {
+      "AutomaticRemediation": {
+        "Enabled": false,
+        "Actions": [
+          {
+            "Name": "Restart Service",
+            "Service": "NTDS",
+            "Action": "Restart",
+            "Timeout": 30
+          },
+          {
+            "Name": "Clear DNS Cache",
+            "Command": "ipconfig /flushdns",
+            "Action": "Execute",
+            "Timeout": 30
+          },
+          {
+            "Name": "Sync Time",
+            "Command": "w32tm /resync",
+            "Action": "Execute",
+            "Timeout": 30
+          }
+        ]
+      },
+      "ManualRemediation": {
+        "Enabled": true,
+        "Actions": [
+          {
+            "Name": "Check Event Logs",
+            "Description": "Check Windows Event Logs for errors",
+            "Command": "Get-WinEvent -LogName System,Application,Security -MaxEvents 100"
+          },
+          {
+            "Name": "Check Replication",
+            "Description": "Check Active Directory replication status",
+            "Command": "Get-ADReplicationPartnerMetadata -Target localhost"
+          },
+          {
+            "Name": "Check FSMO Roles",
+            "Description": "Check FSMO role holders",
+            "Command": "Get-ADForest | Select-Object SchemaMaster,DomainNamingMaster"
+          }
+        ]
+      }
+    },
+    "TroubleshootingReports": {
+      "HealthReport": {
+        "Enabled": true,
+        "Schedule": "OnDemand",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "PerformanceReport": {
+        "Enabled": true,
+        "Schedule": "OnDemand",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "EventReport": {
+        "Enabled": true,
+        "Schedule": "OnDemand",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "SecurityReport": {
+        "Enabled": true,
+        "Schedule": "OnDemand",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "ComplianceReport": {
+        "Enabled": true,
+        "Schedule": "OnDemand",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "ComprehensiveReport": {
+        "Enabled": true,
+        "Schedule": "OnDemand",
+        "Format": "PDF",
+        "OutputPath": ""
+      }
+    },
+    "TroubleshootingDashboard": {
+      "Enabled": true,
+      "RefreshInterval": 60,
+      "Widgets": [
+        {
+          "Name": "Health Status",
+          "Type": "Health",
+          "Position": "Top-Left",
+          "Size": "Medium"
+        },
+        {
+          "Name": "Performance Metrics",
+          "Type": "Performance",
+          "Position": "Top-Right",
+          "Size": "Medium"
+        },
+        {
+          "Name": "Event Logs",
+          "Type": "Events",
+          "Position": "Bottom-Left",
+          "Size": "Large"
+        },
+        {
+          "Name": "Troubleshooting Results",
+          "Type": "Troubleshooting",
+          "Position": "Bottom-Right",
+          "Size": "Medium"
+        }
+      ]
+    },
+    "TroubleshootingAPI": {
+      "Enabled": true,
+      "Port": 8081,
+      "Authentication": "Basic",
+      "RateLimit": 100,
+      "Endpoints": [
+        {
+          "Path": "/health",
+          "Method": "GET",
+          "Description": "Get health status"
+        },
+        {
+          "Path": "/performance",
+          "Method": "GET",
+          "Description": "Get performance metrics"
+        },
+        {
+          "Path": "/events",
+          "Method": "GET",
+          "Description": "Get event logs"
+        },
+        {
+          "Path": "/troubleshoot",
+          "Method": "POST",
+          "Description": "Start troubleshooting"
+        },
+        {
+          "Path": "/remediate",
+          "Method": "POST",
+          "Description": "Start remediation"
+        }
+      ]
+    },
+    "DataRetention": {
+      "TroubleshootingData": {
+        "RetentionDays": 30,
+        "CompressionEnabled": true,
+        "ArchiveEnabled": true
+      },
+      "RemediationData": {
+        "RetentionDays": 90,
+        "CompressionEnabled": true,
+        "ArchiveEnabled": true
+      },
+      "ReportData": {
+        "RetentionDays": 365,
+        "CompressionEnabled": true,
+        "ArchiveEnabled": true
+      }
+    }
+  }
+}

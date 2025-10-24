@@ -1,0 +1,309 @@
+{
+    "HyperVSecurityConfiguration": {
+        "Version": "1.0.0",
+        "LastUpdated": "2025-10-24T08:42:00Z",
+        "Description": "Windows Hyper-V Security Configuration Template",
+        "Author": "Adrian Johnson (adrian207@gmail.com)",
+        "SecurityConfiguration": {
+            "SecurityBaseline": {
+                "Level": "High",
+                "Compliance": "CIS",
+                "AuditMode": false,
+                "ApplyBaseline": true,
+                "BaselineVersion": "2.0",
+                "LastApplied": "2025-10-24T08:42:00Z",
+                "ComplianceStatus": "Compliant",
+                "RemediationRequired": false
+            },
+            "ShieldedVMs": {
+                "Enabled": true,
+                "TemplateGuardian": true,
+                "KeyProtector": "TPM",
+                "Encryption": "BitLocker",
+                "GuardianService": {
+                    "Enabled": true,
+                    "ServiceUrl": "https://hgs.contoso.com",
+                    "CertificateThumbprint": "",
+                    "AttestationUrl": "https://hgs.contoso.com/Attestation",
+                    "KeyProtectionUrl": "https://hgs.contoso.com/KeyProtection"
+                },
+                "ShieldedVM": {
+                    "Enabled": true,
+                    "TemplateId": "",
+                    "KeyProtectorId": "",
+                    "EncryptionKey": "",
+                    "SecurityPolicy": "High"
+                }
+            },
+            "TPMConfiguration": {
+                "Enabled": true,
+                "Version": "2.0",
+                "OwnerAuth": "",
+                "EndorsementKey": "",
+                "StorageRootKey": "",
+                "PlatformConfigurationRegisters": {
+                    "PCR0": "Enabled",
+                    "PCR1": "Enabled",
+                    "PCR2": "Enabled",
+                    "PCR3": "Enabled",
+                    "PCR4": "Enabled",
+                    "PCR5": "Enabled",
+                    "PCR6": "Enabled",
+                    "PCR7": "Enabled",
+                    "PCR8": "Enabled",
+                    "PCR9": "Enabled",
+                    "PCR10": "Enabled",
+                    "PCR11": "Enabled",
+                    "PCR12": "Enabled",
+                    "PCR13": "Enabled",
+                    "PCR14": "Enabled",
+                    "PCR15": "Enabled",
+                    "PCR16": "Enabled",
+                    "PCR17": "Enabled",
+                    "PCR18": "Enabled",
+                    "PCR19": "Enabled",
+                    "PCR20": "Enabled",
+                    "PCR21": "Enabled",
+                    "PCR22": "Enabled",
+                    "PCR23": "Enabled"
+                }
+            },
+            "SecureBoot": {
+                "Enabled": true,
+                "Template": "MicrosoftWindows",
+                "KeyExchangeKey": "",
+                "PlatformKey": "",
+                "Database": "",
+                "KeyExchangeKeyDatabase": "",
+                "PlatformKeyDatabase": "",
+                "ForbiddenDatabase": "",
+                "BootOrder": [
+                    "Windows Boot Manager",
+                    "Hyper-V Boot Manager"
+                ]
+            },
+            "CredentialGuard": {
+                "Enabled": true,
+                "IsolationType": "SecureKernel",
+                "LsaCfgFlags": 1,
+                "HypervisorEnforcedCodeIntegrity": true,
+                "KernelModeCodeIntegrity": true,
+                "UserModeCodeIntegrity": true,
+                "SecureKernel": true,
+                "VBS": true
+            },
+            "DeviceGuard": {
+                "Enabled": true,
+                "CodeIntegrityPolicy": "",
+                "UserModeCodeIntegrityPolicy": "",
+                "PlatformSecurityLevel": "SecureBoot",
+                "VirtualizationBasedSecurity": true,
+                "CredentialGuard": true,
+                "HypervisorEnforcedCodeIntegrity": true,
+                "KernelModeCodeIntegrity": true,
+                "UserModeCodeIntegrity": true
+            },
+            "BitLocker": {
+                "Enabled": true,
+                "EncryptionMethod": "AES256",
+                "KeyProtector": "TPM",
+                "RecoveryKey": "",
+                "RecoveryPassword": "",
+                "StartupKey": "",
+                "Pin": "",
+                "RecoveryOptions": {
+                    "RecoveryKey": true,
+                    "RecoveryPassword": true,
+                    "StartupKey": false,
+                    "Pin": false
+                },
+                "EncryptionSettings": {
+                    "EncryptionMethod": "AES256",
+                    "UsedSpaceOnly": false,
+                    "Compress": true,
+                    "SkipHardwareTest": false
+                }
+            },
+            "NetworkSecurity": {
+                "Firewall": {
+                    "Enabled": true,
+                    "Profiles": {
+                        "Domain": "Enabled",
+                        "Private": "Enabled",
+                        "Public": "Disabled"
+                    },
+                    "Rules": [
+                        {
+                            "Name": "Hyper-V Management",
+                            "Direction": "Inbound",
+                            "Action": "Allow",
+                            "Protocol": "TCP",
+                            "LocalPort": "5985,5986",
+                            "RemoteAddress": "LocalSubnet"
+                        },
+                        {
+                            "Name": "Hyper-V Live Migration",
+                            "Direction": "Inbound",
+                            "Action": "Allow",
+                            "Protocol": "TCP",
+                            "LocalPort": "6600",
+                            "RemoteAddress": "LocalSubnet"
+                        },
+                        {
+                            "Name": "Hyper-V Storage Migration",
+                            "Direction": "Inbound",
+                            "Action": "Allow",
+                            "Protocol": "TCP",
+                            "LocalPort": "6601",
+                            "RemoteAddress": "LocalSubnet"
+                        }
+                    ]
+                },
+                "NetworkAccessControl": {
+                    "Enabled": true,
+                    "NACPolicy": "Strict",
+                    "AllowedSubnets": [
+                        "192.168.1.0/24",
+                        "10.0.0.0/8"
+                    ],
+                    "DeniedSubnets": [
+                        "0.0.0.0/0"
+                    ]
+                }
+            },
+            "AccessControl": {
+                "LocalAdministrators": [
+                    "CONTOSO\\HyperV-Admins",
+                    "CONTOSO\\Domain Admins"
+                ],
+                "HyperVAdministrators": [
+                    "CONTOSO\\HyperV-Admins",
+                    "CONTOSO\\HyperV-Operators"
+                ],
+                "RemoteManagementUsers": [
+                    "CONTOSO\\HyperV-Admins",
+                    "CONTOSO\\HyperV-Operators"
+                ],
+                "ServiceAccounts": [
+                    "CONTOSO\\HyperV-Service",
+                    "CONTOSO\\HyperV-Monitoring"
+                ]
+            },
+            "AuditLogging": {
+                "Enabled": true,
+                "AuditLevel": "Comprehensive",
+                "AuditCategories": [
+                    "AccountManagement",
+                    "LogonLogoff",
+                    "ObjectAccess",
+                    "PolicyChange",
+                    "PrivilegeUse",
+                    "System",
+                    "ProcessTracking"
+                ],
+                "AuditSettings": {
+                    "AuditAccountManagement": "Success,Failure",
+                    "AuditLogonLogoff": "Success,Failure",
+                    "AuditObjectAccess": "Success,Failure",
+                    "AuditPolicyChange": "Success,Failure",
+                    "AuditPrivilegeUse": "Success,Failure",
+                    "AuditSystem": "Success,Failure",
+                    "AuditProcessTracking": "Success,Failure"
+                },
+                "LogRetention": {
+                    "RetentionDays": 365,
+                    "MaxLogSize": "100MB",
+                    "OverwritePolicy": "OverwriteAsNeeded"
+                }
+            },
+            "Compliance": {
+                "CIS": {
+                    "Enabled": true,
+                    "Version": "2.0",
+                    "ComplianceLevel": "High",
+                    "LastAssessment": "2025-10-24T08:42:00Z",
+                    "ComplianceStatus": "Compliant",
+                    "RemediationRequired": false
+                },
+                "NIST": {
+                    "Enabled": true,
+                    "Version": "800-53",
+                    "ComplianceLevel": "High",
+                    "LastAssessment": "2025-10-24T08:42:00Z",
+                    "ComplianceStatus": "Compliant",
+                    "RemediationRequired": false
+                },
+                "SOX": {
+                    "Enabled": true,
+                    "ComplianceLevel": "High",
+                    "LastAssessment": "2025-10-24T08:42:00Z",
+                    "ComplianceStatus": "Compliant",
+                    "RemediationRequired": false
+                },
+                "HIPAA": {
+                    "Enabled": true,
+                    "ComplianceLevel": "High",
+                    "LastAssessment": "2025-10-24T08:42:00Z",
+                    "ComplianceStatus": "Compliant",
+                    "RemediationRequired": false
+                }
+            },
+            "Encryption": {
+                "DataAtRest": {
+                    "Enabled": true,
+                    "EncryptionMethod": "AES256",
+                    "KeyManagement": "TPM",
+                    "EncryptionScope": "All"
+                },
+                "DataInTransit": {
+                    "Enabled": true,
+                    "EncryptionMethod": "TLS1.2",
+                    "KeyExchange": "ECDHE",
+                    "CipherSuites": [
+                        "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+                        "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+                    ]
+                },
+                "DataInUse": {
+                    "Enabled": true,
+                    "EncryptionMethod": "Memory",
+                    "KeyManagement": "TPM",
+                    "EncryptionScope": "All"
+                }
+            },
+            "Monitoring": {
+                "SecurityMonitoring": {
+                    "Enabled": true,
+                    "MonitoringLevel": "Comprehensive",
+                    "AlertThreshold": "High",
+                    "MonitoringSources": [
+                        "EventLogs",
+                        "PerformanceCounters",
+                        "SecurityLogs",
+                        "AuditLogs"
+                    ]
+                },
+                "ThreatDetection": {
+                    "Enabled": true,
+                    "DetectionLevel": "High",
+                    "ThreatTypes": [
+                        "Malware",
+                        "Intrusion",
+                        "Anomaly",
+                        "Compliance"
+                    ]
+                },
+                "IncidentResponse": {
+                    "Enabled": true,
+                    "ResponseLevel": "High",
+                    "ResponseTime": "15",
+                    "EscalationTime": "30",
+                    "ResponseTeam": [
+                        "security@contoso.com",
+                        "incident@contoso.com"
+                    ]
+                }
+            }
+        }
+    }
+}

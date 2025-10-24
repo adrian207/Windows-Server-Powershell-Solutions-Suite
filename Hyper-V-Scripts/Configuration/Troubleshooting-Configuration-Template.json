@@ -1,0 +1,442 @@
+{
+    "HyperVTroubleshootingConfiguration": {
+        "Version": "1.0.0",
+        "LastUpdated": "2025-10-24T08:42:00Z",
+        "Description": "Windows Hyper-V Troubleshooting Configuration Template",
+        "Author": "Adrian Johnson (adrian207@gmail.com)",
+        "TroubleshootingConfiguration": {
+            "Diagnostics": {
+                "Enabled": true,
+                "Level": "Comprehensive",
+                "IncludeHost": true,
+                "IncludeVMs": true,
+                "IncludeNetwork": true,
+                "IncludeStorage": true,
+                "IncludePerformance": true,
+                "IncludeSecurity": true,
+                "IncludeCompliance": true,
+                "DiagnosticTypes": [
+                    "Health",
+                    "Performance",
+                    "Security",
+                    "Compliance",
+                    "Network",
+                    "Storage",
+                    "VM",
+                    "Host"
+                ],
+                "DiagnosticTools": [
+                    "EventLogs",
+                    "PerformanceCounters",
+                    "SystemInfo",
+                    "NetworkDiagnostics",
+                    "StorageDiagnostics",
+                    "VMDiagnostics",
+                    "HostDiagnostics",
+                    "SecurityDiagnostics"
+                ]
+            },
+            "EventAnalysis": {
+                "Enabled": true,
+                "AnalysisType": "Comprehensive",
+                "TimeRangeHours": 24,
+                "LogSources": [
+                    "System",
+                    "Application",
+                    "Microsoft-Windows-Hyper-V*",
+                    "Microsoft-Windows-Hyper-V-Hypervisor",
+                    "Microsoft-Windows-Hyper-V-VMMS",
+                    "Microsoft-Windows-Hyper-V-Worker",
+                    "Microsoft-Windows-Hyper-V-Config",
+                    "Microsoft-Windows-Hyper-V-StorageVSP",
+                    "Microsoft-Windows-Hyper-V-NetworkVSP",
+                    "Microsoft-Windows-Hyper-V-ComputeVSP"
+                ],
+                "EventCategories": [
+                    "Hypervisor",
+                    "VirtualMachine",
+                    "Network",
+                    "Storage",
+                    "Migration",
+                    "Checkpoint",
+                    "IntegrationServices",
+                    "Security"
+                ],
+                "EventFilters": {
+                    "CriticalEvents": true,
+                    "ErrorEvents": true,
+                    "WarningEvents": true,
+                    "InformationEvents": false,
+                    "DebugEvents": false
+                },
+                "AnalysisRules": [
+                    "CorrelationAnalysis",
+                    "PatternAnalysis",
+                    "TrendAnalysis",
+                    "AnomalyDetection",
+                    "RootCauseAnalysis"
+                ]
+            },
+            "PerformanceAnalysis": {
+                "Enabled": true,
+                "DurationMinutes": 60,
+                "Metrics": [
+                    "CPU",
+                    "Memory",
+                    "Disk",
+                    "Network",
+                    "VM",
+                    "Host",
+                    "Storage",
+                    "Network"
+                ],
+                "PerformanceCounters": [
+                    "\\Hyper-V Hypervisor Logical Processor(_Total)\\% Total Run Time",
+                    "\\Hyper-V Hypervisor Root Virtual Processor(_Total)\\% Total Run Time",
+                    "\\Hyper-V Hypervisor Virtual Processor(_Total)\\% Total Run Time",
+                    "\\Hyper-V Hypervisor Root Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler",
+                    "\\Hyper-V Hypervisor Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler",
+                    "\\Hyper-V Hypervisor Root Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler",
+                    "\\Hyper-V Hypervisor Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler"
+                ],
+                "PerformanceThresholds": {
+                    "CPUUtilization": 80,
+                    "MemoryUtilization": 85,
+                    "DiskUtilization": 90,
+                    "NetworkUtilization": 80,
+                    "VMCPUUtilization": 80,
+                    "VMMemoryUtilization": 85,
+                    "VMDiskUtilization": 90,
+                    "VMNetworkUtilization": 80
+                },
+                "AnalysisTypes": [
+                    "BaselineAnalysis",
+                    "TrendAnalysis",
+                    "AnomalyDetection",
+                    "BottleneckAnalysis",
+                    "CapacityAnalysis"
+                ]
+            },
+            "VMDiagnostics": {
+                "Enabled": true,
+                "DiagnosticLevel": "Comprehensive",
+                "VMStates": [
+                    "Running",
+                    "Stopped",
+                    "Paused",
+                    "Suspended",
+                    "Saving",
+                    "Restoring",
+                    "Starting",
+                    "Stopping"
+                ],
+                "VMDiagnostics": [
+                    "VMHealth",
+                    "VMPerformance",
+                    "VMConfiguration",
+                    "VMResources",
+                    "VMNetwork",
+                    "VMStorage",
+                    "VMIntegrationServices",
+                    "VMCheckpoints"
+                ],
+                "VMTools": [
+                    "VMInfo",
+                    "VMConfiguration",
+                    "VMResources",
+                    "VMNetwork",
+                    "VMStorage",
+                    "VMIntegrationServices",
+                    "VMCheckpoints",
+                    "VMEvents"
+                ]
+            },
+            "HostDiagnostics": {
+                "Enabled": true,
+                "DiagnosticLevel": "Comprehensive",
+                "HostStates": [
+                    "Online",
+                    "Offline",
+                    "Maintenance",
+                    "Error",
+                    "Warning",
+                    "Critical"
+                ],
+                "HostDiagnostics": [
+                    "HostHealth",
+                    "HostPerformance",
+                    "HostConfiguration",
+                    "HostResources",
+                    "HostNetwork",
+                    "HostStorage",
+                    "HostSecurity",
+                    "HostCompliance"
+                ],
+                "HostTools": [
+                    "HostInfo",
+                    "HostConfiguration",
+                    "HostResources",
+                    "HostNetwork",
+                    "HostStorage",
+                    "HostSecurity",
+                    "HostCompliance",
+                    "HostEvents"
+                ]
+            },
+            "NetworkDiagnostics": {
+                "Enabled": true,
+                "DiagnosticLevel": "Comprehensive",
+                "NetworkTypes": [
+                    "VirtualSwitch",
+                    "VirtualNetworkAdapter",
+                    "PhysicalNetworkAdapter",
+                    "VirtualNetwork",
+                    "VirtualSubnet"
+                ],
+                "NetworkDiagnostics": [
+                    "NetworkHealth",
+                    "NetworkPerformance",
+                    "NetworkConfiguration",
+                    "NetworkResources",
+                    "NetworkConnectivity",
+                    "NetworkSecurity",
+                    "NetworkCompliance"
+                ],
+                "NetworkTools": [
+                    "NetworkInfo",
+                    "NetworkConfiguration",
+                    "NetworkResources",
+                    "NetworkConnectivity",
+                    "NetworkSecurity",
+                    "NetworkCompliance",
+                    "NetworkEvents",
+                    "NetworkTraffic"
+                ]
+            },
+            "StorageDiagnostics": {
+                "Enabled": true,
+                "DiagnosticLevel": "Comprehensive",
+                "StorageTypes": [
+                    "VHD",
+                    "VHDX",
+                    "VHDSet",
+                    "VMDK",
+                    "VMDX",
+                    "VMDKSet",
+                    "VMDXSet"
+                ],
+                "StorageDiagnostics": [
+                    "StorageHealth",
+                    "StoragePerformance",
+                    "StorageConfiguration",
+                    "StorageResources",
+                    "StorageUtilization",
+                    "StorageSecurity",
+                    "StorageCompliance"
+                ],
+                "StorageTools": [
+                    "StorageInfo",
+                    "StorageConfiguration",
+                    "StorageResources",
+                    "StorageUtilization",
+                    "StorageSecurity",
+                    "StorageCompliance",
+                    "StorageEvents",
+                    "StorageTraffic"
+                ]
+            },
+            "RepairOperations": {
+                "Enabled": true,
+                "AutoRepair": false,
+                "BackupBeforeRepair": true,
+                "RepairLevel": "Standard",
+                "RepairTypes": [
+                    "Configuration",
+                    "Performance",
+                    "Security",
+                    "Compliance",
+                    "Network",
+                    "Storage",
+                    "VM",
+                    "Host"
+                ],
+                "RepairTools": [
+                    "ConfigurationRepair",
+                    "PerformanceRepair",
+                    "SecurityRepair",
+                    "ComplianceRepair",
+                    "NetworkRepair",
+                    "StorageRepair",
+                    "VMRepair",
+                    "HostRepair"
+                ],
+                "RepairPolicies": {
+                    "ConfigurationRepair": "Standard",
+                    "PerformanceRepair": "Standard",
+                    "SecurityRepair": "High",
+                    "ComplianceRepair": "High",
+                    "NetworkRepair": "Standard",
+                    "StorageRepair": "Standard",
+                    "VMRepair": "Standard",
+                    "HostRepair": "High"
+                }
+            },
+            "HealthChecks": {
+                "Enabled": true,
+                "CheckLevel": "Comprehensive",
+                "CheckTypes": [
+                    "Health",
+                    "Performance",
+                    "Security",
+                    "Compliance",
+                    "Network",
+                    "Storage",
+                    "VM",
+                    "Host"
+                ],
+                "HealthChecks": [
+                    "HostHealth",
+                    "VMHealth",
+                    "NetworkHealth",
+                    "StorageHealth",
+                    "PerformanceHealth",
+                    "SecurityHealth",
+                    "ComplianceHealth"
+                ],
+                "HealthThresholds": {
+                    "HealthThreshold": 80,
+                    "PerformanceThreshold": 80,
+                    "SecurityThreshold": 90,
+                    "ComplianceThreshold": 90,
+                    "NetworkThreshold": 80,
+                    "StorageThreshold": 85,
+                    "VMThreshold": 80,
+                    "HostThreshold": 80
+                }
+            },
+            "TroubleshootingTools": {
+                "Enabled": true,
+                "ToolLevel": "Comprehensive",
+                "ToolTypes": [
+                    "Diagnostic",
+                    "Analysis",
+                    "Repair",
+                    "Monitoring",
+                    "Reporting"
+                ],
+                "DiagnosticTools": [
+                    "EventLogs",
+                    "PerformanceCounters",
+                    "SystemInfo",
+                    "NetworkDiagnostics",
+                    "StorageDiagnostics",
+                    "VMDiagnostics",
+                    "HostDiagnostics",
+                    "SecurityDiagnostics"
+                ],
+                "AnalysisTools": [
+                    "EventAnalysis",
+                    "PerformanceAnalysis",
+                    "SecurityAnalysis",
+                    "ComplianceAnalysis",
+                    "NetworkAnalysis",
+                    "StorageAnalysis",
+                    "VMAnalysis",
+                    "HostAnalysis"
+                ],
+                "RepairTools": [
+                    "ConfigurationRepair",
+                    "PerformanceRepair",
+                    "SecurityRepair",
+                    "ComplianceRepair",
+                    "NetworkRepair",
+                    "StorageRepair",
+                    "VMRepair",
+                    "HostRepair"
+                ]
+            },
+            "Reporting": {
+                "Enabled": true,
+                "ReportLevel": "Comprehensive",
+                "ReportTypes": [
+                    "Diagnostic",
+                    "Analysis",
+                    "Repair",
+                    "Health",
+                    "Performance",
+                    "Security",
+                    "Compliance",
+                    "Summary"
+                ],
+                "ReportSchedules": [
+                    {
+                        "ReportType": "Diagnostic",
+                        "Schedule": "Daily",
+                        "Time": "06:00",
+                        "Recipients": [
+                            "admin@contoso.com",
+                            "ops@contoso.com"
+                        ]
+                    },
+                    {
+                        "ReportType": "Analysis",
+                        "Schedule": "Weekly",
+                        "Day": "Monday",
+                        "Time": "08:00",
+                        "Recipients": [
+                            "admin@contoso.com",
+                            "ops@contoso.com"
+                        ]
+                    },
+                    {
+                        "ReportType": "Repair",
+                        "Schedule": "Monthly",
+                        "Day": "1",
+                        "Time": "09:00",
+                        "Recipients": [
+                            "admin@contoso.com",
+                            "ops@contoso.com"
+                        ]
+                    }
+                ],
+                "ReportFormats": [
+                    "HTML",
+                    "PDF",
+                    "CSV",
+                    "JSON",
+                    "XML"
+                ],
+                "ReportRetention": {
+                    "RetentionDays": 365,
+                    "ArchiveLocation": "C:\\Reports\\Archive",
+                    "CompressionEnabled": true
+                }
+            },
+            "Integration": {
+                "SIEM": {
+                    "Enabled": true,
+                    "SiemProvider": "Splunk",
+                    "SiemServer": "192.168.1.100",
+                    "SiemPort": 8089,
+                    "SiemToken": "",
+                    "SiemIndex": "hyperv-troubleshooting"
+                },
+                "MonitoringTools": {
+                    "Enabled": true,
+                    "ToolProvider": "Nagios",
+                    "ToolServer": "192.168.1.100",
+                    "ToolPort": 5666,
+                    "ToolUsername": "nagios",
+                    "ToolPassword": ""
+                },
+                "CloudIntegration": {
+                    "Enabled": true,
+                    "CloudProvider": "Azure",
+                    "CloudResourceGroup": "HyperV-Troubleshooting",
+                    "CloudStorageAccount": "hypervtroubleshooting",
+                    "CloudContainer": "troubleshooting-data"
+                }
+            }
+        }
+    }
+}

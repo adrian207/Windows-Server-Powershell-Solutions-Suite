@@ -1,0 +1,303 @@
+{
+  "ADSecurityConfiguration": {
+    "Version": "1.0.0",
+    "Author": "Adrian Johnson (adrian207@gmail.com)",
+    "Date": "October 2025",
+    "Description": "Active Directory security configuration template",
+    "ServerName": "DC-SERVER01",
+    "DomainName": "contoso.com",
+    "SecurityLevel": "Standard",
+    "IncludePermissions": true,
+    "IncludeAudit": true,
+    "IncludeCompliance": true,
+    "IncludeBaselines": true,
+    "IncludeLogging": true,
+    "IncludeComplianceSettings": true,
+    "IncludeSecurityPolicies": true,
+    "IncludeAccessControl": true,
+    "IncludeEncryption": true,
+    "IncludeKeyProtection": true,
+    "IncludeCertificateLifecycle": true,
+    "IncludeCrossForestTrust": true,
+    "IncludeSmartcardSupport": true,
+    "IncludeWindowsHello": true,
+    "IncludeBitLockerIntegration": true,
+    "IncludeHSMIntegration": true,
+    "IncludeCustomSecurity": false,
+    "CustomSecurityScript": "",
+    "OutputFormat": "HTML",
+    "OutputPath": "",
+    "GenerateReport": false,
+    "ReportFormat": "PDF",
+    "ReportPath": "",
+    "AuditPolicy": {
+      "AuditLevel": "Standard",
+      "AuditSettings": {
+        "AuditAccountLogon": "Success,Failure",
+        "AuditAccountManagement": "Success,Failure",
+        "AuditDirectoryServiceAccess": "Success,Failure",
+        "AuditLogonEvents": "Success,Failure",
+        "AuditObjectAccess": "Success,Failure",
+        "AuditPolicyChange": "Success,Failure",
+        "AuditPrivilegeUse": "Success,Failure",
+        "AuditProcessTracking": "Success,Failure",
+        "AuditSystemEvents": "Success,Failure"
+      }
+    },
+    "AccessControl": {
+      "AccessLevel": "Standard",
+      "AccessSettings": {
+        "UserAccess": "Read,Write",
+        "GroupAccess": "Read,Write",
+        "OUAccess": "Read,Write",
+        "ComputerAccess": "Read,Write",
+        "ServiceAccountAccess": "Read,Write"
+      }
+    },
+    "PrivilegedAccess": {
+      "PAMLevel": "Standard",
+      "PAMSettings": {
+        "Tier0Admins": "Domain Admins,Enterprise Admins",
+        "Tier1Admins": "Server Admins",
+        "Tier2Admins": "Workstation Admins",
+        "PAWEnabled": true,
+        "JustInTimeAccess": true,
+        "ApprovalRequired": true
+      }
+    },
+    "SecurityBaseline": {
+      "BaselineType": "CIS",
+      "BaselineSettings": {
+        "PasswordPolicy": "Strong",
+        "AccountLockout": "Enabled",
+        "AuditLogging": "Comprehensive",
+        "UserRights": "Restricted",
+        "ServiceAccounts": "Managed",
+        "PrivilegedAccess": "Controlled"
+      }
+    },
+    "KerberosSecurity": {
+      "KerberosLevel": "Standard",
+      "KerberosSettings": {
+        "TicketLifetime": "10",
+        "RenewalLifetime": "7",
+        "ClockSkew": "5",
+        "Armoring": true,
+        "FAST": true,
+        "Delegation": "Constrained"
+      }
+    },
+    "LDAPSSecurity": {
+      "LDAPSLevel": "Standard",
+      "LDAPSSettings": {
+        "LDAPSEnabled": true,
+        "CertificateRequired": true,
+        "TLSVersion": "1.2",
+        "CipherSuites": "Strong",
+        "ClientCertificateRequired": false
+      }
+    },
+    "TrustSecurity": {
+      "TrustLevel": "Standard",
+      "TrustSettings": {
+        "SIDFiltering": true,
+        "Quarantine": true,
+        "SelectiveAuthentication": true,
+        "ForestTrust": true,
+        "ExternalTrust": false
+      }
+    },
+    "PasswordPolicy": {
+      "MinPasswordLength": 12,
+      "PasswordHistoryCount": 12,
+      "MaxPasswordAge": 90,
+      "MinPasswordAge": 1,
+      "PasswordComplexity": true,
+      "LockoutThreshold": 5,
+      "LockoutDuration": 30,
+      "LockoutObservationWindow": 30
+    },
+    "GroupPolicy": {
+      "GPOName": "Security Policy",
+      "GPODescription": "Security policy for domain",
+      "OUPath": "OU=Users,DC=contoso,DC=com",
+      "GPOSettings": {
+        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+          "EnableLUA": {
+            "Name": "EnableLUA",
+            "Value": 1,
+            "Type": "DWord"
+          },
+          "ConsentPromptBehaviorAdmin": {
+            "Name": "ConsentPromptBehaviorAdmin",
+            "Value": 5,
+            "Type": "DWord"
+          },
+          "ConsentPromptBehaviorUser": {
+            "Name": "ConsentPromptBehaviorUser",
+            "Value": 3,
+            "Type": "DWord"
+          },
+          "EnableInstallerDetection": {
+            "Name": "EnableInstallerDetection",
+            "Value": 1,
+            "Type": "DWord"
+          }
+        }
+      }
+    },
+    "OUStructure": [
+      {
+        "Name": "Users",
+        "Path": "OU=Users,DC=contoso,DC=com",
+        "Description": "User accounts"
+      },
+      {
+        "Name": "Computers",
+        "Path": "OU=Computers,DC=contoso,DC=com",
+        "Description": "Computer accounts"
+      },
+      {
+        "Name": "Groups",
+        "Path": "OU=Groups,DC=contoso,DC=com",
+        "Description": "Security groups"
+      },
+      {
+        "Name": "Service Accounts",
+        "Path": "OU=Service Accounts,DC=contoso,DC=com",
+        "Description": "Service accounts"
+      },
+      {
+        "Name": "Administrative",
+        "Path": "OU=Administrative,DC=contoso,DC=com",
+        "Description": "Administrative accounts"
+      },
+      {
+        "Name": "Privileged",
+        "Path": "OU=Privileged,DC=contoso,DC=com",
+        "Description": "Privileged accounts"
+      },
+      {
+        "Name": "Temporary",
+        "Path": "OU=Temporary,DC=contoso,DC=com",
+        "Description": "Temporary accounts"
+      }
+    ],
+    "TimeSync": {
+      "TimeSource": "time.windows.com",
+      "SyncEnabled": true
+    },
+    "Compliance": {
+      "IncludeDetails": true,
+      "IncludeStandards": true,
+      "IncludePolicies": true,
+      "IncludeAudit": true,
+      "Standards": ["FIPS140-2", "CommonCriteria", "ISO27001", "PCIDSS", "HIPAA", "SOX", "GDPR", "NIST"],
+      "Policies": ["SecurityPolicy", "AccessControlPolicy", "AuditPolicy", "EncryptionPolicy", "KeyManagementPolicy", "CertificateLifecyclePolicy", "CrossForestTrustPolicy", "SmartcardPolicy", "WindowsHelloPolicy", "BitLockerPolicy", "HSMPolicy", "CustomPolicy"]
+    },
+    "Integration": {
+      "DNSIntegration": "Enabled",
+      "KerberosIntegration": "Enabled",
+      "LDAPIntegration": "Enabled",
+      "CertificateIntegration": "Enabled",
+      "FederationIntegration": "Enabled",
+      "CloudIntegration": "Enabled",
+      "HybridIntegration": "Enabled"
+    },
+    "SecurityMonitoring": {
+      "MonitoringLevel": "Standard",
+      "IncludeDetails": true,
+      "IncludeAudit": true,
+      "IncludeAccess": true,
+      "IncludeKerberos": true,
+      "IncludeLDAPS": true,
+      "IncludeTrust": true
+    },
+    "SecurityPolicies": {
+      "PasswordPolicy": "Strong",
+      "AccountLockout": "Enabled",
+      "AuditLogging": "Comprehensive",
+      "UserRights": "Restricted",
+      "ServiceAccounts": "Managed",
+      "PrivilegedAccess": "Controlled",
+      "Encryption": "Enabled",
+      "KeyProtection": "Enabled",
+      "CertificateLifecycle": "Enabled",
+      "CrossForestTrust": "Enabled",
+      "SmartcardSupport": "Enabled",
+      "WindowsHello": "Enabled",
+      "BitLockerIntegration": "Enabled",
+      "HSMIntegration": "Enabled"
+    },
+    "AccessControlPolicies": {
+      "UserAccess": "Read,Write",
+      "GroupAccess": "Read,Write",
+      "OUAccess": "Read,Write",
+      "ComputerAccess": "Read,Write",
+      "ServiceAccountAccess": "Read,Write",
+      "AdministrativeAccess": "Controlled",
+      "PrivilegedAccess": "Controlled",
+      "TemporaryAccess": "Controlled"
+    },
+    "EncryptionPolicies": {
+      "LDAPS": "Enabled",
+      "KerberosArmoring": "Enabled",
+      "FAST": "Enabled",
+      "TicketProtection": "Enabled",
+      "CredentialTheftPrevention": "Enabled"
+    },
+    "KeyProtectionPolicies": {
+      "KeyManagement": "Enabled",
+      "KeyRotation": "Enabled",
+      "KeyBackup": "Enabled",
+      "KeyRecovery": "Enabled",
+      "KeyArchival": "Enabled"
+    },
+    "CertificateLifecyclePolicies": {
+      "CertificateManagement": "Enabled",
+      "CertificateRotation": "Enabled",
+      "CertificateBackup": "Enabled",
+      "CertificateRecovery": "Enabled",
+      "CertificateArchival": "Enabled"
+    },
+    "CrossForestTrustPolicies": {
+      "ForestTrust": "Enabled",
+      "DomainTrust": "Enabled",
+      "ExternalTrust": "Enabled",
+      "CrossAuthentication": "Enabled",
+      "SIDFiltering": "Enabled",
+      "Quarantine": "Enabled",
+      "SelectiveAuthentication": "Enabled"
+    },
+    "SmartcardPolicies": {
+      "SmartcardSupport": "Enabled",
+      "SmartcardAuthentication": "Enabled",
+      "SmartcardEnrollment": "Enabled",
+      "SmartcardManagement": "Enabled"
+    },
+    "WindowsHelloPolicies": {
+      "WindowsHello": "Enabled",
+      "WindowsHelloAuthentication": "Enabled",
+      "WindowsHelloEnrollment": "Enabled",
+      "WindowsHelloManagement": "Enabled"
+    },
+    "BitLockerPolicies": {
+      "BitLockerIntegration": "Enabled",
+      "BitLockerAuthentication": "Enabled",
+      "BitLockerEnrollment": "Enabled",
+      "BitLockerManagement": "Enabled"
+    },
+    "HSMPolicies": {
+      "HSMIntegration": "Enabled",
+      "HSMAuthentication": "Enabled",
+      "HSMEnrollment": "Enabled",
+      "HSMManagement": "Enabled"
+    },
+    "CustomSecurityPolicies": {
+      "CustomSecurity": "Enabled",
+      "CustomAuthentication": "Enabled",
+      "CustomEnrollment": "Enabled",
+      "CustomManagement": "Enabled"
+    }
+  }
+}

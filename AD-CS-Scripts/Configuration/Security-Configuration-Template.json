@@ -1,0 +1,305 @@
+{
+  "SecurityConfiguration": {
+    "Version": "1.0.0",
+    "Author": "Adrian Johnson (adrian207@gmail.com)",
+    "Date": "October 2025",
+    "Description": "AD CS Security Configuration Template",
+    "ServerName": "CA-SERVER01",
+    "SecurityLevel": "Standard",
+    "IncludePermissions": true,
+    "IncludeAudit": true,
+    "IncludeCompliance": true,
+    "IncludeBaselines": true,
+    "IncludeLogging": true,
+    "IncludeComplianceSettings": true,
+    "IncludeSecurityPolicies": true,
+    "IncludeAccessControl": true,
+    "IncludeEncryption": true,
+    "IncludeKeyProtection": true,
+    "IncludeCertificateLifecycle": true,
+    "IncludeCrossForestTrust": true,
+    "IncludeSmartcardSupport": true,
+    "IncludeWindowsHello": true,
+    "IncludeBitLockerIntegration": true,
+    "IncludeHSMIntegration": true,
+    "IncludeCustomSecurity": false,
+    "CustomSecurityScript": null,
+    "OutputFormat": "HTML",
+    "OutputPath": null,
+    "GenerateReport": false,
+    "ReportFormat": "PDF",
+    "ReportPath": null,
+    "SecurityPolicies": {
+      "PasswordPolicy": {
+        "MinimumLength": 12,
+        "Complexity": true,
+        "History": 12,
+        "MaximumAge": "P90D",
+        "MinimumAge": "P1D",
+        "LockoutThreshold": 5,
+        "LockoutDuration": "P30M",
+        "ResetLockoutCounter": "P30M"
+      },
+      "AccountPolicy": {
+        "AccountLockoutDuration": "P30M",
+        "AccountLockoutThreshold": 5,
+        "ResetAccountLockoutCounter": "P30M",
+        "MaximumPasswordAge": "P90D",
+        "MinimumPasswordAge": "P1D",
+        "MinimumPasswordLength": 12,
+        "PasswordComplexity": true,
+        "PasswordHistory": 12
+      },
+      "AuditPolicy": {
+        "AuditAccountLogon": "Success,Failure",
+        "AuditAccountManagement": "Success,Failure",
+        "AuditDirectoryServiceAccess": "Success,Failure",
+        "AuditLogonEvents": "Success,Failure",
+        "AuditObjectAccess": "Success,Failure",
+        "AuditPolicyChange": "Success,Failure",
+        "AuditPrivilegeUse": "Success,Failure",
+        "AuditProcessTracking": "Success,Failure",
+        "AuditSystemEvents": "Success,Failure"
+      }
+    },
+    "AccessControl": {
+      "RoleBasedAccessControl": {
+        "Enabled": true,
+        "Roles": [
+          {
+            "Name": "Certificate Manager",
+            "Description": "Manages certificates and templates",
+            "Permissions": ["Enroll", "AutoEnroll", "Read", "Write"],
+            "Scope": "All",
+            "Audit": true
+          },
+          {
+            "Name": "Certificate Administrator",
+            "Description": "Administers certificate services",
+            "Permissions": ["FullControl"],
+            "Scope": "All",
+            "Audit": true
+          },
+          {
+            "Name": "Certificate Auditor",
+            "Description": "Audits certificate operations",
+            "Permissions": ["Read", "Audit"],
+            "Scope": "All",
+            "Audit": true
+          }
+        ]
+      },
+      "TemplatePermissions": {
+        "UserTemplate": {
+          "Name": "User",
+          "Permissions": {
+            "Authenticated Users": ["Enroll"],
+            "Domain Admins": ["FullControl"],
+            "Enterprise Admins": ["FullControl"]
+          }
+        },
+        "ComputerTemplate": {
+          "Name": "Computer",
+          "Permissions": {
+            "Authenticated Users": ["Enroll"],
+            "Domain Admins": ["FullControl"],
+            "Enterprise Admins": ["FullControl"]
+          }
+        },
+        "SmartcardTemplate": {
+          "Name": "SmartcardUser",
+          "Permissions": {
+            "Authenticated Users": ["Enroll"],
+            "Domain Admins": ["FullControl"],
+            "Enterprise Admins": ["FullControl"]
+          }
+        }
+      }
+    },
+    "Encryption": {
+      "KeyEncryption": {
+        "Algorithm": "AES256",
+        "KeySize": 256,
+        "Mode": "CBC",
+        "Padding": "PKCS7"
+      },
+      "DataEncryption": {
+        "Algorithm": "AES256",
+        "KeySize": 256,
+        "Mode": "CBC",
+        "Padding": "PKCS7"
+      },
+      "CommunicationEncryption": {
+        "Protocol": "TLS1.2",
+        "CipherSuites": ["TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"],
+        "CertificateValidation": true,
+        "RevocationChecking": true
+      }
+    },
+    "KeyProtection": {
+      "PrivateKeyProtection": {
+        "Enabled": true,
+        "Method": "HSM",
+        "HSMProvider": "Microsoft Platform Crypto Provider",
+        "KeyStorage": "Hardware",
+        "KeyAccess": "RoleBased",
+        "KeyBackup": true,
+        "KeyRecovery": true
+      },
+      "KeyArchival": {
+        "Enabled": true,
+        "ArchivalMethod": "Automatic",
+        "ArchivalPolicy": "Standard",
+        "ArchivalRetention": "P7Y",
+        "ArchivalEncryption": true,
+        "ArchivalBackup": true
+      },
+      "KeyRecovery": {
+        "Enabled": true,
+        "RecoveryMethod": "Automatic",
+        "RecoveryPolicy": "Standard",
+        "RecoveryAuthorization": "RoleBased",
+        "RecoveryAudit": true,
+        "RecoveryMonitoring": true
+      }
+    },
+    "CertificateLifecycle": {
+      "LifecycleManagement": {
+        "Enabled": true,
+        "Automation": true,
+        "Renewal": "Automatic",
+        "Revocation": "Automatic",
+        "ExpirationNotification": true,
+        "ExpirationNotificationDays": 30,
+        "LifecycleAudit": true,
+        "LifecycleMonitoring": true
+      },
+      "TemplateLifecycle": {
+        "UserTemplate": {
+          "ValidityPeriod": "P1Y",
+          "RenewalPeriod": "P6M",
+          "ExpirationNotification": true,
+          "ExpirationNotificationDays": 30,
+          "AutoRenewal": true,
+          "RevocationPolicy": "Standard"
+        },
+        "ComputerTemplate": {
+          "ValidityPeriod": "P1Y",
+          "RenewalPeriod": "P6M",
+          "ExpirationNotification": true,
+          "ExpirationNotificationDays": 30,
+          "AutoRenewal": true,
+          "RevocationPolicy": "Standard"
+        },
+        "SmartcardTemplate": {
+          "ValidityPeriod": "P1Y",
+          "RenewalPeriod": "P6M",
+          "ExpirationNotification": true,
+          "ExpirationNotificationDays": 30,
+          "AutoRenewal": true,
+          "RevocationPolicy": "Standard"
+        }
+      }
+    },
+    "CrossForestTrust": {
+      "TrustConfiguration": {
+        "Enabled": true,
+        "TrustType": "Forest",
+        "TrustDirection": "Bidirectional",
+        "TrustAuthentication": "Kerberos",
+        "TrustEncryption": true,
+        "TrustAudit": true,
+        "TrustMonitoring": true
+      },
+      "CertificateSharing": {
+        "Enabled": true,
+        "SharingMethod": "Template",
+        "SharingPolicy": "Standard",
+        "SharingAudit": true,
+        "SharingMonitoring": true
+      }
+    },
+    "SmartcardSupport": {
+      "PhysicalSmartcards": {
+        "Enabled": true,
+        "Provider": "Microsoft Base Smart Card Crypto Provider",
+        "Authentication": "Certificate",
+        "Enrollment": "Web",
+        "Management": "Active Directory",
+        "Audit": true,
+        "Monitoring": true
+      },
+      "VirtualSmartcards": {
+        "Enabled": true,
+        "Provider": "Microsoft Platform Crypto Provider",
+        "Authentication": "Certificate",
+        "Enrollment": "Web",
+        "Management": "Active Directory",
+        "Audit": true,
+        "Monitoring": true
+      }
+    },
+    "WindowsHello": {
+      "BiometricAuthentication": {
+        "Enabled": true,
+        "Provider": "Windows Hello",
+        "Authentication": "Biometric",
+        "Enrollment": "Automatic",
+        "Management": "Active Directory",
+        "Audit": true,
+        "Monitoring": true
+      },
+      "PINAuthentication": {
+        "Enabled": true,
+        "Provider": "Windows Hello",
+        "Authentication": "PIN",
+        "Enrollment": "Automatic",
+        "Management": "Active Directory",
+        "Audit": true,
+        "Monitoring": true
+      }
+    },
+    "BitLockerIntegration": {
+      "DriveEncryption": {
+        "Enabled": true,
+        "EncryptionMethod": "AES256",
+        "RecoveryMethod": "Certificate",
+        "RecoveryTemplate": "BitLockerRecovery",
+        "RecoveryAudit": true,
+        "RecoveryMonitoring": true
+      },
+      "RecoveryCertificates": {
+        "Enabled": true,
+        "Template": "BitLockerRecovery",
+        "ValidityPeriod": "P1Y",
+        "RenewalPeriod": "P6M",
+        "Enrollment": "Automatic",
+        "Management": "Active Directory",
+        "Audit": true,
+        "Monitoring": true
+      }
+    },
+    "HSMIntegration": {
+      "HardwareSecurityModule": {
+        "Enabled": true,
+        "Provider": "Microsoft Platform Crypto Provider",
+        "KeyStorage": "Hardware",
+        "KeyAccess": "RoleBased",
+        "KeyBackup": true,
+        "KeyRecovery": true,
+        "Audit": true,
+        "Monitoring": true
+      },
+      "KeyManagement": {
+        "Enabled": true,
+        "KeyGeneration": "Hardware",
+        "KeyStorage": "Hardware",
+        "KeyAccess": "RoleBased",
+        "KeyBackup": true,
+        "KeyRecovery": true,
+        "Audit": true,
+        "Monitoring": true
+      }
+    }
+  }
+}

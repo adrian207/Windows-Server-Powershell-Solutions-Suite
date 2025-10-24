@@ -1,0 +1,314 @@
+{
+  "ADConfiguration": {
+    "Version": "1.0.0",
+    "Author": "Adrian Johnson (adrian207@gmail.com)",
+    "Date": "October 2025",
+    "Description": "Main Active Directory configuration template",
+    "ServerName": "DC-SERVER01",
+    "DomainName": "contoso.com",
+    "NetBIOSName": "CONTOSO",
+    "ConfigurationLevel": "Standard",
+    "DeploymentType": "Standard",
+    "SecurityLevel": "Standard",
+    "MonitoringLevel": "Standard",
+    "TroubleshootingLevel": "Standard",
+    "IncludeSecurity": true,
+    "IncludeMonitoring": true,
+    "IncludeCompliance": true,
+    "IncludeIntegration": true,
+    "IncludeCustom": false,
+    "CustomConfigurationScript": "",
+    "OutputFormat": "HTML",
+    "OutputPath": "",
+    "GenerateReport": false,
+    "ReportFormat": "PDF",
+    "ReportPath": "",
+    "PasswordPolicy": {
+      "MinPasswordLength": 12,
+      "PasswordHistoryCount": 12,
+      "MaxPasswordAge": 90,
+      "MinPasswordAge": 1,
+      "PasswordComplexity": true,
+      "LockoutThreshold": 5,
+      "LockoutDuration": 30,
+      "LockoutObservationWindow": 30
+    },
+    "GroupPolicy": {
+      "GPOName": "Standard Security Policy",
+      "GPODescription": "Standard security policy for domain",
+      "OUPath": "OU=Users,DC=contoso,DC=com",
+      "GPOSettings": {
+        "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System": {
+          "EnableLUA": {
+            "Name": "EnableLUA",
+            "Value": 1,
+            "Type": "DWord"
+          },
+          "ConsentPromptBehaviorAdmin": {
+            "Name": "ConsentPromptBehaviorAdmin",
+            "Value": 5,
+            "Type": "DWord"
+          },
+          "ConsentPromptBehaviorUser": {
+            "Name": "ConsentPromptBehaviorUser",
+            "Value": 3,
+            "Type": "DWord"
+          }
+        }
+      }
+    },
+    "OUStructure": [
+      {
+        "Name": "Users",
+        "Path": "OU=Users,DC=contoso,DC=com",
+        "Description": "User accounts"
+      },
+      {
+        "Name": "Computers",
+        "Path": "OU=Computers,DC=contoso,DC=com",
+        "Description": "Computer accounts"
+      },
+      {
+        "Name": "Groups",
+        "Path": "OU=Groups,DC=contoso,DC=com",
+        "Description": "Security groups"
+      },
+      {
+        "Name": "Service Accounts",
+        "Path": "OU=Service Accounts,DC=contoso,DC=com",
+        "Description": "Service accounts"
+      },
+      {
+        "Name": "Administrative",
+        "Path": "OU=Administrative,DC=contoso,DC=com",
+        "Description": "Administrative accounts"
+      }
+    ],
+    "TimeSync": {
+      "TimeSource": "time.windows.com",
+      "SyncEnabled": true
+    },
+    "AuditPolicy": {
+      "AuditLevel": "Standard",
+      "AuditSettings": {
+        "AuditAccountLogon": "Success,Failure",
+        "AuditAccountManagement": "Success,Failure",
+        "AuditDirectoryServiceAccess": "Success,Failure",
+        "AuditLogonEvents": "Success,Failure",
+        "AuditObjectAccess": "Success,Failure",
+        "AuditPolicyChange": "Success,Failure",
+        "AuditPrivilegeUse": "Success,Failure",
+        "AuditProcessTracking": "Success,Failure",
+        "AuditSystemEvents": "Success,Failure"
+      }
+    },
+    "AccessControl": {
+      "AccessLevel": "Standard",
+      "AccessSettings": {
+        "UserAccess": "Read,Write",
+        "GroupAccess": "Read,Write",
+        "OUAccess": "Read,Write",
+        "ComputerAccess": "Read,Write",
+        "ServiceAccountAccess": "Read,Write"
+      }
+    },
+    "PrivilegedAccess": {
+      "PAMLevel": "Standard",
+      "PAMSettings": {
+        "Tier0Admins": "Domain Admins,Enterprise Admins",
+        "Tier1Admins": "Server Admins",
+        "Tier2Admins": "Workstation Admins",
+        "PAWEnabled": true,
+        "JustInTimeAccess": true,
+        "ApprovalRequired": true
+      }
+    },
+    "SecurityBaseline": {
+      "BaselineType": "CIS",
+      "BaselineSettings": {
+        "PasswordPolicy": "Strong",
+        "AccountLockout": "Enabled",
+        "AuditLogging": "Comprehensive",
+        "UserRights": "Restricted",
+        "ServiceAccounts": "Managed",
+        "PrivilegedAccess": "Controlled"
+      }
+    },
+    "KerberosSecurity": {
+      "KerberosLevel": "Standard",
+      "KerberosSettings": {
+        "TicketLifetime": "10",
+        "RenewalLifetime": "7",
+        "ClockSkew": "5",
+        "Armoring": true,
+        "FAST": true,
+        "Delegation": "Constrained"
+      }
+    },
+    "LDAPSSecurity": {
+      "LDAPSLevel": "Standard",
+      "LDAPSSettings": {
+        "LDAPSEnabled": true,
+        "CertificateRequired": true,
+        "TLSVersion": "1.2",
+        "CipherSuites": "Strong",
+        "ClientCertificateRequired": false
+      }
+    },
+    "TrustSecurity": {
+      "TrustLevel": "Standard",
+      "TrustSettings": {
+        "SIDFiltering": true,
+        "Quarantine": true,
+        "SelectiveAuthentication": true,
+        "ForestTrust": true,
+        "ExternalTrust": false
+      }
+    },
+    "HealthMonitoring": {
+      "MonitoringLevel": "Standard",
+      "IncludeDetails": true,
+      "IncludeReplication": true,
+      "IncludeFSMO": true,
+      "IncludeDNS": true,
+      "IncludeTimeSync": true
+    },
+    "PerformanceMonitoring": {
+      "MonitoringLevel": "Standard",
+      "DurationMinutes": 60,
+      "Metrics": ["CPU", "Memory", "Disk", "Network"]
+    },
+    "EventMonitoring": {
+      "MonitoringLevel": "Standard",
+      "LogLevel": "All",
+      "MaxEvents": 1000,
+      "HoursBack": 24
+    },
+    "Alerting": {
+      "AlertLevel": "Standard",
+      "AlertTypes": ["Email", "Webhook"],
+      "SmtpServer": "",
+      "SmtpPort": 587,
+      "SmtpUsername": "",
+      "SmtpPassword": "",
+      "Recipients": [],
+      "WebhookUrl": "",
+      "SmsProvider": "",
+      "SmsApiKey": "",
+      "SmsApiSecret": "",
+      "SmsFromNumber": "",
+      "SmsRecipients": []
+    },
+    "MonitoringReport": {
+      "ReportType": "Comprehensive",
+      "DaysBack": 7,
+      "OutputFormat": "HTML",
+      "OutputPath": ""
+    },
+    "Troubleshooting": {
+      "TroubleshootingLevel": "Standard",
+      "TroubleshootingType": "All",
+      "IncludeRemediation": false,
+      "IncludePerformanceAnalysis": true,
+      "IncludeEventLogAnalysis": true,
+      "IncludeHealthChecks": true,
+      "IncludeSecurityAnalysis": true,
+      "IncludeComplianceCheck": true,
+      "IncludeReplicationCheck": true,
+      "IncludeFSMOCheck": true,
+      "IncludeDNSCheck": true,
+      "IncludeTimeSyncCheck": true,
+      "IncludeCustomTroubleshooting": false,
+      "CustomTroubleshootingScript": ""
+    },
+    "Compliance": {
+      "IncludeDetails": true,
+      "IncludeStandards": true,
+      "IncludePolicies": true,
+      "IncludeAudit": true,
+      "Standards": ["FIPS140-2", "CommonCriteria", "ISO27001", "PCIDSS", "HIPAA", "SOX", "GDPR", "NIST"],
+      "Policies": ["SecurityPolicy", "AccessControlPolicy", "AuditPolicy", "EncryptionPolicy", "KeyManagementPolicy", "CertificateLifecyclePolicy", "CrossForestTrustPolicy", "SmartcardPolicy", "WindowsHelloPolicy", "BitLockerPolicy", "HSMPolicy", "CustomPolicy"]
+    },
+    "Integration": {
+      "DNSIntegration": "Enabled",
+      "KerberosIntegration": "Enabled",
+      "LDAPIntegration": "Enabled",
+      "CertificateIntegration": "Enabled",
+      "FederationIntegration": "Enabled",
+      "CloudIntegration": "Enabled",
+      "HybridIntegration": "Enabled"
+    },
+    "EnterpriseScenarios": {
+      "ScenarioType": "All",
+      "Scenarios": [
+        {
+          "Name": "Centralized Identity and Authentication",
+          "Description": "Users, computers, and services authenticate via Kerberos or NTLM. Passwords and tickets flow through secure domain controllers.",
+          "Priority": "Critical",
+          "Complexity": "Low",
+          "Dependencies": ["AD DS", "Kerberos", "NTLM"],
+          "Configuration": {
+            "KerberosAuthentication": "Enabled",
+            "NTLMAuthentication": "Enabled",
+            "PasswordPolicy": "Strong",
+            "AccountLockout": "Enabled"
+          }
+        },
+        {
+          "Name": "Group Policy Management (GPO)",
+          "Description": "Configuration and security control at scale. Deploy password policies, scripts, registry changes, firewall rules, etc.",
+          "Priority": "High",
+          "Complexity": "Medium",
+          "Dependencies": ["AD DS", "Group Policy"],
+          "Configuration": {
+            "GPOManagement": "Enabled",
+            "PasswordPolicies": "Enabled",
+            "ScriptDeployment": "Enabled",
+            "RegistryChanges": "Enabled",
+            "FirewallRules": "Enabled"
+          }
+        },
+        {
+          "Name": "Organizational Units (OUs) and Delegation",
+          "Description": "Logical structure for management and permissions. Segment by department, region, or function. Delegate admin rights granularly.",
+          "Priority": "High",
+          "Complexity": "Medium",
+          "Dependencies": ["AD DS", "OU Structure"],
+          "Configuration": {
+            "OUStructure": "Enabled",
+            "Delegation": "Enabled",
+            "DepartmentSegmentation": "Enabled",
+            "RegionSegmentation": "Enabled",
+            "FunctionSegmentation": "Enabled"
+          }
+        },
+        {
+          "Name": "Multi-Domain and Multi-Forest Architectures",
+          "Description": "Scale or isolation across global enterprises. Multiple domains under a forest for replication efficiency or legal separation.",
+          "Priority": "High",
+          "Complexity": "High",
+          "Dependencies": ["AD DS", "Forest Design", "Domain Design"],
+          "Configuration": {
+            "MultiDomain": "Enabled",
+            "MultiForest": "Enabled",
+            "ReplicationEfficiency": "Enabled",
+            "LegalSeparation": "Enabled"
+          }
+        },
+        {
+          "Name": "Trust Relationships",
+          "Description": "Authentication across boundaries. Forest, domain, or external trusts allow users in one AD to access another.",
+          "Priority": "High",
+          "Complexity": "High",
+          "Dependencies": ["AD DS", "Trust Configuration"],
+          "Configuration": {
+            "ForestTrust": "Enabled",
+            "DomainTrust": "Enabled",
+            "ExternalTrust": "Enabled",
+            "CrossAuthentication": "Enabled"
+          }
+        }
+      ]
+    }
+  }
+}

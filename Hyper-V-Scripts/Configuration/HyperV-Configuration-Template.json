@@ -1,0 +1,312 @@
+{
+    "HyperVConfiguration": {
+        "Version": "1.0.0",
+        "LastUpdated": "2025-10-24T08:42:00Z",
+        "Description": "Windows Hyper-V Configuration Template",
+        "Author": "Adrian Johnson (adrian207@gmail.com)",
+        "Configuration": {
+            "HostConfiguration": {
+                "HostName": "HV-SERVER01",
+                "Domain": "contoso.com",
+                "TimeZone": "UTC",
+                "Language": "en-US",
+                "KeyboardLayout": "US",
+                "PowerPlan": "High Performance",
+                "WindowsUpdate": {
+                    "AutomaticUpdates": true,
+                    "UpdateSchedule": "Daily",
+                    "UpdateTime": "03:00",
+                    "RebootSchedule": "Automatic"
+                },
+                "Firewall": {
+                    "Enabled": true,
+                    "Profiles": {
+                        "Domain": "Enabled",
+                        "Private": "Enabled",
+                        "Public": "Disabled"
+                    }
+                },
+                "RemoteManagement": {
+                    "WinRM": {
+                        "Enabled": true,
+                        "HTTP": true,
+                        "HTTPS": true,
+                        "Port": 5985,
+                        "SecurePort": 5986
+                    },
+                    "RDP": {
+                        "Enabled": true,
+                        "Port": 3389,
+                        "SecurityLevel": "High"
+                    }
+                }
+            },
+            "HyperVConfiguration": {
+                "FeatureInstallation": {
+                    "HyperV": true,
+                    "ManagementTools": true,
+                    "PowerShell": true,
+                    "RSAT": true
+                },
+                "HostSettings": {
+                    "VirtualHardDiskPath": "C:\\VHDs",
+                    "VirtualMachinePath": "C:\\VMs",
+                    "SnapshotFileLocation": "C:\\Snapshots",
+                    "AutomaticStartAction": "StartIfRunning",
+                    "AutomaticStopAction": "Save",
+                    "EnableEnhancedSessionMode": true,
+                    "EnableNestedVirtualization": false,
+                    "EnableDynamicMemory": true,
+                    "EnableSmartPaging": true,
+                    "EnableGuestServiceInterface": true,
+                    "EnablePowerShellDirect": true,
+                    "EnableGuestServiceInterface": true,
+                    "EnableGuestServiceInterface": true
+                },
+                "SecuritySettings": {
+                    "EnableShieldedVMs": true,
+                    "EnableSecureBoot": true,
+                    "EnableTPM": true,
+                    "EnableCredentialGuard": true,
+                    "EnableDeviceGuard": true,
+                    "EnableBitLocker": true,
+                    "SecurityBaseline": "High"
+                },
+                "PerformanceSettings": {
+                    "EnableDynamicMemory": true,
+                    "EnableSmartPaging": true,
+                    "EnableGuestServiceInterface": true,
+                    "EnablePowerShellDirect": true,
+                    "EnableGuestServiceInterface": true,
+                    "EnableGuestServiceInterface": true,
+                    "MemoryReserve": 1024,
+                    "CPUReserve": 10
+                }
+            },
+            "NetworkConfiguration": {
+                "VirtualSwitches": [
+                    {
+                        "Name": "External-Switch",
+                        "Type": "External",
+                        "NetAdapterName": "Ethernet",
+                        "AllowManagementOS": true,
+                        "EnableIov": false,
+                        "EnableSriov": false
+                    },
+                    {
+                        "Name": "Internal-Switch",
+                        "Type": "Internal",
+                        "AllowManagementOS": true,
+                        "EnableIov": false,
+                        "EnableSriov": false
+                    },
+                    {
+                        "Name": "Private-Switch",
+                        "Type": "Private",
+                        "AllowManagementOS": false,
+                        "EnableIov": false,
+                        "EnableSriov": false
+                    }
+                ],
+                "NetworkAdapters": [
+                    {
+                        "Name": "Management",
+                        "SwitchName": "External-Switch",
+                        "VlanId": 0,
+                        "MacAddressSpoofing": "Off",
+                        "DhcpGuard": "Off",
+                        "RouterGuard": "Off",
+                        "PortMirroring": "None"
+                    }
+                ]
+            },
+            "StorageConfiguration": {
+                "StoragePools": [
+                    {
+                        "Name": "HyperV-StoragePool",
+                        "FriendlyName": "Hyper-V Storage Pool",
+                        "StorageSubsystem": "Windows Storage",
+                        "ResiliencySettingName": "Mirror",
+                        "NumberOfColumns": 2,
+                        "NumberOfDataCopies": 2,
+                        "PhysicalDisks": []
+                    }
+                ],
+                "VirtualDisks": [
+                    {
+                        "Name": "HyperV-VDisk",
+                        "FriendlyName": "Hyper-V Virtual Disk",
+                        "StoragePoolName": "HyperV-StoragePool",
+                        "ResiliencySettingName": "Mirror",
+                        "Size": "1TB",
+                        "ProvisioningType": "Thin"
+                    }
+                ],
+                "ISCSITargets": [
+                    {
+                        "Name": "HyperV-iSCSI",
+                        "FriendlyName": "Hyper-V iSCSI Target",
+                        "TargetPortal": "192.168.1.100",
+                        "InitiatorName": "iqn.1991-05.com.microsoft:hyperv-server01",
+                        "Authentication": "None",
+                        "ChapUsername": "",
+                        "ChapPassword": ""
+                    }
+                ]
+            },
+            "VMConfiguration": {
+                "DefaultSettings": {
+                    "Generation": 2,
+                    "SecureBoot": true,
+                    "TPM": true,
+                    "DynamicMemory": true,
+                    "MemoryStartupBytes": "1GB",
+                    "MemoryMinimumBytes": "512MB",
+                    "MemoryMaximumBytes": "4GB",
+                    "ProcessorCount": 2,
+                    "EnableDynamicMemory": true,
+                    "EnableSmartPaging": true,
+                    "EnableGuestServiceInterface": true,
+                    "EnablePowerShellDirect": true
+                },
+                "IntegrationServices": {
+                    "EnableTimeSynchronization": true,
+                    "EnableHeartbeat": true,
+                    "EnableKeyValuePairExchange": true,
+                    "EnableShutdown": true,
+                    "EnableVSS": true,
+                    "EnableGuestServiceInterface": true,
+                    "EnablePowerShellDirect": true
+                },
+                "CheckpointSettings": {
+                    "EnableCheckpoints": true,
+                    "CheckpointType": "Standard",
+                    "CheckpointLocation": "C:\\Snapshots",
+                    "EnableProductionCheckpoints": true,
+                    "EnableStandardCheckpoints": true
+                }
+            },
+            "MonitoringConfiguration": {
+                "HealthMonitoring": {
+                    "Enabled": true,
+                    "CheckInterval": 300,
+                    "AlertThreshold": 80,
+                    "CriticalThreshold": 90
+                },
+                "PerformanceMonitoring": {
+                    "Enabled": true,
+                    "CollectionInterval": 60,
+                    "RetentionDays": 30,
+                    "Metrics": [
+                        "CPU",
+                        "Memory",
+                        "Disk",
+                        "Network"
+                    ]
+                },
+                "EventMonitoring": {
+                    "Enabled": true,
+                    "LogLevels": [
+                        "Critical",
+                        "Error",
+                        "Warning",
+                        "Information"
+                    ],
+                    "RetentionDays": 90
+                },
+                "Alerting": {
+                    "Enabled": true,
+                    "EmailNotifications": true,
+                    "SmtpServer": "smtp.contoso.com",
+                    "SmtpPort": 587,
+                    "SmtpUsername": "alerts@contoso.com",
+                    "SmtpPassword": "",
+                    "Recipients": [
+                        "admin@contoso.com",
+                        "ops@contoso.com"
+                    ]
+                }
+            },
+            "SecurityConfiguration": {
+                "SecurityBaseline": {
+                    "Level": "High",
+                    "Compliance": "CIS",
+                    "AuditMode": false,
+                    "ApplyBaseline": true
+                },
+                "ShieldedVMs": {
+                    "Enabled": true,
+                    "TemplateGuardian": true,
+                    "KeyProtector": "TPM",
+                    "Encryption": "BitLocker"
+                },
+                "TPMConfiguration": {
+                    "Enabled": true,
+                    "Version": "2.0",
+                    "OwnerAuth": "",
+                    "EndorsementKey": "",
+                    "StorageRootKey": ""
+                },
+                "SecureBoot": {
+                    "Enabled": true,
+                    "Template": "MicrosoftWindows",
+                    "KeyExchangeKey": "",
+                    "PlatformKey": ""
+                },
+                "CredentialGuard": {
+                    "Enabled": true,
+                    "IsolationType": "SecureKernel",
+                    "LsaCfgFlags": 1
+                },
+                "DeviceGuard": {
+                    "Enabled": true,
+                    "CodeIntegrityPolicy": "",
+                    "UserModeCodeIntegrityPolicy": "",
+                    "PlatformSecurityLevel": "SecureBoot"
+                },
+                "BitLocker": {
+                    "Enabled": true,
+                    "EncryptionMethod": "AES256",
+                    "KeyProtector": "TPM",
+                    "RecoveryKey": ""
+                }
+            },
+            "TroubleshootingConfiguration": {
+                "Diagnostics": {
+                    "Enabled": true,
+                    "Level": "Comprehensive",
+                    "IncludeHost": true,
+                    "IncludeVMs": true,
+                    "IncludeNetwork": true,
+                    "IncludeStorage": true
+                },
+                "EventAnalysis": {
+                    "Enabled": true,
+                    "AnalysisType": "Comprehensive",
+                    "TimeRangeHours": 24,
+                    "LogSources": [
+                        "System",
+                        "Application",
+                        "Microsoft-Windows-Hyper-V*"
+                    ]
+                },
+                "PerformanceAnalysis": {
+                    "Enabled": true,
+                    "DurationMinutes": 60,
+                    "Metrics": [
+                        "CPU",
+                        "Memory",
+                        "Disk",
+                        "Network"
+                    ]
+                },
+                "RepairOperations": {
+                    "Enabled": true,
+                    "AutoRepair": false,
+                    "BackupBeforeRepair": true,
+                    "RepairLevel": "Standard"
+                }
+            }
+        }
+    }
+}

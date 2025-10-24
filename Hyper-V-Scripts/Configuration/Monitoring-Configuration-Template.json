@@ -1,0 +1,362 @@
+{
+    "HyperVMonitoringConfiguration": {
+        "Version": "1.0.0",
+        "LastUpdated": "2025-10-24T08:42:00Z",
+        "Description": "Windows Hyper-V Monitoring Configuration Template",
+        "Author": "Adrian Johnson (adrian207@gmail.com)",
+        "MonitoringConfiguration": {
+            "HealthMonitoring": {
+                "Enabled": true,
+                "CheckInterval": 300,
+                "AlertThreshold": 80,
+                "CriticalThreshold": 90,
+                "MonitoringLevel": "Comprehensive",
+                "HealthChecks": [
+                    "HostHealth",
+                    "VMHealth",
+                    "NetworkHealth",
+                    "StorageHealth",
+                    "PerformanceHealth",
+                    "SecurityHealth"
+                ],
+                "HealthMetrics": [
+                    "CPUUtilization",
+                    "MemoryUtilization",
+                    "DiskUtilization",
+                    "NetworkUtilization",
+                    "VMCount",
+                    "VMState",
+                    "StorageSpace",
+                    "NetworkConnectivity"
+                ]
+            },
+            "PerformanceMonitoring": {
+                "Enabled": true,
+                "CollectionInterval": 60,
+                "RetentionDays": 30,
+                "PerformanceLevel": "Comprehensive",
+                "PerformanceMetrics": [
+                    "CPU",
+                    "Memory",
+                    "Disk",
+                    "Network",
+                    "VM",
+                    "Host",
+                    "Storage",
+                    "Network"
+                ],
+                "PerformanceCounters": [
+                    "\\Hyper-V Hypervisor Logical Processor(_Total)\\% Total Run Time",
+                    "\\Hyper-V Hypervisor Root Virtual Processor(_Total)\\% Total Run Time",
+                    "\\Hyper-V Hypervisor Virtual Processor(_Total)\\% Total Run Time",
+                    "\\Hyper-V Hypervisor Root Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler",
+                    "\\Hyper-V Hypervisor Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler",
+                    "\\Hyper-V Hypervisor Root Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler",
+                    "\\Hyper-V Hypervisor Virtual Processor(_Total)\\Hypervisor Scheduler\\Hypervisor Scheduler\\Hypervisor Scheduler"
+                ],
+                "PerformanceThresholds": {
+                    "CPUUtilization": 80,
+                    "MemoryUtilization": 85,
+                    "DiskUtilization": 90,
+                    "NetworkUtilization": 80,
+                    "VMCPUUtilization": 80,
+                    "VMMemoryUtilization": 85,
+                    "VMDiskUtilization": 90,
+                    "VMNetworkUtilization": 80
+                }
+            },
+            "EventMonitoring": {
+                "Enabled": true,
+                "LogLevels": [
+                    "Critical",
+                    "Error",
+                    "Warning",
+                    "Information"
+                ],
+                "RetentionDays": 90,
+                "EventSources": [
+                    "Microsoft-Windows-Hyper-V*",
+                    "Microsoft-Windows-Hyper-V-Hypervisor",
+                    "Microsoft-Windows-Hyper-V-VMMS",
+                    "Microsoft-Windows-Hyper-V-Worker",
+                    "Microsoft-Windows-Hyper-V-Config",
+                    "Microsoft-Windows-Hyper-V-StorageVSP",
+                    "Microsoft-Windows-Hyper-V-NetworkVSP",
+                    "Microsoft-Windows-Hyper-V-ComputeVSP"
+                ],
+                "EventCategories": [
+                    "Hypervisor",
+                    "VirtualMachine",
+                    "Network",
+                    "Storage",
+                    "Migration",
+                    "Checkpoint",
+                    "IntegrationServices",
+                    "Security"
+                ],
+                "EventFilters": {
+                    "CriticalEvents": true,
+                    "ErrorEvents": true,
+                    "WarningEvents": true,
+                    "InformationEvents": false,
+                    "DebugEvents": false
+                }
+            },
+            "ResourceMonitoring": {
+                "Enabled": true,
+                "MonitoringLevel": "Comprehensive",
+                "ResourceTypes": [
+                    "CPU",
+                    "Memory",
+                    "Disk",
+                    "Network",
+                    "Storage",
+                    "VM",
+                    "Host"
+                ],
+                "ResourceMetrics": [
+                    "Utilization",
+                    "Availability",
+                    "Performance",
+                    "Capacity",
+                    "Health",
+                    "Status"
+                ],
+                "ResourceThresholds": {
+                    "CPUUtilization": 80,
+                    "MemoryUtilization": 85,
+                    "DiskUtilization": 90,
+                    "NetworkUtilization": 80,
+                    "StorageUtilization": 85,
+                    "VMUtilization": 80,
+                    "HostUtilization": 80
+                }
+            },
+            "StorageMonitoring": {
+                "Enabled": true,
+                "MonitoringLevel": "Comprehensive",
+                "StorageTypes": [
+                    "VHD",
+                    "VHDX",
+                    "VHDSet",
+                    "VMDK",
+                    "VMDX",
+                    "VMDKSet",
+                    "VMDXSet"
+                ],
+                "StorageMetrics": [
+                    "Size",
+                    "UsedSpace",
+                    "FreeSpace",
+                    "Utilization",
+                    "Performance",
+                    "Health",
+                    "Status"
+                ],
+                "StorageThresholds": {
+                    "SizeThreshold": "1TB",
+                    "UtilizationThreshold": 85,
+                    "FreeSpaceThreshold": "100GB",
+                    "PerformanceThreshold": 80
+                }
+            },
+            "NetworkMonitoring": {
+                "Enabled": true,
+                "MonitoringLevel": "Comprehensive",
+                "NetworkTypes": [
+                    "VirtualSwitch",
+                    "VirtualNetworkAdapter",
+                    "PhysicalNetworkAdapter",
+                    "VirtualNetwork",
+                    "VirtualSubnet"
+                ],
+                "NetworkMetrics": [
+                    "Bandwidth",
+                    "Latency",
+                    "PacketLoss",
+                    "Throughput",
+                    "Utilization",
+                    "Performance",
+                    "Health",
+                    "Status"
+                ],
+                "NetworkThresholds": {
+                    "BandwidthThreshold": "1Gbps",
+                    "LatencyThreshold": "10ms",
+                    "PacketLossThreshold": 1,
+                    "ThroughputThreshold": "100Mbps",
+                    "UtilizationThreshold": 80
+                }
+            },
+            "Alerting": {
+                "Enabled": true,
+                "AlertLevel": "Comprehensive",
+                "AlertTypes": [
+                    "Email",
+                    "SMS",
+                    "Webhook",
+                    "SNMP",
+                    "Syslog"
+                ],
+                "EmailNotifications": {
+                    "Enabled": true,
+                    "SmtpServer": "smtp.contoso.com",
+                    "SmtpPort": 587,
+                    "SmtpUsername": "alerts@contoso.com",
+                    "SmtpPassword": "",
+                    "SmtpSSL": true,
+                    "Recipients": [
+                        "admin@contoso.com",
+                        "ops@contoso.com",
+                        "monitoring@contoso.com"
+                    ]
+                },
+                "SMSNotifications": {
+                    "Enabled": false,
+                    "SmsProvider": "Twilio",
+                    "SmsApiKey": "",
+                    "SmsApiSecret": "",
+                    "SmsFromNumber": "",
+                    "SmsRecipients": [
+                        "+1234567890",
+                        "+0987654321"
+                    ]
+                },
+                "WebhookNotifications": {
+                    "Enabled": true,
+                    "WebhookUrl": "https://webhook.contoso.com/alerts",
+                    "WebhookMethod": "POST",
+                    "WebhookHeaders": {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer token"
+                    }
+                },
+                "SNMPNotifications": {
+                    "Enabled": false,
+                    "SnmpServer": "192.168.1.100",
+                    "SnmpPort": 162,
+                    "SnmpCommunity": "public",
+                    "SnmpVersion": "v2c"
+                },
+                "SyslogNotifications": {
+                    "Enabled": false,
+                    "SyslogServer": "192.168.1.100",
+                    "SyslogPort": 514,
+                    "SyslogProtocol": "UDP",
+                    "SyslogFacility": "local0"
+                }
+            },
+            "Reporting": {
+                "Enabled": true,
+                "ReportLevel": "Comprehensive",
+                "ReportTypes": [
+                    "Health",
+                    "Performance",
+                    "Security",
+                    "Compliance",
+                    "Capacity",
+                    "Utilization",
+                    "Trends",
+                    "Summary"
+                ],
+                "ReportSchedules": [
+                    {
+                        "ReportType": "Health",
+                        "Schedule": "Daily",
+                        "Time": "06:00",
+                        "Recipients": [
+                            "admin@contoso.com",
+                            "ops@contoso.com"
+                        ]
+                    },
+                    {
+                        "ReportType": "Performance",
+                        "Schedule": "Weekly",
+                        "Day": "Monday",
+                        "Time": "08:00",
+                        "Recipients": [
+                            "admin@contoso.com",
+                            "ops@contoso.com"
+                        ]
+                    },
+                    {
+                        "ReportType": "Security",
+                        "Schedule": "Monthly",
+                        "Day": "1",
+                        "Time": "09:00",
+                        "Recipients": [
+                            "security@contoso.com",
+                            "admin@contoso.com"
+                        ]
+                    }
+                ],
+                "ReportFormats": [
+                    "HTML",
+                    "PDF",
+                    "CSV",
+                    "JSON",
+                    "XML"
+                ],
+                "ReportRetention": {
+                    "RetentionDays": 365,
+                    "ArchiveLocation": "C:\\Reports\\Archive",
+                    "CompressionEnabled": true
+                }
+            },
+            "Dashboard": {
+                "Enabled": true,
+                "DashboardLevel": "Comprehensive",
+                "DashboardTypes": [
+                    "Health",
+                    "Performance",
+                    "Security",
+                    "Compliance",
+                    "Capacity",
+                    "Utilization",
+                    "Trends",
+                    "Summary"
+                ],
+                "DashboardWidgets": [
+                    "HealthStatus",
+                    "PerformanceMetrics",
+                    "ResourceUtilization",
+                    "VMStatus",
+                    "HostStatus",
+                    "NetworkStatus",
+                    "StorageStatus",
+                    "SecurityStatus"
+                ],
+                "DashboardRefresh": {
+                    "RefreshInterval": 30,
+                    "AutoRefresh": true,
+                    "RealTimeUpdates": true
+                }
+            },
+            "Integration": {
+                "SIEM": {
+                    "Enabled": true,
+                    "SiemProvider": "Splunk",
+                    "SiemServer": "192.168.1.100",
+                    "SiemPort": 8089,
+                    "SiemToken": "",
+                    "SiemIndex": "hyperv"
+                },
+                "MonitoringTools": {
+                    "Enabled": true,
+                    "ToolProvider": "Nagios",
+                    "ToolServer": "192.168.1.100",
+                    "ToolPort": 5666,
+                    "ToolUsername": "nagios",
+                    "ToolPassword": ""
+                },
+                "CloudIntegration": {
+                    "Enabled": true,
+                    "CloudProvider": "Azure",
+                    "CloudResourceGroup": "HyperV-Monitoring",
+                    "CloudStorageAccount": "hypervmonitoring",
+                    "CloudContainer": "monitoring-data"
+                }
+            }
+        }
+    }
+}

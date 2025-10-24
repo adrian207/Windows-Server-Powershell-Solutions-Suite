@@ -1,0 +1,373 @@
+{
+  "ADMonitoringConfiguration": {
+    "Version": "1.0.0",
+    "Author": "Adrian Johnson (adrian207@gmail.com)",
+    "Date": "October 2025",
+    "Description": "Active Directory monitoring configuration template",
+    "ServerName": "DC-SERVER01",
+    "DomainName": "contoso.com",
+    "MonitoringLevel": "Standard",
+    "AlertLevel": "Standard",
+    "AlertTypes": ["Email", "Webhook"],
+    "SmtpServer": "",
+    "SmtpPort": 587,
+    "SmtpUsername": "",
+    "SmtpPassword": "",
+    "Recipients": [],
+    "WebhookUrl": "",
+    "SmsProvider": "",
+    "SmsApiKey": "",
+    "SmsApiSecret": "",
+    "SmsFromNumber": "",
+    "SmsRecipients": [],
+    "ReportType": "Comprehensive",
+    "DaysBack": 7,
+    "OutputFormat": "HTML",
+    "OutputPath": "",
+    "GenerateReport": false,
+    "ReportFormat": "PDF",
+    "ReportPath": "",
+    "HealthMonitoring": {
+      "MonitoringLevel": "Standard",
+      "IncludeDetails": true,
+      "IncludeReplication": true,
+      "IncludeFSMO": true,
+      "IncludeDNS": true,
+      "IncludeTimeSync": true
+    },
+    "PerformanceMonitoring": {
+      "MonitoringLevel": "Standard",
+      "DurationMinutes": 60,
+      "Metrics": ["CPU", "Memory", "Disk", "Network"]
+    },
+    "EventMonitoring": {
+      "MonitoringLevel": "Standard",
+      "LogLevel": "All",
+      "MaxEvents": 1000,
+      "HoursBack": 24
+    },
+    "Alerting": {
+      "AlertLevel": "Standard",
+      "AlertTypes": ["Email", "Webhook"],
+      "SmtpServer": "",
+      "SmtpPort": 587,
+      "SmtpUsername": "",
+      "SmtpPassword": "",
+      "Recipients": [],
+      "WebhookUrl": "",
+      "SmsProvider": "",
+      "SmsApiKey": "",
+      "SmsApiSecret": "",
+      "SmsFromNumber": "",
+      "SmsRecipients": []
+    },
+    "MonitoringReport": {
+      "ReportType": "Comprehensive",
+      "DaysBack": 7,
+      "OutputFormat": "HTML",
+      "OutputPath": ""
+    },
+    "HealthChecks": {
+      "DomainController": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3
+      },
+      "Replication": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3
+      },
+      "FSMO": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3
+      },
+      "DNS": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3
+      },
+      "TimeSync": {
+        "Enabled": true,
+        "CheckInterval": 300,
+        "Timeout": 30,
+        "RetryCount": 3
+      }
+    },
+    "PerformanceMetrics": {
+      "CPU": {
+        "Enabled": true,
+        "Threshold": 80,
+        "CheckInterval": 60,
+        "Duration": 300
+      },
+      "Memory": {
+        "Enabled": true,
+        "Threshold": 80,
+        "CheckInterval": 60,
+        "Duration": 300
+      },
+      "Disk": {
+        "Enabled": true,
+        "Threshold": 80,
+        "CheckInterval": 60,
+        "Duration": 300
+      },
+      "Network": {
+        "Enabled": true,
+        "Threshold": 80,
+        "CheckInterval": 60,
+        "Duration": 300
+      }
+    },
+    "EventLogs": {
+      "Application": {
+        "Enabled": true,
+        "LogLevel": "All",
+        "MaxEvents": 1000,
+        "HoursBack": 24
+      },
+      "System": {
+        "Enabled": true,
+        "LogLevel": "All",
+        "MaxEvents": 1000,
+        "HoursBack": 24
+      },
+      "Security": {
+        "Enabled": true,
+        "LogLevel": "All",
+        "MaxEvents": 1000,
+        "HoursBack": 24
+      }
+    },
+    "AlertingRules": {
+      "HealthAlerts": {
+        "DomainControllerDown": {
+          "Enabled": true,
+          "Severity": "Critical",
+          "Threshold": 1,
+          "Duration": 60
+        },
+        "ReplicationFailed": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 1,
+          "Duration": 300
+        },
+        "FSMORoleMissing": {
+          "Enabled": true,
+          "Severity": "Critical",
+          "Threshold": 1,
+          "Duration": 60
+        },
+        "DNSResolutionFailed": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 1,
+          "Duration": 300
+        },
+        "TimeSyncFailed": {
+          "Enabled": true,
+          "Severity": "Medium",
+          "Threshold": 1,
+          "Duration": 600
+        }
+      },
+      "PerformanceAlerts": {
+        "CPUHigh": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 80,
+          "Duration": 300
+        },
+        "MemoryHigh": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 80,
+          "Duration": 300
+        },
+        "DiskHigh": {
+          "Enabled": true,
+          "Severity": "High",
+          "Threshold": 80,
+          "Duration": 300
+        },
+        "NetworkHigh": {
+          "Enabled": true,
+          "Severity": "Medium",
+          "Threshold": 80,
+          "Duration": 300
+        }
+      },
+      "EventAlerts": {
+        "CriticalEvents": {
+          "Enabled": true,
+          "Severity": "Critical",
+          "EventIDs": [1074, 1076, 6005, 6006, 6008, 6009],
+          "Duration": 60
+        },
+        "ErrorEvents": {
+          "Enabled": true,
+          "Severity": "High",
+          "EventIDs": [1000, 1001, 1002, 1003, 1004, 1005],
+          "Duration": 300
+        },
+        "WarningEvents": {
+          "Enabled": true,
+          "Severity": "Medium",
+          "EventIDs": [1006, 1007, 1008, 1009, 1010, 1011],
+          "Duration": 600
+        }
+      }
+    },
+    "NotificationChannels": {
+      "Email": {
+        "Enabled": true,
+        "SmtpServer": "",
+        "SmtpPort": 587,
+        "SmtpUsername": "",
+        "SmtpPassword": "",
+        "Recipients": [],
+        "Subject": "AD Monitoring Alert",
+        "Body": "AD monitoring alert: {AlertMessage}"
+      },
+      "Webhook": {
+        "Enabled": true,
+        "WebhookUrl": "",
+        "Method": "POST",
+        "Headers": {
+          "Content-Type": "application/json"
+        },
+        "Body": {
+          "text": "AD monitoring alert: {AlertMessage}",
+          "channel": "#ad-monitoring"
+        }
+      },
+      "SMS": {
+        "Enabled": false,
+        "SmsProvider": "",
+        "SmsApiKey": "",
+        "SmsApiSecret": "",
+        "SmsFromNumber": "",
+        "SmsRecipients": [],
+        "Message": "AD monitoring alert: {AlertMessage}"
+      }
+    },
+    "Reporting": {
+      "HealthReport": {
+        "Enabled": true,
+        "Schedule": "Daily",
+        "Time": "06:00",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "PerformanceReport": {
+        "Enabled": true,
+        "Schedule": "Daily",
+        "Time": "06:00",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "EventReport": {
+        "Enabled": true,
+        "Schedule": "Daily",
+        "Time": "06:00",
+        "Format": "HTML",
+        "OutputPath": ""
+      },
+      "ComprehensiveReport": {
+        "Enabled": true,
+        "Schedule": "Weekly",
+        "Day": "Monday",
+        "Time": "06:00",
+        "Format": "PDF",
+        "OutputPath": ""
+      }
+    },
+    "DataRetention": {
+      "HealthData": {
+        "RetentionDays": 30,
+        "CompressionEnabled": true,
+        "ArchiveEnabled": true
+      },
+      "PerformanceData": {
+        "RetentionDays": 30,
+        "CompressionEnabled": true,
+        "ArchiveEnabled": true
+      },
+      "EventData": {
+        "RetentionDays": 90,
+        "CompressionEnabled": true,
+        "ArchiveEnabled": true
+      },
+      "AlertData": {
+        "RetentionDays": 365,
+        "CompressionEnabled": true,
+        "ArchiveEnabled": true
+      }
+    },
+    "MonitoringDashboard": {
+      "Enabled": true,
+      "RefreshInterval": 60,
+      "Widgets": [
+        {
+          "Name": "Health Status",
+          "Type": "Health",
+          "Position": "Top-Left",
+          "Size": "Medium"
+        },
+        {
+          "Name": "Performance Metrics",
+          "Type": "Performance",
+          "Position": "Top-Right",
+          "Size": "Medium"
+        },
+        {
+          "Name": "Event Logs",
+          "Type": "Events",
+          "Position": "Bottom-Left",
+          "Size": "Large"
+        },
+        {
+          "Name": "Alerts",
+          "Type": "Alerts",
+          "Position": "Bottom-Right",
+          "Size": "Medium"
+        }
+      ]
+    },
+    "MonitoringAPI": {
+      "Enabled": true,
+      "Port": 8080,
+      "Authentication": "Basic",
+      "RateLimit": 100,
+      "Endpoints": [
+        {
+          "Path": "/health",
+          "Method": "GET",
+          "Description": "Get health status"
+        },
+        {
+          "Path": "/performance",
+          "Method": "GET",
+          "Description": "Get performance metrics"
+        },
+        {
+          "Path": "/events",
+          "Method": "GET",
+          "Description": "Get event logs"
+        },
+        {
+          "Path": "/alerts",
+          "Method": "GET",
+          "Description": "Get alerts"
+        }
+      ]
+    }
+  }
+}

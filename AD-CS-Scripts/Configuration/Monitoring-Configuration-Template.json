@@ -1,0 +1,372 @@
+{
+  "MonitoringConfiguration": {
+    "Version": "1.0.0",
+    "Author": "Adrian Johnson (adrian207@gmail.com)",
+    "Date": "October 2025",
+    "Description": "AD CS Monitoring Configuration Template",
+    "ServerName": "CA-SERVER01",
+    "MonitoringLevel": "Standard",
+    "AlertLevel": "Standard",
+    "AlertTypes": ["Email", "Webhook"],
+    "SmtpServer": null,
+    "SmtpPort": 587,
+    "SmtpUsername": null,
+    "SmtpPassword": null,
+    "Recipients": [],
+    "WebhookUrl": null,
+    "SmsProvider": null,
+    "SmsApiKey": null,
+    "SmsApiSecret": null,
+    "SmsFromNumber": null,
+    "SmsRecipients": [],
+    "ReportType": "Comprehensive",
+    "DaysBack": 7,
+    "OutputFormat": "HTML",
+    "OutputPath": null,
+    "GenerateReport": false,
+    "ReportFormat": "PDF",
+    "ReportPath": null,
+    "HealthMonitoring": {
+      "Enabled": true,
+      "MonitoringLevel": "Standard",
+      "IncludeDetails": true,
+      "IncludeCertificates": true,
+      "IncludeTemplates": true,
+      "IncludeOCSP": true,
+      "IncludeWebEnrollment": true,
+      "IncludeNDES": true,
+      "MonitoringInterval": "P1H",
+      "MonitoringRetention": "P1Y",
+      "MonitoringCompression": true,
+      "MonitoringEncryption": true,
+      "MonitoringBackup": true,
+      "MonitoringAlerting": true,
+      "MonitoringReporting": true,
+      "MonitoringIntegration": true,
+      "MonitoringCustom": "Custom Health Monitoring Settings",
+      "HealthChecks": [
+        {
+          "Name": "CA Service Status",
+          "Description": "Check CA service status",
+          "Enabled": true,
+          "Interval": "P5M",
+          "Threshold": "Critical",
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Certificate Templates",
+          "Description": "Check certificate templates",
+          "Enabled": true,
+          "Interval": "P1H",
+          "Threshold": "Warning",
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "CRL Status",
+          "Description": "Check CRL status",
+          "Enabled": true,
+          "Interval": "P1H",
+          "Threshold": "Warning",
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "OCSP Status",
+          "Description": "Check OCSP status",
+          "Enabled": true,
+          "Interval": "P1H",
+          "Threshold": "Warning",
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Web Enrollment Status",
+          "Description": "Check web enrollment status",
+          "Enabled": true,
+          "Interval": "P1H",
+          "Threshold": "Warning",
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "NDES Status",
+          "Description": "Check NDES status",
+          "Enabled": true,
+          "Interval": "P1H",
+          "Threshold": "Warning",
+          "Alerting": true,
+          "Reporting": true
+        }
+      ]
+    },
+    "PerformanceMonitoring": {
+      "Enabled": true,
+      "MonitoringLevel": "Standard",
+      "DurationMinutes": 60,
+      "Metrics": ["CPU", "Memory", "Disk", "Network"],
+      "MonitoringInterval": "P1H",
+      "MonitoringRetention": "P1Y",
+      "MonitoringCompression": true,
+      "MonitoringEncryption": true,
+      "MonitoringBackup": true,
+      "MonitoringAlerting": true,
+      "MonitoringReporting": true,
+      "MonitoringIntegration": true,
+      "MonitoringCustom": "Custom Performance Monitoring Settings",
+      "PerformanceCounters": [
+        {
+          "Name": "CPU Usage",
+          "Description": "CPU usage percentage",
+          "Enabled": true,
+          "Interval": "P1M",
+          "Threshold": 80,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Memory Usage",
+          "Description": "Memory usage percentage",
+          "Enabled": true,
+          "Interval": "P1M",
+          "Threshold": 85,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Disk Usage",
+          "Description": "Disk usage percentage",
+          "Enabled": true,
+          "Interval": "P5M",
+          "Threshold": 90,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Network Usage",
+          "Description": "Network usage percentage",
+          "Enabled": true,
+          "Interval": "P1M",
+          "Threshold": 80,
+          "Alerting": true,
+          "Reporting": true
+        }
+      ]
+    },
+    "EventMonitoring": {
+      "Enabled": true,
+      "MonitoringLevel": "Standard",
+      "LogLevel": "All",
+      "MaxEvents": 1000,
+      "HoursBack": 24,
+      "MonitoringInterval": "P1H",
+      "MonitoringRetention": "P1Y",
+      "MonitoringCompression": true,
+      "MonitoringEncryption": true,
+      "MonitoringBackup": true,
+      "MonitoringAlerting": true,
+      "MonitoringReporting": true,
+      "MonitoringIntegration": true,
+      "MonitoringCustom": "Custom Event Monitoring Settings",
+      "EventLogs": [
+        {
+          "Name": "Application",
+          "Description": "Application event log",
+          "Enabled": true,
+          "LogLevel": "All",
+          "MaxEvents": 1000,
+          "HoursBack": 24,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "System",
+          "Description": "System event log",
+          "Enabled": true,
+          "LogLevel": "All",
+          "MaxEvents": 1000,
+          "HoursBack": 24,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Security",
+          "Description": "Security event log",
+          "Enabled": true,
+          "LogLevel": "All",
+          "MaxEvents": 1000,
+          "HoursBack": 24,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Certificate Services",
+          "Description": "Certificate Services event log",
+          "Enabled": true,
+          "LogLevel": "All",
+          "MaxEvents": 1000,
+          "HoursBack": 24,
+          "Alerting": true,
+          "Reporting": true
+        }
+      ]
+    },
+    "CertificateLifecycleMonitoring": {
+      "Enabled": true,
+      "MonitoringLevel": "Standard",
+      "DaysUntilExpiration": 30,
+      "IncludeExpired": true,
+      "IncludeRevoked": true,
+      "MonitoringInterval": "P1H",
+      "MonitoringRetention": "P1Y",
+      "MonitoringCompression": true,
+      "MonitoringEncryption": true,
+      "MonitoringBackup": true,
+      "MonitoringAlerting": true,
+      "MonitoringReporting": true,
+      "MonitoringIntegration": true,
+      "MonitoringCustom": "Custom Certificate Lifecycle Monitoring Settings",
+      "LifecycleChecks": [
+        {
+          "Name": "Certificate Expiration",
+          "Description": "Check certificate expiration",
+          "Enabled": true,
+          "Interval": "P1D",
+          "DaysUntilExpiration": 30,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Certificate Revocation",
+          "Description": "Check certificate revocation",
+          "Enabled": true,
+          "Interval": "P1H",
+          "IncludeRevoked": true,
+          "Alerting": true,
+          "Reporting": true
+        },
+        {
+          "Name": "Certificate Renewal",
+          "Description": "Check certificate renewal",
+          "Enabled": true,
+          "Interval": "P1D",
+          "RenewalPeriod": "P6M",
+          "Alerting": true,
+          "Reporting": true
+        }
+      ]
+    },
+    "Alerting": {
+      "Enabled": true,
+      "AlertLevel": "Standard",
+      "AlertTypes": ["Email", "Webhook"],
+      "SmtpServer": null,
+      "SmtpPort": 587,
+      "SmtpUsername": null,
+      "SmtpPassword": null,
+      "Recipients": [],
+      "WebhookUrl": null,
+      "SmsProvider": null,
+      "SmsApiKey": null,
+      "SmsApiSecret": null,
+      "SmsFromNumber": null,
+      "SmsRecipients": [],
+      "AlertingInterval": "P1H",
+      "AlertingRetention": "P1Y",
+      "AlertingCompression": true,
+      "AlertingEncryption": true,
+      "AlertingBackup": true,
+      "AlertingMonitoring": true,
+      "AlertingReporting": true,
+      "AlertingIntegration": true,
+      "AlertingCustom": "Custom Alerting Settings",
+      "AlertRules": [
+        {
+          "Name": "Critical Alert",
+          "Description": "Critical alert rule",
+          "Enabled": true,
+          "Condition": "Critical",
+          "Threshold": 1,
+          "AlertTypes": ["Email", "SMS", "Webhook"],
+          "Recipients": ["admin@contoso.com"],
+          "Interval": "P1M"
+        },
+        {
+          "Name": "Warning Alert",
+          "Description": "Warning alert rule",
+          "Enabled": true,
+          "Condition": "Warning",
+          "Threshold": 5,
+          "AlertTypes": ["Email", "Webhook"],
+          "Recipients": ["ops@contoso.com"],
+          "Interval": "P5M"
+        },
+        {
+          "Name": "Info Alert",
+          "Description": "Info alert rule",
+          "Enabled": true,
+          "Condition": "Info",
+          "Threshold": 10,
+          "AlertTypes": ["Email"],
+          "Recipients": ["info@contoso.com"],
+          "Interval": "P15M"
+        }
+      ]
+    },
+    "Reporting": {
+      "Enabled": true,
+      "ReportType": "Comprehensive",
+      "DaysBack": 7,
+      "OutputFormat": "HTML",
+      "OutputPath": null,
+      "ReportingInterval": "P1D",
+      "ReportingRetention": "P1Y",
+      "ReportingCompression": true,
+      "ReportingEncryption": true,
+      "ReportingBackup": true,
+      "ReportingMonitoring": true,
+      "ReportingAlerting": true,
+      "ReportingIntegration": true,
+      "ReportingCustom": "Custom Reporting Settings",
+      "ReportTypes": [
+        {
+          "Name": "Health Report",
+          "Description": "Health monitoring report",
+          "Enabled": true,
+          "Interval": "P1D",
+          "Format": "HTML",
+          "Recipients": ["admin@contoso.com"],
+          "Retention": "P1Y"
+        },
+        {
+          "Name": "Performance Report",
+          "Description": "Performance monitoring report",
+          "Enabled": true,
+          "Interval": "P1D",
+          "Format": "HTML",
+          "Recipients": ["ops@contoso.com"],
+          "Retention": "P1Y"
+        },
+        {
+          "Name": "Security Report",
+          "Description": "Security monitoring report",
+          "Enabled": true,
+          "Interval": "P1D",
+          "Format": "PDF",
+          "Recipients": ["security@contoso.com"],
+          "Retention": "P1Y"
+        },
+        {
+          "Name": "Compliance Report",
+          "Description": "Compliance monitoring report",
+          "Enabled": true,
+          "Interval": "P1W",
+          "Format": "PDF",
+          "Recipients": ["compliance@contoso.com"],
+          "Retention": "P7Y"
+        }
+      ]
+    }
+  }
+}
