@@ -1,0 +1,324 @@
+{
+  "scenarios": {
+    "CentralizedApplicationDelivery": {
+      "description": "Deploy centralized application delivery environment",
+      "parameters": {
+        "SessionHostCount": 3,
+        "Applications": ["Office365", "SAP", "CustomApp"],
+        "UserGroups": ["LOB-Users", "Finance-Users"],
+        "EnableGateway": true,
+        "EnableWebAccess": true
+      }
+    },
+    "VDI": {
+      "description": "Deploy Virtual Desktop Infrastructure",
+      "parameters": {
+        "PoolName": "VDI-Pool",
+        "PoolType": "Pooled",
+        "MaxVMs": 50,
+        "VMConfiguration": {
+          "MemoryGB": 8,
+          "CPUCount": 4,
+          "DiskSizeGB": 100,
+          "OSVersion": "Windows 10 Enterprise"
+        },
+        "EnableFSLogix": true,
+        "UserAssignments": [
+          {
+            "UserName": "john.doe",
+            "AssignmentType": "Personal"
+          },
+          {
+            "UserName": "jane.smith", 
+            "AssignmentType": "Automatic"
+          }
+        ]
+      }
+    },
+    "GraphicsAccelerated": {
+      "description": "Deploy graphics-accelerated RDS environment",
+      "parameters": {
+        "GPUType": "NVIDIA",
+        "MaxGPUMemory": 4096,
+        "EnableHardwareAcceleration": true,
+        "EnableGraphicsVirtualization": true,
+        "Applications": ["AutoCAD", "SolidWorks", "ArcGIS"],
+        "UserGroups": ["CAD-Users", "Design-Users"]
+      }
+    },
+    "HybridRDSAzure": {
+      "description": "Deploy hybrid RDS + Azure Virtual Desktop",
+      "parameters": {
+        "AzureSubscriptionId": "12345678-1234-1234-1234-123456789012",
+        "ResourceGroupName": "RDS-Hybrid-RG",
+        "WorkspaceName": "RDS-Hybrid-Workspace",
+        "HostPoolName": "RDS-Hybrid-Pool",
+        "AzureRegion": "East US",
+        "EnableCloudBursting": true,
+        "BurstingPolicy": "CPU",
+        "MaxInstances": 20,
+        "UserAssignments": [
+          {
+            "UserName": "user1",
+            "ResourceType": "Hybrid",
+            "AssignmentPolicy": "LoadBalanced"
+          }
+        ]
+      }
+    },
+    "PrivilegedAccessWorkstations": {
+      "description": "Deploy Privileged Access Workstations",
+      "parameters": {
+        "SecurityLevel": "Critical",
+        "EnableAppLocker": true,
+        "EnableDeviceGuard": true,
+        "EnableCredentialGuard": true,
+        "EnableAuditLogging": true,
+        "AdminGroups": ["Domain Admins", "Enterprise Admins"],
+        "EnableMFA": true
+      }
+    },
+    "RemoteDesktopGateway": {
+      "description": "Deploy Remote Desktop Gateway for secure internet access",
+      "parameters": {
+        "EnableSSL": true,
+        "RequireClientCertificates": true,
+        "EnableMFA": true,
+        "EnableAuditLogging": true,
+        "CertificateThumbprint": "1234567890ABCDEF",
+        "UserGroups": ["Remote-Users", "Contractors"]
+      }
+    },
+    "RDSWithAzureMFA": {
+      "description": "Deploy RDS with Azure MFA integration",
+      "parameters": {
+        "AzureMFAEndpoint": "https://mfa.contoso.com",
+        "CertificateThumbprint": "1234567890ABCDEF",
+        "EnableNPSExtension": true,
+        "UserGroups": ["All-Users"]
+      }
+    },
+    "ContractorAccess": {
+      "description": "Deploy controlled access for contractors and partners",
+      "parameters": {
+        "AccessType": "Restricted",
+        "TimeLimit": "8:00-18:00",
+        "AllowedApplications": ["Office365", "WebBrowser"],
+        "RestrictedFeatures": ["FileSystem", "Registry", "CommandPrompt"],
+        "UserGroups": ["Contractors", "Partners"]
+      }
+    },
+    "KioskThinClient": {
+      "description": "Deploy kiosk and thin client environment",
+      "parameters": {
+        "KioskMode": true,
+        "LockdownLevel": "Maximum",
+        "AllowedApplications": ["RemoteApp1", "RemoteApp2"],
+        "AutoLogin": true,
+        "DisableLocalAccess": true
+      }
+    },
+    "EducationComputerLab": {
+      "description": "Deploy education environment with virtual classrooms",
+      "parameters": {
+        "LabMode": true,
+        "ResetAfterLogoff": true,
+        "StudentGroups": ["Students", "Teachers"],
+        "AllowedApplications": ["Office365", "EducationalApps"],
+        "SessionTimeLimit": 120
+      }
+    },
+    "DisasterRecovery": {
+      "description": "Deploy disaster recovery environment",
+      "parameters": {
+        "DRMode": true,
+        "BackupSite": "DR-Site",
+        "FailoverTime": 30,
+        "UserGroups": ["All-Users"],
+        "EnableReplication": true
+      }
+    },
+    "ApplicationCompatibilitySandbox": {
+      "description": "Deploy compatibility sandbox for legacy applications",
+      "parameters": {
+        "LegacyOS": "Windows Server 2012 R2",
+        "CompatibilityMode": true,
+        "LegacyApplications": ["LegacyApp1", "LegacyApp2"],
+        "UserGroups": ["Legacy-Users"]
+      }
+    },
+    "FSLogixProfileContainers": {
+      "description": "Deploy FSLogix profile containers",
+      "parameters": {
+        "ProfilePath": "\\\\FileServer\\Profiles",
+        "IncludeOfficeContainers": true,
+        "IncludeAppsContainers": true,
+        "ContainerSizeGB": 30,
+        "UserGroups": ["All-Users"]
+      }
+    },
+    "LoadBalancingHA": {
+      "description": "Deploy load balancing and high availability",
+      "parameters": {
+        "SessionHostCount": 5,
+        "LoadBalancingMethod": "RoundRobin",
+        "HealthCheckInterval": 30,
+        "FailoverThreshold": 3,
+        "EnableAutoScaling": true
+      }
+    },
+    "RDSWebAccessPortal": {
+      "description": "Deploy unified web access portal",
+      "parameters": {
+        "PortalURL": "https://rds.contoso.com",
+        "CustomizePortal": true,
+        "EnableSSO": true,
+        "Branding": {
+          "CompanyName": "Contoso",
+          "LogoPath": "C:\\Logos\\company-logo.png",
+          "ThemeColor": "#0078D4"
+        }
+      }
+    },
+    "GovernmentRegulated": {
+      "description": "Deploy government/regulated environment",
+      "parameters": {
+        "ComplianceLevel": "FISMA",
+        "EnableAuditLogging": true,
+        "EnableDataEncryption": true,
+        "RestrictDataAccess": true,
+        "UserGroups": ["Government-Users"]
+      }
+    },
+    "RemoteSupportHelpdesk": {
+      "description": "Deploy remote support and helpdesk environment",
+      "parameters": {
+        "SupportMode": true,
+        "EnableScreenSharing": true,
+        "EnableRemoteControl": true,
+        "SupportGroups": ["Helpdesk", "IT-Support"],
+        "SessionRecording": true
+      }
+    },
+    "MultiForestFederated": {
+      "description": "Deploy multi-forest federated access",
+      "parameters": {
+        "FederationType": "ADFS",
+        "TrustedForests": ["forest1.contoso.com", "forest2.contoso.com"],
+        "EnableCrossForestAccess": true,
+        "UserGroups": ["CrossForest-Users"]
+      }
+    },
+    "TimeLimitedAccess": {
+      "description": "Deploy time-limited access for temporary users",
+      "parameters": {
+        "TimeLimit": "30",
+        "TimeUnit": "Days",
+        "AutoExpire": true,
+        "TemporaryGroups": ["Temp-Users", "Project-Users"],
+        "NotificationDays": 7
+      }
+    },
+    "IntuneIntegration": {
+      "description": "Deploy RDS with Intune integration",
+      "parameters": {
+        "IntuneTenantId": "12345678-1234-1234-1234-123456789012",
+        "RequireCompliance": true,
+        "DeviceGroups": ["Compliant-Devices"],
+        "ConditionalAccess": true
+      }
+    },
+    "FileServicesIntegration": {
+      "description": "Deploy RDS with file services integration",
+      "parameters": {
+        "FileServer": "\\\\FileServer\\Shares",
+        "EnableOneDrive": true,
+        "EnableFolderRedirection": true,
+        "ProfilePath": "\\\\FileServer\\Profiles",
+        "UserGroups": ["All-Users"]
+      }
+    },
+    "PowerShellAutomation": {
+      "description": "Deploy PowerShell automation for infrastructure",
+      "parameters": {
+        "AutomationLevel": "Full",
+        "EnableAutoScaling": true,
+        "EnableAutoBackup": true,
+        "EnableAutoMonitoring": true,
+        "ScriptsPath": "C:\\Scripts\\Automation"
+      }
+    },
+    "HighLatencyOptimization": {
+      "description": "Deploy high-latency optimization",
+      "parameters": {
+        "OptimizationLevel": "Maximum",
+        "EnableUDPTransport": true,
+        "CompressionLevel": 9,
+        "CacheSize": 500,
+        "AdaptiveGraphics": true
+      }
+    },
+    "LicensingAuditing": {
+      "description": "Deploy licensing and auditing system",
+      "parameters": {
+        "LicenseMode": "PerUser",
+        "EnableAuditing": true,
+        "AuditLevel": "Detailed",
+        "ReportingInterval": "Daily",
+        "UserGroups": ["All-Users"]
+      }
+    },
+    "RDSJumpHost": {
+      "description": "Deploy RDS as secure jump host",
+      "parameters": {
+        "JumpHostMode": true,
+        "EnableMFA": true,
+        "RestrictAccess": true,
+        "AdminGroups": ["Domain Admins"],
+        "EnableAuditLogging": true
+      }
+    },
+    "SharedComputeEnvironments": {
+      "description": "Deploy shared compute environment",
+      "parameters": {
+        "ComputeMode": true,
+        "EnableGPU": true,
+        "MaxConcurrentUsers": 20,
+        "ResourceAllocation": "Fair",
+        "UserGroups": ["Researchers", "Scientists"]
+      }
+    },
+    "RemoteDevelopmentEnvironments": {
+      "description": "Deploy remote development environment",
+      "parameters": {
+        "DevelopmentMode": true,
+        "IDEs": ["Visual Studio", "VS Code", "IntelliJ"],
+        "EnableGitIntegration": true,
+        "EnableDocker": true,
+        "UserGroups": ["Developers"]
+      }
+    },
+    "CloudBurstingScaling": {
+      "description": "Deploy cloud bursting and on-demand scaling",
+      "parameters": {
+        "CloudProvider": "Azure",
+        "BurstingPolicy": "CPU",
+        "MaxInstances": 50,
+        "MinInstances": 2,
+        "ScalingThresholds": {
+          "CPU": 80,
+          "Memory": 85,
+          "Sessions": 90
+        }
+      }
+    }
+  },
+  "globalSettings": {
+    "LogFile": "C:\\Logs\\RDS-Deployment.log",
+    "EnableMonitoring": true,
+    "EnableBackup": true,
+    "EnableSecurity": true,
+    "DefaultUserGroups": ["Domain Users"],
+    "DefaultApplications": ["Office365", "Notepad", "Calculator"]
+  }
+}

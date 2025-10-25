@@ -1,0 +1,664 @@
+{
+  "ADRMSEEnterpriseScenarios": {
+    "Version": "1.0.0",
+    "LastUpdated": "2024-01-01T00:00:00Z",
+    "Description": "Comprehensive AD RMS Enterprise Scenarios Configuration Template",
+    "Scenarios": {
+      "ConfidentialDocumentProtection": {
+        "Name": "Confidential Document Protection",
+        "Description": "Core purpose of RMS - Apply templates like Confidential – Internal Use Only or Do Not Forward",
+        "Templates": [
+          {
+            "Name": "Confidential-Internal-Only",
+            "Description": "Confidential documents for internal use only",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": true,
+            "AllowOfflineAccess": true,
+            "ExpirationDate": null,
+            "EnableAuditing": true
+          },
+          {
+            "Name": "Do-Not-Forward",
+            "Description": "Documents that cannot be forwarded",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "AllowOfflineAccess": true,
+            "ExpirationDate": null,
+            "EnableAuditing": true
+          }
+        ],
+        "Policies": [
+          {
+            "Name": "Confidential-Folder-Protection",
+            "Description": "Automatic protection for confidential folders",
+            "FolderPath": "C:\\Confidential",
+            "TemplateName": "Confidential-Internal-Only"
+          }
+        ],
+        "Auditing": {
+          "EnableDocumentAccessAuditing": true,
+          "EnableTemplateUsageAuditing": true,
+          "AuditLogRetentionDays": 90
+        }
+      },
+      "EmailProtection": {
+        "Name": "Email Protection",
+        "Description": "Encrypt and restrict forwarding, copying, or printing of emails",
+        "EmailTemplates": [
+          {
+            "Name": "Email-DoNotForward",
+            "Description": "Do not forward email template",
+            "EmailPolicy": "DoNotForward",
+            "AllowReply": true,
+            "AllowReplyAll": true,
+            "AllowForward": false,
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "ExpirationDays": 0,
+            "EnableAuditing": true
+          },
+          {
+            "Name": "Email-Confidential",
+            "Description": "Confidential email template",
+            "EmailPolicy": "Confidential",
+            "AllowReply": true,
+            "AllowReplyAll": true,
+            "AllowForward": false,
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "ExpirationDays": 30,
+            "EnableAuditing": true
+          }
+        ],
+        "DLPRules": [
+          {
+            "Name": "CreditCardDetection",
+            "Description": "Detect credit card numbers and apply RMS protection",
+            "ContentPattern": "\\d{4}-\\d{4}-\\d{4}-\\d{4}",
+            "TemplateName": "Email-Confidential",
+            "ApplyToBody": true,
+            "ApplyToAttachments": true,
+            "Priority": 10
+          },
+          {
+            "Name": "SSNDetection",
+            "Description": "Detect SSN and apply RMS protection",
+            "ContentPattern": "\\d{3}-\\d{2}-\\d{4}",
+            "TemplateName": "Email-DoNotForward",
+            "ApplyToBody": true,
+            "ApplyToAttachments": true,
+            "Priority": 20
+          }
+        ],
+        "TransportRules": [
+          {
+            "Name": "ExternalEmailProtection",
+            "Description": "Protect external emails with RMS",
+            "TemplateName": "Email-DoNotForward",
+            "ApplyToExternal": true,
+            "Priority": 10
+          }
+        ]
+      },
+      "PolicyBasedProtection": {
+        "Name": "Policy-Based Protection Templates",
+        "Description": "Organization-wide classification system",
+        "DepartmentTemplates": [
+          {
+            "Department": "HR",
+            "TemplateName": "HR-Confidential",
+            "Description": "HR confidential documents",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "EnableAuditing": true
+          },
+          {
+            "Department": "Finance",
+            "TemplateName": "Finance-Confidential",
+            "Description": "Finance confidential documents",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "EnableAuditing": true
+          },
+          {
+            "Department": "Legal",
+            "TemplateName": "Legal-Confidential",
+            "Description": "Legal confidential documents",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "EnableAuditing": true
+          }
+        ],
+        "AutoApplyPolicies": [
+          {
+            "Name": "HR-Auto-Protection",
+            "Description": "Auto-protect HR documents",
+            "FolderPath": "C:\\HR",
+            "TemplateName": "HR-Confidential"
+          }
+        ]
+      },
+      "FileServerIntegration": {
+        "Name": "File Server Integration",
+        "Description": "File Server automatically protects content on save",
+        "RMSAwareShares": [
+          {
+            "ShareName": "Confidential",
+            "Path": "C:\\Shares\\Confidential",
+            "TemplateName": "Confidential-Internal-Only",
+            "EnableAutomaticProtection": true
+          },
+          {
+            "ShareName": "Legal",
+            "Path": "C:\\Shares\\Legal",
+            "TemplateName": "Do-Not-Forward",
+            "EnableAutomaticProtection": true
+          }
+        ],
+        "FSRMIntegration": {
+          "EnableFileScreening": true,
+          "EnableClassification": true,
+          "EnableQuotas": true
+        }
+      },
+      "DynamicDataClassification": {
+        "Name": "Dynamic Data Classification + Rights Management",
+        "Description": "Combine FSRM and RMS for automatic tagging",
+        "KeywordDetection": [
+          {
+            "Keyword": "SSN",
+            "Pattern": "\\d{3}-\\d{2}-\\d{4}",
+            "TemplateName": "Do-Not-Forward",
+            "Action": "Protect"
+          },
+          {
+            "Keyword": "Salary",
+            "Pattern": "salary|wage|compensation",
+            "TemplateName": "Confidential-Internal-Only",
+            "Action": "Protect"
+          },
+          {
+            "Keyword": "Contract",
+            "Pattern": "contract|agreement|confidential",
+            "TemplateName": "Do-Not-Forward",
+            "Action": "Protect"
+          }
+        ],
+        "FSRMClassification": {
+          "EnableAutomaticClassification": true,
+          "EnableRMSProtection": true,
+          "ClassificationRules": [
+            {
+              "Name": "PII-Detection",
+              "Pattern": "\\d{3}-\\d{2}-\\d{4}",
+              "TemplateName": "Do-Not-Forward"
+            }
+          ]
+        }
+      },
+      "SharePointRMSProtection": {
+        "Name": "SharePoint RMS Protection",
+        "Description": "Secure documents in SharePoint libraries",
+        "SharePointUrl": "https://company.sharepoint.com",
+        "DocumentLibraries": [
+          {
+            "Name": "General Documents",
+            "Url": "https://company.sharepoint.com/Shared%20Documents",
+            "TemplateName": "SharePoint-DocumentLibrary",
+            "EnableAutomaticProtection": true
+          },
+          {
+            "Name": "Confidential Documents",
+            "Url": "https://company.sharepoint.com/Confidential%20Documents",
+            "TemplateName": "SharePoint-ConfidentialLibrary",
+            "EnableAutomaticProtection": true
+          }
+        ],
+        "Templates": [
+          {
+            "Name": "SharePoint-DocumentLibrary",
+            "Description": "SharePoint document library protection template",
+            "RightsGroup": "Viewer",
+            "AllowPrint": true,
+            "AllowCopy": true,
+            "AllowForward": false,
+            "EnableAuditing": true
+          }
+        ]
+      },
+      "CrossOrganizationCollaboration": {
+        "Name": "Cross-Organization Collaboration",
+        "Description": "Secure sharing with partners or subsidiaries",
+        "PartnerOrganizations": [
+          "partner1.com",
+          "partner2.com",
+          "vendor.com"
+        ],
+        "FederatedTrusts": [
+          {
+            "PartnerDomain": "partner1.com",
+            "TrustType": "Federated",
+            "AuthenticationMethod": "Federated",
+            "EnableMutualTrust": true
+          }
+        ],
+        "PartnerTemplates": [
+          {
+            "Name": "Partner-Shared-Documents",
+            "Description": "Shared documents with partner organizations",
+            "RightsGroup": "Viewer",
+            "AllowPrint": true,
+            "AllowCopy": true,
+            "AllowForward": false,
+            "ExpirationDate": "30",
+            "EnableAuditing": true
+          }
+        ]
+      },
+      "PrintingRestrictions": {
+        "Name": "Printing and Screen Capture Restrictions",
+        "Description": "Prevent physical and digital leaks",
+        "RestrictionPolicies": [
+          {
+            "Name": "No-Print-Policy",
+            "Description": "Disable printing for sensitive documents",
+            "AllowPrint": false,
+            "AllowScreenCapture": false,
+            "AllowCopy": false
+          },
+          {
+            "Name": "View-Only-Policy",
+            "Description": "View-only access with no printing or copying",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "AllowOfflineAccess": false
+          }
+        ]
+      },
+      "AzureInformationProtection": {
+        "Name": "Integration with Azure Information Protection",
+        "Description": "Hybrid RMS → AIP migration",
+        "HybridConfiguration": {
+          "EnableOnPremRMS": true,
+          "EnableAIPIntegration": true,
+          "EnableCloudExtension": true,
+          "EnableMobileAccess": true
+        },
+        "MigrationSettings": {
+          "EnableGradualMigration": true,
+          "EnableCoexistence": true,
+          "MigrationTimeline": "6 months"
+        }
+      },
+      "ExchangeDLP": {
+        "Name": "Automatic Email Encryption via Exchange DLP",
+        "Description": "Transport rule triggers RMS based on content detection",
+        "DLPRules": [
+          {
+            "Name": "CreditCardDLP",
+            "Description": "Credit card number detection",
+            "ContentPattern": "\\d{4}-\\d{4}-\\d{4}-\\d{4}",
+            "TemplateName": "Email-Confidential",
+            "Action": "Protect"
+          },
+          {
+            "Name": "SSNDLP",
+            "Description": "SSN detection",
+            "ContentPattern": "\\d{3}-\\d{2}-\\d{4}",
+            "TemplateName": "Email-DoNotForward",
+            "Action": "Protect"
+          }
+        ]
+      },
+      "SecureBackup": {
+        "Name": "Secure Backup and Archive",
+        "Description": "Keep encrypted copies in backup repositories",
+        "BackupConfiguration": {
+          "EnableEncryptedBackup": true,
+          "BackupLocation": "C:\\Backups\\RMS",
+          "RetentionPeriod": "7 years",
+          "EnableCompression": true
+        },
+        "ArchiveSettings": {
+          "EnableLongTermArchive": true,
+          "ArchiveLocation": "C:\\Archive\\RMS",
+          "RetentionPolicy": "Compliance"
+        }
+      },
+      "LegalEvidenceManagement": {
+        "Name": "Legal / HR Evidence Management",
+        "Description": "Sensitive investigation documents",
+        "LegalTemplates": [
+          {
+            "Name": "Legal-Evidence",
+            "Description": "Legal evidence documents",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "AllowOfflineAccess": false,
+            "EnableAuditing": true
+          }
+        ],
+        "AccessControl": {
+          "AllowedGroups": ["Legal", "HR", "Compliance"],
+          "AccessLevel": "View Only",
+          "EnableChainOfCustody": true
+        }
+      },
+      "BYODMobileAccess": {
+        "Name": "BYOD and Mobile Access Control",
+        "Description": "Extend protection to unmanaged devices",
+        "MobileConfiguration": {
+          "EnableMobileAccess": true,
+          "EnableiOSAccess": true,
+          "EnableAndroidAccess": true,
+          "EnableOfflineAccess": true
+        },
+        "DevicePolicies": [
+          {
+            "Name": "Mobile-View-Only",
+            "Description": "Mobile view-only access",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "AllowOfflineAccess": true
+          }
+        ]
+      },
+      "ResearchIPProtection": {
+        "Name": "Research and Intellectual Property Protection",
+        "Description": "R&D labs sharing prototypes or reports",
+        "ResearchTemplates": [
+          {
+            "Name": "Research-Confidential",
+            "Description": "Research confidential documents",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "EnableAuditing": true
+          },
+          {
+            "Name": "IP-Protection",
+            "Description": "Intellectual property protection",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "AllowOfflineAccess": false,
+            "EnableAuditing": true
+          }
+        ]
+      },
+      "ProjectDataRooms": {
+        "Name": "Project-Specific Data Rooms",
+        "Description": "Temporary secure collaboration zones",
+        "ProjectTemplates": [
+          {
+            "Name": "Project-Data-Room",
+            "Description": "Project data room template",
+            "RightsGroup": "Editor",
+            "AllowPrint": true,
+            "AllowCopy": true,
+            "AllowForward": false,
+            "ExpirationDate": "90",
+            "EnableAuditing": true
+          }
+        ],
+        "ProjectSettings": {
+          "EnableAutomaticExpiration": true,
+          "ExpirationPeriod": "90 days",
+          "EnableProjectMembership": true
+        }
+      },
+      "DocumentExpiry": {
+        "Name": "Document Expiry and Revocation",
+        "Description": "Self-expiring data",
+        "ExpiryPolicies": [
+          {
+            "Name": "Short-Term-Expiry",
+            "Description": "Short-term document expiry",
+            "ExpirationDays": 7,
+            "EnableRevocation": true
+          },
+          {
+            "Name": "Medium-Term-Expiry",
+            "Description": "Medium-term document expiry",
+            "ExpirationDays": 30,
+            "EnableRevocation": true
+          },
+          {
+            "Name": "Long-Term-Expiry",
+            "Description": "Long-term document expiry",
+            "ExpirationDays": 90,
+            "EnableRevocation": true
+          }
+        ]
+      },
+      "AuditingForensics": {
+        "Name": "Auditing and Forensics",
+        "Description": "Who opened what, when, and under which license",
+        "AuditConfiguration": {
+          "EnableDocumentAccessAuditing": true,
+          "EnableTemplateUsageAuditing": true,
+          "EnableRightsModificationAuditing": true,
+          "AuditLogRetentionDays": 90,
+          "AuditLogLocation": "C:\\ADRMS\\AuditLogs",
+          "EnableSIEMIntegration": true
+        },
+        "ForensicsSettings": {
+          "EnableChainOfCustody": true,
+          "EnableDigitalSignatures": true,
+          "EnableTimestamping": true
+        }
+      },
+      "PurviewIntegration": {
+        "Name": "Integration with Microsoft Purview",
+        "Description": "Unified classification + RMS protection labeling",
+        "PurviewConfiguration": {
+          "EnablePurviewIntegration": true,
+          "EnableSensitivityLabels": true,
+          "EnableDataClassification": true,
+          "EnableComplianceReporting": true
+        },
+        "LabelingPolicies": [
+          {
+            "Name": "Confidential-Label",
+            "Description": "Confidential sensitivity label",
+            "RMSProtection": true,
+            "TemplateName": "Confidential-Internal-Only"
+          }
+        ]
+      },
+      "SecureCloudGateways": {
+        "Name": "Secure Cloud File Gateways",
+        "Description": "Protect files synced to OneDrive or SharePoint Online",
+        "CloudGatewayConfiguration": {
+          "EnableOneDriveProtection": true,
+          "EnableSharePointOnlineProtection": true,
+          "EnableTeamsProtection": true,
+          "EnableAzureFilesProtection": true
+        },
+        "SyncSettings": {
+          "EnablePreSyncProtection": true,
+          "EnablePostSyncProtection": true,
+          "EnableCloudRespect": true
+        }
+      },
+      "DisasterRecoveryRMS": {
+        "Name": "Disaster-Recovery and Failover RMS Cluster",
+        "Description": "Maintain continuity of license issuance",
+        "DRConfiguration": {
+          "EnableFailoverCluster": true,
+          "EnableLoadBalancing": true,
+          "EnableConfigurationReplication": true,
+          "EnableDatabaseReplication": true
+        },
+        "FailoverSettings": {
+          "FailoverTimeout": "30 seconds",
+          "EnableAutomaticFailover": true,
+          "EnableHealthMonitoring": true
+        }
+      },
+      "PowerShellAutomation": {
+        "Name": "Integration with PowerShell and Automation",
+        "Description": "Bulk-protect or unprotect data sets",
+        "AutomationScripts": [
+          {
+            "Name": "Bulk-Protect-Documents",
+            "Description": "Bulk protect documents in folder",
+            "ScriptPath": "Scripts\\Bulk-Protect-Documents.ps1"
+          },
+          {
+            "Name": "Bulk-Unprotect-Documents",
+            "Description": "Bulk unprotect documents in folder",
+            "ScriptPath": "Scripts\\Bulk-Unprotect-Documents.ps1"
+          }
+        ],
+        "ScheduledTasks": [
+          {
+            "Name": "Daily-Protection-Audit",
+            "Description": "Daily audit of document protection",
+            "Schedule": "Daily",
+            "Time": "02:00"
+          }
+        ]
+      },
+      "VendorExchangePortal": {
+        "Name": "Secure Vendor Exchange Portal",
+        "Description": "Internal document drop-off/pick-up platform",
+        "VendorConfiguration": {
+          "EnableVendorPortal": true,
+          "EnableVendorAuthentication": true,
+          "EnableVendorAuditing": true
+        },
+        "VendorTemplates": [
+          {
+            "Name": "Vendor-Shared",
+            "Description": "Vendor shared documents",
+            "RightsGroup": "Viewer",
+            "AllowPrint": false,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "ExpirationDate": "7",
+            "EnableAuditing": true
+          }
+        ]
+      },
+      "TrainingPolicyAwareness": {
+        "Name": "Training & Policy Awareness",
+        "Description": "Demonstrate protection in user training programs",
+        "TrainingConfiguration": {
+          "EnableUserTraining": true,
+          "EnablePolicyAwareness": true,
+          "EnableDocumentation": true,
+          "EnableVideoTutorials": true
+        },
+        "TrainingMaterials": [
+          {
+            "Name": "RMS-User-Guide",
+            "Description": "RMS user guide",
+            "Path": "Documentation\\RMS-User-Guide.pdf"
+          },
+          {
+            "Name": "RMS-Video-Tutorial",
+            "Description": "RMS video tutorial",
+            "Path": "Videos\\RMS-Tutorial.mp4"
+          }
+        ]
+      },
+      "HybridIdentityIntegration": {
+        "Name": "Hybrid Identity Integration",
+        "Description": "AD RMS + ADFS for single sign-on",
+        "IdentityConfiguration": {
+          "EnableADFSIntegration": true,
+          "EnableAzureADIntegration": true,
+          "EnableSmartcardSupport": true,
+          "EnableMFASupport": true
+        },
+        "AuthenticationMethods": [
+          {
+            "Name": "Kerberos",
+            "Description": "Kerberos authentication",
+            "Enabled": true
+          },
+          {
+            "Name": "Certificate",
+            "Description": "Certificate-based authentication",
+            "Enabled": true
+          }
+        ]
+      },
+      "IoTIndustrialData": {
+        "Name": "IoT or Industrial Data Blueprints",
+        "Description": "Protect engineering drawings distributed to contractors",
+        "IoTConfiguration": {
+          "EnableIoTProtection": true,
+          "EnableIndustrialDataProtection": true,
+          "EnableCADProtection": true,
+          "EnableBlueprintProtection": true
+        },
+        "IndustrialTemplates": [
+          {
+            "Name": "CAD-Drawings",
+            "Description": "CAD drawing protection",
+            "RightsGroup": "Viewer",
+            "AllowPrint": true,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "AllowOfflineAccess": true,
+            "ExpirationDate": "30",
+            "EnableAuditing": true
+          },
+          {
+            "Name": "Industrial-Blueprints",
+            "Description": "Industrial blueprint protection",
+            "RightsGroup": "Viewer",
+            "AllowPrint": true,
+            "AllowCopy": false,
+            "AllowForward": false,
+            "AllowOfflineAccess": true,
+            "ExpirationDate": "14",
+            "EnableAuditing": true
+          }
+        ]
+      }
+    },
+    "GlobalSettings": {
+      "Auditing": {
+        "EnableGlobalAuditing": true,
+        "AuditLogRetentionDays": 90,
+        "AuditLogLocation": "C:\\ADRMS\\AuditLogs",
+        "EnableSIEMIntegration": true,
+        "EnableComplianceReporting": true
+      },
+      "Security": {
+        "EnableEncryption": true,
+        "EncryptionAlgorithm": "AES-256",
+        "EnableSigning": true,
+        "EnableTimestamping": true
+      },
+      "Performance": {
+        "EnableCaching": true,
+        "CacheSize": "1GB",
+        "EnableCompression": true,
+        "EnableOptimization": true
+      },
+      "Monitoring": {
+        "EnableHealthMonitoring": true,
+        "EnablePerformanceMonitoring": true,
+        "EnableAlerting": true,
+        "AlertThreshold": 80
+      }
+    }
+  }
+}

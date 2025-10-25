@@ -1,0 +1,588 @@
+{
+  "globalSettings": {
+    "deploymentName": "Enterprise-FileStorage",
+    "domain": "company.local",
+    "adminGroup": "FileStorage-Admins",
+    "backupPath": "C:\\Backups\\FileStorage",
+    "logPath": "C:\\Logs\\FileStorage"
+  },
+  "scenarios": {
+    "CentralizedFileServer": {
+      "enabled": true,
+      "fileServerName": "Corporate-FS-01",
+      "shares": [
+        {
+          "name": "Finance-Share",
+          "path": "C:\\Shares\\Finance",
+          "description": "Finance Department Share",
+          "permissions": {
+            "Finance-Users": "FullControl",
+            "Finance-Admins": "FullControl"
+          }
+        },
+        {
+          "name": "HR-Share",
+          "path": "C:\\Shares\\HR",
+          "description": "HR Department Share",
+          "permissions": {
+            "HR-Users": "FullControl",
+            "HR-Admins": "FullControl"
+          }
+        },
+        {
+          "name": "IT-Share",
+          "path": "C:\\Shares\\IT",
+          "description": "IT Department Share",
+          "permissions": {
+            "IT-Users": "FullControl",
+            "IT-Admins": "FullControl"
+          }
+        }
+      ],
+      "shadowCopies": {
+        "enabled": true,
+        "schedule": "Daily",
+        "retentionDays": 30
+      }
+    },
+    "DFSGeoDistributed": {
+      "enabled": true,
+      "namespaceName": "CorporateShares",
+      "namespaceType": "DomainV2",
+      "enableAccessBasedEnumeration": true,
+      "enableRootScalability": true,
+      "replicationGroups": [
+        {
+          "name": "CorporateData",
+          "contentPath": "C:\\Shares\\Corporate",
+          "primaryMember": "HQ-FS-01",
+          "secondaryMembers": ["Branch-FS-01", "Branch-FS-02"],
+          "replicationSchedule": "BusinessHours"
+        }
+      ],
+      "namespaceTargets": [
+        {
+          "namespacePath": "\\\\domain.local\\CorporateShares",
+          "folderPath": "Documents",
+          "targetServers": ["HQ-FS-01", "Branch-FS-01"],
+          "referralOrdering": "LowestCost",
+          "enableFailover": true
+        }
+      ]
+    },
+    "AzureFileSyncHybrid": {
+      "enabled": true,
+      "subscriptionId": "12345678-1234-1234-1234-123456789012",
+      "resourceGroupName": "FileSync-RG",
+      "storageSyncServiceName": "CorporateFileSync",
+      "syncGroups": [
+        {
+          "name": "CorporateData",
+          "azureFileShareName": "corporate-data",
+          "storageAccountName": "corpstorage",
+          "localPath": "C:\\Shares\\Corporate"
+        }
+      ],
+      "cloudTiering": {
+        "enabled": true,
+        "tieringPolicy": "RecentlyAccessed",
+        "cacheSizeGB": 100,
+        "volumeFreeSpacePercent": 20
+      }
+    },
+    "FSRMQuotas": {
+      "enabled": true,
+      "quotas": [
+        {
+          "name": "Finance-Quota",
+          "path": "C:\\Shares\\Finance",
+          "quotaType": "Hard",
+          "sizeLimitMB": 10240,
+          "enableNotifications": true,
+          "notificationThresholds": [50, 80, 90, 100]
+        },
+        {
+          "name": "HR-Quota",
+          "path": "C:\\Shares\\HR",
+          "quotaType": "Hard",
+          "sizeLimitMB": 5120,
+          "enableNotifications": true,
+          "notificationThresholds": [50, 80, 90, 100]
+        }
+      ],
+      "fileScreens": [
+        {
+          "name": "MediaFiles",
+          "path": "C:\\Shares",
+          "screenType": "Active",
+          "blockedFileGroups": ["Audio Files", "Video Files"],
+          "enableNotifications": true,
+          "notificationEmails": ["admin@company.com"]
+        }
+      ],
+      "classificationRules": [
+        {
+          "name": "ConfidentialContent",
+          "ruleType": "Content",
+          "classificationProperty": "Confidentiality",
+          "classificationValue": "Confidential",
+          "contentPattern": "confidential|secret|private",
+          "enableAutomaticClassification": true
+        }
+      ],
+      "reports": [
+        {
+          "name": "QuotaUsage",
+          "reportType": "Quota",
+          "reportFormat": "HTML",
+          "reportPath": "C:\\Reports\\QuotaUsage.html",
+          "scheduleReport": true
+        }
+      ]
+    },
+    "iSCSITarget": {
+      "enabled": true,
+      "targets": [
+        {
+          "name": "SQL-Data-Target",
+          "alias": "SQLData",
+          "description": "iSCSI Target for SQL Server data",
+          "enableCHAP": true,
+          "chapSecret": "SecurePassword123",
+          "enableReverseCHAP": true,
+          "reverseChapSecret": "ReversePassword123"
+        },
+        {
+          "name": "App-Data-Target",
+          "alias": "AppData",
+          "description": "iSCSI Target for application data",
+          "enableCHAP": true,
+          "chapSecret": "SecurePassword456",
+          "enableReverseCHAP": true,
+          "reverseChapSecret": "ReversePassword456"
+        }
+      ],
+      "virtualDisks": [
+        {
+          "name": "SQL-Data-Disk",
+          "targetName": "SQL-Data-Target",
+          "path": "C:\\iSCSI\\SQL-Data-Disk.vhdx",
+          "sizeGB": 100,
+          "description": "Virtual disk for SQL Server data",
+          "enableThinProvisioning": true,
+          "enableCompression": true
+        },
+        {
+          "name": "App-Data-Disk",
+          "targetName": "App-Data-Target",
+          "path": "C:\\iSCSI\\App-Data-Disk.vhdx",
+          "sizeGB": 500,
+          "description": "Virtual disk for application data",
+          "enableThinProvisioning": true,
+          "enableCompression": true
+        }
+      ]
+    },
+    "StorageSpacesDirect": {
+      "enabled": true,
+      "clusterName": "S2D-Cluster",
+      "nodes": ["S2D-Node-01", "S2D-Node-02", "S2D-Node-03"],
+      "storagePools": [
+        {
+          "name": "S2D-Pool",
+          "resiliencyType": "Mirror",
+          "tiers": [
+            {
+              "name": "SSD-Tier",
+              "mediaType": "SSD",
+              "sizeGB": 1000
+            },
+            {
+              "name": "HDD-Tier",
+              "mediaType": "HDD",
+              "sizeGB": 10000
+            }
+          ]
+        }
+      ],
+      "volumes": [
+        {
+          "name": "S2D-Volume-01",
+          "sizeGB": 1000,
+          "fileSystem": "ReFS",
+          "allocationUnitSize": 65536
+        }
+      ]
+    },
+    "SMBEncryption": {
+      "enabled": true,
+      "encryptionLevel": "Required",
+      "signingRequired": true,
+      "dialect": "SMB3.1.1",
+      "shares": [
+        {
+          "name": "Encrypted-Share",
+          "path": "C:\\Shares\\Encrypted",
+          "encryptionRequired": true,
+          "signingRequired": true
+        }
+      ]
+    },
+    "FileClassification": {
+      "enabled": true,
+      "classificationRules": [
+        {
+          "name": "PersonalData",
+          "ruleType": "Content",
+          "classificationProperty": "DataOwner",
+          "classificationValue": "Personal",
+          "contentPattern": "personal|private|confidential",
+          "enableAutomaticClassification": true
+        },
+        {
+          "name": "FinancialData",
+          "ruleType": "Content",
+          "classificationProperty": "DataCategory",
+          "classificationValue": "Financial",
+          "contentPattern": "financial|accounting|budget",
+          "enableAutomaticClassification": true
+        }
+      ],
+      "dataLifecycleManagement": {
+        "enabled": true,
+        "retentionPolicies": [
+          {
+            "classificationProperty": "DataCategory",
+            "classificationValue": "Financial",
+            "retentionDays": 2555,
+            "action": "Archive"
+          }
+        ]
+      }
+    },
+    "RansomwareMitigation": {
+      "enabled": true,
+      "protectedShares": [
+        {
+          "name": "Critical-Data",
+          "path": "C:\\Shares\\Critical",
+          "enableFileScreening": true,
+          "enableShadowCopies": true,
+          "enableAuditLogging": true
+        }
+      ],
+      "fileScreens": [
+        {
+          "name": "RansomwareProtection",
+          "path": "C:\\Shares\\Critical",
+          "screenType": "Active",
+          "blockedFileGroups": ["Executable Files", "Script Files"],
+          "enableNotifications": true,
+          "notificationEmails": ["security@company.com"]
+        }
+      ],
+      "shadowCopies": {
+        "enabled": true,
+        "schedule": "Hourly",
+        "retentionDays": 7
+      },
+      "auditLogging": {
+        "enabled": true,
+        "logRetentionDays": 90,
+        "enableSecurityAuditing": true,
+        "enableFileAccessAuditing": true
+      }
+    },
+    "CrossForestCollaboration": {
+      "enabled": true,
+      "trustedDomains": ["partner.local", "vendor.local"],
+      "collaborationShares": [
+        {
+          "name": "Partner-Share",
+          "path": "C:\\Shares\\Partner",
+          "trustedDomain": "partner.local",
+          "permissions": {
+            "Partner-Users": "Read",
+            "Partner-Admins": "FullControl"
+          }
+        }
+      ],
+      "conditionalAccess": {
+        "enabled": true,
+        "requireDeviceCompliance": true,
+        "requireLocation": true,
+        "allowedLocations": ["Corporate-Network", "VPN"]
+      }
+    },
+    "DepartmentalChargeback": {
+      "enabled": true,
+      "departments": [
+        {
+          "name": "Finance",
+          "costCenter": "CC001",
+          "quotaGB": 100,
+          "chargePerGB": 0.10
+        },
+        {
+          "name": "HR",
+          "costCenter": "CC002",
+          "quotaGB": 50,
+          "chargePerGB": 0.10
+        }
+      ],
+      "reports": [
+        {
+          "name": "DepartmentalUsage",
+          "reportType": "Quota",
+          "reportFormat": "CSV",
+          "reportPath": "C:\\Reports\\DepartmentalUsage.csv",
+          "scheduleReport": true,
+          "scheduleInterval": "Monthly"
+        }
+      ]
+    },
+    "SMBDirectRDMA": {
+      "enabled": true,
+      "rdmaEnabled": true,
+      "rdmaCapableNICs": ["NIC-01", "NIC-02"],
+      "shares": [
+        {
+          "name": "HighPerformance-Share",
+          "path": "C:\\Shares\\HighPerformance",
+          "enableRDMA": true,
+          "enableSMBMultichannel": true
+        }
+      ]
+    },
+    "ArchiveTiering": {
+      "enabled": true,
+      "archivePolicies": [
+        {
+          "name": "LongTermArchive",
+          "retentionDays": 2555,
+          "archiveTarget": "Azure Blob Storage",
+          "storageAccountName": "archive-storage",
+          "containerName": "long-term-archive"
+        }
+      ],
+      "classificationRules": [
+        {
+          "name": "ArchiveRule",
+          "ruleType": "Property",
+          "classificationProperty": "LastAccessTime",
+          "classificationValue": "Archive",
+          "enableAutomaticClassification": true
+        }
+      ]
+    },
+    "LegalHold": {
+      "enabled": true,
+      "legalHoldShares": [
+        {
+          "name": "LegalHold-Share",
+          "path": "C:\\Shares\\LegalHold",
+          "enableWORM": true,
+          "retentionYears": 7,
+          "enableAuditLogging": true
+        }
+      ],
+      "eDiscovery": {
+        "enabled": true,
+        "searchCapabilities": true,
+        "exportCapabilities": true,
+        "auditTrail": true
+      }
+    },
+    "DistributedReplication": {
+      "enabled": true,
+      "replicationGroups": [
+        {
+          "name": "GlobalData",
+          "contentPath": "C:\\Shares\\Global",
+          "primaryMember": "HQ-FS-01",
+          "secondaryMembers": ["US-FS-01", "EU-FS-01", "AP-FS-01"],
+          "replicationSchedule": "Always",
+          "enableVersioning": true
+        }
+      ]
+    },
+    "EdgeFileGateway": {
+      "enabled": true,
+      "edgeServers": [
+        {
+          "name": "Edge-FS-01",
+          "location": "Manufacturing Plant",
+          "syncToHQ": true,
+          "offlineCapability": true
+        }
+      ],
+      "syncGroups": [
+        {
+          "name": "EdgeData",
+          "contentPath": "C:\\Shares\\Edge",
+          "syncSchedule": "Hourly",
+          "enableCompression": true
+        }
+      ]
+    },
+    "HomeLab": {
+      "enabled": true,
+      "labEnvironment": {
+        "name": "FileStorage-Lab",
+        "purpose": "Testing and Learning",
+        "components": ["DFS", "FSRM", "iSCSI", "SMB"]
+      },
+      "testScenarios": [
+        "DFS Replication",
+        "SMB Encryption",
+        "File Classification",
+        "Quota Management"
+      ]
+    },
+    "PKIIntegration": {
+      "enabled": true,
+      "certificateAuthority": "Company-CA",
+      "smbSigning": {
+        "enabled": true,
+        "certificateBased": true,
+        "certificateTemplate": "SMB-Signing"
+      },
+      "encryption": {
+        "enabled": true,
+        "certificateBased": true,
+        "certificateTemplate": "SMB-Encryption"
+      }
+    },
+    "VersionedCollaboration": {
+      "enabled": true,
+      "collaborationShares": [
+        {
+          "name": "Project-Share",
+          "path": "C:\\Shares\\Projects",
+          "enableVersioning": true,
+          "maxVersions": 10,
+          "enableShadowCopies": true
+        }
+      ],
+      "versioning": {
+        "enabled": true,
+        "schedule": "Hourly",
+        "retentionDays": 30
+      }
+    },
+    "FileAccessAnalytics": {
+      "enabled": true,
+      "analytics": {
+        "enableAccessLogging": true,
+        "enablePerformanceMetrics": true,
+        "enableUserBehaviorAnalytics": true
+      },
+      "siemIntegration": {
+        "enabled": true,
+        "siemSystem": "Azure Sentinel",
+        "logForwarding": true
+      },
+      "reports": [
+        {
+          "name": "AccessAnalytics",
+          "reportType": "FileAccess",
+          "reportFormat": "JSON",
+          "reportPath": "C:\\Reports\\AccessAnalytics.json",
+          "scheduleReport": true
+        }
+      ]
+    },
+    "CrossPlatformAccess": {
+      "enabled": true,
+      "protocols": {
+        "smb": {
+          "enabled": true,
+          "version": "SMB3.1.1"
+        },
+        "nfs": {
+          "enabled": true,
+          "version": "NFSv4.1"
+        }
+      },
+      "shares": [
+        {
+          "name": "CrossPlatform-Share",
+          "path": "C:\\Shares\\CrossPlatform",
+          "smbEnabled": true,
+          "nfsEnabled": true,
+          "permissions": {
+            "Unix-Users": "Read",
+            "Windows-Users": "FullControl"
+          }
+        }
+      ]
+    },
+    "DisasterRecovery": {
+      "enabled": true,
+      "drSite": {
+        "name": "DR-Site",
+        "location": "Secondary Data Center",
+        "replicationMethod": "DFS-R"
+      },
+      "backupStrategy": {
+        "enabled": true,
+        "schedule": "Daily",
+        "retentionDays": 30,
+        "backupLocation": "C:\\Backups\\FileStorage"
+      },
+      "replicationGroups": [
+        {
+          "name": "DR-Replication",
+          "contentPath": "C:\\Shares\\Critical",
+          "primaryMember": "Primary-FS-01",
+          "secondaryMembers": ["DR-FS-01"],
+          "replicationSchedule": "Always"
+        }
+      ]
+    },
+    "ContainerStorage": {
+      "enabled": true,
+      "containerVolumes": [
+        {
+          "name": "Container-Volume-01",
+          "path": "C:\\ContainerVolumes\\Volume01",
+          "type": "SMB",
+          "sizeGB": 100
+        }
+      ],
+      "containerWorkloads": [
+        {
+          "name": "WebApp-Container",
+          "volumeMounts": ["Container-Volume-01"],
+          "persistentStorage": true
+        }
+      ]
+    }
+  },
+  "security": {
+    "enableAuditLogging": true,
+    "enableAccessControl": true,
+    "enableEncryption": true,
+    "enableComplianceReporting": true,
+    "complianceStandards": ["SOX", "HIPAA", "PCI", "GDPR"]
+  },
+  "monitoring": {
+    "enablePerformanceMonitoring": true,
+    "enableHealthMonitoring": true,
+    "enableAlerting": true,
+    "monitoringInterval": 60,
+    "alertThresholds": {
+      "cpuUtilization": 80,
+      "memoryUsage": 80,
+      "diskUsage": 90,
+      "networkLatency": 100
+    }
+  },
+  "backup": {
+    "enableAutomatedBackup": true,
+    "backupSchedule": "Daily",
+    "backupRetentionDays": 30,
+    "backupLocation": "C:\\Backups\\FileStorage",
+    "enableDisasterRecovery": true
+  }
+}
