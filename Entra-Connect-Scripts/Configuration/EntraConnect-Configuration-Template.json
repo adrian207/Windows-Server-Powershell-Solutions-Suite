@@ -1,0 +1,121 @@
+{
+    "EntraConnectConfiguration": {
+        "General": {
+            "AzureTenantId": "12345678-1234-1234-1234-123456789012",
+            "AzureTenantDomain": "contoso.onmicrosoft.com",
+            "OnPremisesDomain": "contoso.com",
+            "SyncServerName": "ENTRACONNECT01",
+            "InstallationPath": "C:\\Program Files\\Microsoft Azure AD Connect"
+        },
+        "Synchronization": {
+            "SyncMethod": "PasswordHashSync",
+            "EnableSeamlessSSO": true,
+            "EnablePasswordWriteback": true,
+            "EnableGroupWriteback": false,
+            "EnableDeviceWriteback": false,
+            "SyncInterval": "30",
+            "StagingMode": false
+        },
+        "Authentication": {
+            "PrimaryAuthenticationMethod": "PasswordHashSync",
+            "SecondaryAuthenticationMethod": "PassThroughAuthentication",
+            "FederationConfiguration": {
+                "FederationType": "ADFS",
+                "FederationServerName": "adfs.contoso.com",
+                "CertificateThumbprint": "1234567890ABCDEF1234567890ABCDEF12345678"
+            },
+            "PassThroughAuthentication": {
+                "AgentCount": 3,
+                "AgentServers": [
+                    "PTA01.contoso.com",
+                    "PTA02.contoso.com",
+                    "PTA03.contoso.com"
+                ]
+            }
+        },
+        "Filtering": {
+            "FilteringType": "OU",
+            "OUFiltering": {
+                "IncludedOUs": [
+                    "OU=Users,DC=contoso,DC=com",
+                    "OU=Groups,DC=contoso,DC=com"
+                ],
+                "ExcludedOUs": [
+                    "OU=Service Accounts,DC=contoso,DC=com",
+                    "OU=Test Users,DC=contoso,DC=com"
+                ]
+            },
+            "GroupFiltering": {
+                "IncludedGroups": [
+                    "CN=Sync Users,CN=Users,DC=contoso,DC=com"
+                ],
+                "ExcludedGroups": [
+                    "CN=No Sync Users,CN=Users,DC=contoso,DC=com"
+                ]
+            },
+            "AttributeFiltering": {
+                "Enabled": false,
+                "FilterRules": []
+            }
+        },
+        "Security": {
+            "EnableConditionalAccess": true,
+            "EnablePrivilegedIdentityManagement": true,
+            "EnableIdentityProtection": true,
+            "EnableMultiFactorAuthentication": true,
+            "SecurityDefaults": {
+                "Enabled": true,
+                "RequireMFAForAdmins": true,
+                "RequireMFAForUsers": false
+            },
+            "SelfServicePasswordReset": {
+                "Enabled": true,
+                "RequireRegistration": true,
+                "AllowedMethods": ["Email", "Phone", "SecurityQuestions"]
+            }
+        },
+        "Monitoring": {
+            "EnableHealthMonitoring": true,
+            "EnableSyncMonitoring": true,
+            "EnablePerformanceMonitoring": true,
+            "Alerting": {
+                "EmailRecipients": [
+                    "admin@contoso.com",
+                    "security@contoso.com"
+                ],
+                "SMSRecipients": [],
+                "WebhookURLs": []
+            },
+            "Logging": {
+                "LogLevel": "Verbose",
+                "LogRetentionDays": 90,
+                "EnableAuditLogging": true
+            }
+        },
+        "Advanced": {
+            "CustomAttributes": {
+                "Enabled": false,
+                "Attributes": []
+            },
+            "ExchangeHybrid": {
+                "Enabled": true,
+                "ExchangeServer": "EXCH01.contoso.com"
+            },
+            "SharePointHybrid": {
+                "Enabled": true,
+                "SharePointServer": "SP01.contoso.com"
+            },
+            "TeamsHybrid": {
+                "Enabled": true,
+                "TeamsServer": "TEAMS01.contoso.com"
+            }
+        },
+        "DisasterRecovery": {
+            "EnableBackup": true,
+            "BackupSchedule": "Daily",
+            "BackupRetentionDays": 30,
+            "EnableStagingMode": false,
+            "StagingServerName": "ENTRACONNECT-STAGING"
+        }
+    }
+}
