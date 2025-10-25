@@ -1,0 +1,199 @@
+{
+  "Environment": "Development",
+  "ADFSFarm": {
+    "FarmName": "ADFS-Farm-01",
+    "ServiceAccount": "svc-adfs",
+    "DatabaseConnectionString": "Data Source=SQL-SERVER;Initial Catalog=ADFS;Integrated Security=True",
+    "CertificateThumbprint": "1234567890ABCDEF1234567890ABCDEF12345678",
+    "EnableHighAvailability": true,
+    "EnableLoadBalancing": true
+  },
+  "Scenarios": {
+    "SSO": {
+      "Enabled": true,
+      "Applications": [
+        {
+          "Name": "Salesforce",
+          "MetadataUrl": "https://login.salesforce.com/.well-known/openid_configuration",
+          "Identifier": "https://saml.salesforce.com",
+          "ClaimRules": ["Email", "Name", "Groups"],
+          "EnableSSO": true,
+          "EnableClaims": true,
+          "EnableAuditing": true
+        },
+        {
+          "Name": "ServiceNow",
+          "MetadataUrl": "https://your-instance.service-now.com/sso/metadata",
+          "Identifier": "https://your-instance.service-now.com",
+          "ClaimRules": ["Email", "Name", "Groups"],
+          "EnableSSO": true,
+          "EnableClaims": true,
+          "EnableAuditing": true
+        },
+        {
+          "Name": "Workday",
+          "MetadataUrl": "https://your-instance.workday.com/saml/metadata",
+          "Identifier": "https://your-instance.workday.com",
+          "ClaimRules": ["Email", "Name", "Groups"],
+          "EnableSSO": true,
+          "EnableClaims": true,
+          "EnableAuditing": true
+        }
+      ]
+    },
+    "Federation": {
+      "Enabled": true,
+      "Partners": [
+        {
+          "Name": "Partner1",
+          "MetadataUrl": "https://partner1.com/federationmetadata",
+          "Identifier": "https://partner1.com",
+          "ClaimRules": ["Email", "Name", "Groups"],
+          "EnableSSO": true,
+          "EnableClaims": true,
+          "EnableAuditing": true
+        },
+        {
+          "Name": "Partner2",
+          "MetadataUrl": "https://partner2.com/federationmetadata",
+          "Identifier": "https://partner2.com",
+          "ClaimRules": ["Email", "Name", "Groups"],
+          "EnableSSO": true,
+          "EnableClaims": true,
+          "EnableAuditing": true
+        }
+      ]
+    },
+    "MFA": {
+      "Enabled": true,
+      "Provider": "AzureMFA",
+      "Configuration": {
+        "TenantId": "your-tenant-id",
+        "ClientId": "your-client-id",
+        "ClientSecret": "your-client-secret",
+        "EnableConditionalMFA": true,
+        "EnablePerAppMFA": true,
+        "EnableLocationBasedMFA": true,
+        "EnableDeviceBasedMFA": true,
+        "EnableAuditing": true
+      }
+    },
+    "HybridCloud": {
+      "Enabled": true,
+      "AzureTenantId": "your-tenant-id",
+      "Configuration": {
+        "EnableOffice365Federation": true,
+        "EnableAzureADIntegration": true,
+        "EnableHybridIdentity": true,
+        "EnableConditionalAccess": true,
+        "EnableAuditing": true
+      }
+    },
+    "OAuth2": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableOAuth2": true,
+        "EnableOpenIDConnect": true,
+        "EnableJWT": true,
+        "EnableAuditing": true
+      }
+    },
+    "WAP": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableWebApplicationProxy": true,
+        "EnablePreAuthentication": true,
+        "EnableAuditing": true
+      }
+    },
+    "CustomBranding": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableCustomBranding": true,
+        "CustomLogo": "C:\\ADFS\\Branding\\logo.png",
+        "CustomCSS": "C:\\ADFS\\Branding\\custom.css",
+        "EnableAuditing": true
+      }
+    },
+    "DRS": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableDeviceRegistration": true,
+        "EnableWorkplaceJoin": true,
+        "EnableAuditing": true
+      }
+    },
+    "MultiForest": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableMultiForestFederation": true,
+        "EnableCrossForestTrust": true,
+        "EnableAuditing": true
+      }
+    },
+    "B2B": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableB2BFederation": true,
+        "EnablePartnerFederation": true,
+        "EnableAuditing": true
+      }
+    },
+    "Office365": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableOffice365Federation": true,
+        "EnableOffice365Integration": true,
+        "EnableAuditing": true
+      }
+    },
+    "ClaimsTransformation": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableClaimsTransformation": true,
+        "EnableCustomClaims": true,
+        "EnableAuditing": true
+      }
+    },
+    "CertificateManagement": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableCertificateManagement": true,
+        "EnableAutoRenewal": true,
+        "EnableCertificateMonitoring": true,
+        "EnableAuditing": true
+      }
+    },
+    "Auditing": {
+      "Enabled": true,
+      "Configuration": {
+        "EnableComprehensiveAuditing": true,
+        "EnableSIEMIntegration": true,
+        "EnablePerformanceMonitoring": true,
+        "EnableAuditing": true
+      }
+    }
+  },
+  "Security": {
+    "EnableMFA": true,
+    "EnableConditionalAccess": true,
+    "EnableSmartcardAuth": true,
+    "EnableAuditing": true,
+    "SecurityLevel": "Enhanced"
+  },
+  "Monitoring": {
+    "EnableMonitoring": true,
+    "EnableSIEMIntegration": true,
+    "EnablePerformanceMonitoring": true,
+    "EnableCertificateMonitoring": true,
+    "EnableTrustMonitoring": true,
+    "AlertThreshold": "Medium"
+  },
+  "Backup": {
+    "EnableBackup": true,
+    "BackupPath": "C:\\ADFS\\Backup",
+    "IncludeCertificates": true,
+    "IncludeTrusts": true,
+    "IncludePolicies": true
+  }
+}

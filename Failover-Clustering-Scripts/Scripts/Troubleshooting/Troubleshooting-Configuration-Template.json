@@ -1,0 +1,194 @@
+{
+    "TroubleshootingConfiguration": {
+        "DiagnosticLevel": "Comprehensive",
+        "IncludePerformance": true,
+        "IncludeSecurity": true,
+        "IncludeConnectivity": true,
+        "IncludeStorage": true,
+        "IncludeQuorum": true,
+        "IncludeResources": true,
+        "IncludeNetworks": true,
+        "RepairMode": "Automatic",
+        "GenerateReport": true,
+        "EventLogAnalysis": true,
+        "TimeRange": "24Hours"
+    },
+    "DiagnosticSettings": {
+        "Basic": {
+            "IncludeConnectivity": true,
+            "IncludeQuorum": true,
+            "IncludeBasicResources": true
+        },
+        "Standard": {
+            "IncludeConnectivity": true,
+            "IncludeQuorum": true,
+            "IncludeResources": true,
+            "IncludeNetworks": true,
+            "IncludeStorage": true
+        },
+        "Comprehensive": {
+            "IncludePerformance": true,
+            "IncludeSecurity": true,
+            "IncludeConnectivity": true,
+            "IncludeStorage": true,
+            "IncludeQuorum": true,
+            "IncludeResources": true,
+            "IncludeNetworks": true
+        }
+    },
+    "RepairSettings": {
+        "None": {
+            "Description": "No automatic repairs",
+            "ManualRepairRequired": true
+        },
+        "Automatic": {
+            "Description": "Automatic repair of common issues",
+            "IncludeQuorum": true,
+            "IncludeResources": true,
+            "IncludeNetworks": true,
+            "IncludeStorage": true,
+            "ConfirmBeforeRepair": false
+        },
+        "Interactive": {
+            "Description": "Interactive repair with user confirmation",
+            "IncludeQuorum": true,
+            "IncludeResources": true,
+            "IncludeNetworks": true,
+            "IncludeStorage": true,
+            "ConfirmBeforeRepair": true
+        }
+    },
+    "EventLogAnalysis": {
+        "Enabled": true,
+        "AnalysisType": "Comprehensive",
+        "TimeRange": "24Hours",
+        "LogLevels": ["Warning", "Error", "Critical"],
+        "GenerateReport": true,
+        "TopEventsCount": 10,
+        "IncludeEventDetails": true,
+        "IncludeEventTrends": true
+    },
+    "PerformanceDiagnostics": {
+        "Enabled": true,
+        "MetricTypes": ["CPU", "Memory", "Network", "Disk"],
+        "Duration": "1Hour",
+        "IncludeTrends": true,
+        "IncludeThresholds": true,
+        "IncludeCapacityPlanning": true
+    },
+    "SecurityDiagnostics": {
+        "Enabled": true,
+        "IncludeSecurityEvents": true,
+        "IncludeConfigurationChanges": true,
+        "IncludeAccessAttempts": true,
+        "IncludePrivilegeEscalation": true,
+        "IncludeComplianceCheck": true
+    },
+    "ConnectivityDiagnostics": {
+        "Enabled": true,
+        "IncludeNodeConnectivity": true,
+        "IncludeNetworkConnectivity": true,
+        "IncludeStorageConnectivity": true,
+        "IncludeQuorumConnectivity": true,
+        "IncludeExternalConnectivity": true
+    },
+    "StorageDiagnostics": {
+        "Enabled": true,
+        "IncludeStorageStatus": true,
+        "IncludeStoragePerformance": true,
+        "IncludeStorageCapacity": true,
+        "IncludeStorageIntegrity": true,
+        "IncludeStorageHealth": true
+    },
+    "QuorumDiagnostics": {
+        "Enabled": true,
+        "IncludeQuorumStatus": true,
+        "IncludeQuorumPerformance": true,
+        "IncludeQuorumConnectivity": true,
+        "IncludeQuorumIntegrity": true,
+        "IncludeQuorumHealth": true
+    },
+    "ResourceDiagnostics": {
+        "Enabled": true,
+        "IncludeResourceStatus": true,
+        "IncludeResourcePerformance": true,
+        "IncludeResourceDependencies": true,
+        "IncludeResourceHealth": true,
+        "IncludeResourceEvents": true
+    },
+    "NetworkDiagnostics": {
+        "Enabled": true,
+        "IncludeNetworkStatus": true,
+        "IncludeNetworkPerformance": true,
+        "IncludeNetworkTraffic": true,
+        "IncludeNetworkHealth": true,
+        "IncludeNetworkEvents": true
+    },
+    "ValidationSettings": {
+        "ClusterValidation": {
+            "Enabled": true,
+            "IncludeBasicValidation": true,
+            "IncludeAdvancedValidation": true,
+            "IncludeStorageValidation": true,
+            "IncludeNetworkValidation": true
+        },
+        "ConfigurationValidation": {
+            "Enabled": true,
+            "IncludeSecurityValidation": true,
+            "IncludeComplianceValidation": true,
+            "IncludePerformanceValidation": true
+        }
+    },
+    "ReportGeneration": {
+        "Enabled": true,
+        "ReportType": "Comprehensive",
+        "IncludeDiagnostics": true,
+        "IncludeEventAnalysis": true,
+        "IncludeRepairResults": true,
+        "IncludeRecommendations": true,
+        "ReportFormat": "HTML",
+        "ReportLocation": "C:\\ClusterReports\\Troubleshooting"
+    },
+    "Recommendations": {
+        "Enabled": true,
+        "IncludePerformance": true,
+        "IncludeSecurity": true,
+        "IncludeReliability": true,
+        "IncludeCapacityPlanning": true,
+        "IncludeBestPractices": true,
+        "PriorityLevels": ["High", "Medium", "Low"]
+    },
+    "HealthStatus": {
+        "Enabled": true,
+        "IncludeDetails": true,
+        "IncludeNodes": true,
+        "IncludeResources": true,
+        "IncludeNetworks": true,
+        "IncludeStorage": true,
+        "IncludeQuorum": true
+    },
+    "DataRetention": {
+        "DiagnosticData": 30,
+        "EventLogData": 365,
+        "PerformanceData": 30,
+        "SecurityData": 365,
+        "TroubleshootingData": 90
+    },
+    "Alerting": {
+        "Enabled": true,
+        "AlertOnCriticalIssues": true,
+        "AlertOnWarningIssues": true,
+        "AlertOnRepairFailure": true,
+        "EmailAlerts": true,
+        "SMSAlerts": false,
+        "WebhookAlerts": true
+    },
+    "Automation": {
+        "Enabled": true,
+        "AutoRepair": false,
+        "AutoRestart": false,
+        "AutoFailover": false,
+        "AutoNotification": true,
+        "AutoReporting": true
+    }
+}

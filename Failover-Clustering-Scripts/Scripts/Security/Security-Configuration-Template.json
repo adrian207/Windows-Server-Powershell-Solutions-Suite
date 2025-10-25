@@ -1,0 +1,211 @@
+{
+    "SecurityConfiguration": {
+        "SecurityLevel": "High",
+        "ComplianceStandard": "CIS",
+        "BaselineName": "CIS-High",
+        "IncludeNodes": true,
+        "IncludeCluster": true,
+        "EnableAuditLogging": true,
+        "ConfigureCertificates": true,
+        "EnableEncryption": true,
+        "ConfigureFirewall": true,
+        "AuthenticationLevel": "High",
+        "PermissionLevel": "Restricted",
+        "NetworkSecurityLevel": "High",
+        "ResourceSecurityLevel": "High"
+    },
+    "SecurityBaselines": {
+        "CIS": {
+            "Basic": {
+                "Name": "CIS-Basic",
+                "Description": "Basic CIS security baseline",
+                "SecurityLevel": "Basic",
+                "ComplianceScore": 70
+            },
+            "Enhanced": {
+                "Name": "CIS-Enhanced",
+                "Description": "Enhanced CIS security baseline",
+                "SecurityLevel": "Enhanced",
+                "ComplianceScore": 85
+            },
+            "High": {
+                "Name": "CIS-High",
+                "Description": "High CIS security baseline",
+                "SecurityLevel": "High",
+                "ComplianceScore": 95
+            }
+        },
+        "NIST": {
+            "Basic": {
+                "Name": "NIST-Basic",
+                "Description": "Basic NIST security baseline",
+                "SecurityLevel": "Basic",
+                "ComplianceScore": 75
+            },
+            "Enhanced": {
+                "Name": "NIST-Enhanced",
+                "Description": "Enhanced NIST security baseline",
+                "SecurityLevel": "Enhanced",
+                "ComplianceScore": 90
+            },
+            "High": {
+                "Name": "NIST-High",
+                "Description": "High NIST security baseline",
+                "SecurityLevel": "High",
+                "ComplianceScore": 98
+            }
+        },
+        "SOX": {
+            "Basic": {
+                "Name": "SOX-Basic",
+                "Description": "Basic SOX compliance baseline",
+                "SecurityLevel": "Basic",
+                "ComplianceScore": 80
+            },
+            "Enhanced": {
+                "Name": "SOX-Enhanced",
+                "Description": "Enhanced SOX compliance baseline",
+                "SecurityLevel": "Enhanced",
+                "ComplianceScore": 90
+            },
+            "High": {
+                "Name": "SOX-High",
+                "Description": "High SOX compliance baseline",
+                "SecurityLevel": "High",
+                "ComplianceScore": 95
+            }
+        },
+        "HIPAA": {
+            "Basic": {
+                "Name": "HIPAA-Basic",
+                "Description": "Basic HIPAA compliance baseline",
+                "SecurityLevel": "Basic",
+                "ComplianceScore": 85
+            },
+            "Enhanced": {
+                "Name": "HIPAA-Enhanced",
+                "Description": "Enhanced HIPAA compliance baseline",
+                "SecurityLevel": "Enhanced",
+                "ComplianceScore": 92
+            },
+            "High": {
+                "Name": "HIPAA-High",
+                "Description": "High HIPAA compliance baseline",
+                "SecurityLevel": "High",
+                "ComplianceScore": 98
+            }
+        },
+        "PCI-DSS": {
+            "Basic": {
+                "Name": "PCI-DSS-Basic",
+                "Description": "Basic PCI-DSS compliance baseline",
+                "SecurityLevel": "Basic",
+                "ComplianceScore": 80
+            },
+            "Enhanced": {
+                "Name": "PCI-DSS-Enhanced",
+                "Description": "Enhanced PCI-DSS compliance baseline",
+                "SecurityLevel": "Enhanced",
+                "ComplianceScore": 90
+            },
+            "High": {
+                "Name": "PCI-DSS-High",
+                "Description": "High PCI-DSS compliance baseline",
+                "SecurityLevel": "High",
+                "ComplianceScore": 95
+            }
+        }
+    },
+    "AuditLogging": {
+        "Enabled": true,
+        "AuditLevel": "Comprehensive",
+        "IncludeSecurityEvents": true,
+        "IncludeConfigurationChanges": true,
+        "IncludeResourceChanges": true,
+        "IncludeNetworkEvents": true,
+        "LogRetentionDays": 365,
+        "LogLocation": "C:\\ClusterLogs\\Audit",
+        "LogRotation": true,
+        "CompressionEnabled": true,
+        "EncryptionEnabled": true
+    },
+    "CertificateConfiguration": {
+        "CertificateType": "Cluster",
+        "CertificateStore": "LocalMachine",
+        "CertificateSubject": "CN=Cluster-Cert",
+        "CertificateValidityDays": 365,
+        "AutoRenewal": true,
+        "KeySize": 2048,
+        "HashAlgorithm": "SHA256"
+    },
+    "EncryptionConfiguration": {
+        "EncryptionLevel": "High",
+        "EncryptionAlgorithm": "AES-256",
+        "KeyManagement": "Windows",
+        "EncryptionEnabled": true,
+        "DataAtRestEncryption": true,
+        "DataInTransitEncryption": true
+    },
+    "FirewallConfiguration": {
+        "SecurityLevel": "High",
+        "DefaultAction": "Deny",
+        "AllowClusterTraffic": true,
+        "AllowManagementTraffic": true,
+        "AllowBackupTraffic": true,
+        "AllowMonitoringTraffic": true,
+        "LogBlockedConnections": true,
+        "LogAllowedConnections": false
+    },
+    "ServiceAccountConfiguration": {
+        "SecurityLevel": "High",
+        "UseManagedServiceAccounts": true,
+        "PasswordComplexity": "High",
+        "PasswordExpirationDays": 90,
+        "AccountLockoutThreshold": 5,
+        "AccountLockoutDuration": 30
+    },
+    "RegistrySecurity": {
+        "SecurityLevel": "High",
+        "RestrictRemoteAccess": true,
+        "EnableAuditLogging": true,
+        "RestrictAdministrativeAccess": true,
+        "EnableSecurityLogging": true
+    },
+    "FileSystemSecurity": {
+        "SecurityLevel": "High",
+        "EnableNTFSSecurity": true,
+        "RestrictFileAccess": true,
+        "EnableAuditLogging": true,
+        "RestrictAdministrativeAccess": true
+    },
+    "EventLogSecurity": {
+        "SecurityLevel": "High",
+        "EnableSecurityLogging": true,
+        "LogRetentionDays": 365,
+        "LogRotation": true,
+        "CompressionEnabled": true,
+        "EncryptionEnabled": true
+    },
+    "BackupSecurity": {
+        "SecurityLevel": "High",
+        "EncryptionEnabled": true,
+        "CompressionEnabled": true,
+        "AccessControl": "Restricted",
+        "AuditLogging": true,
+        "RetentionDays": 365
+    },
+    "MonitoringSecurity": {
+        "SecurityLevel": "High",
+        "EncryptionEnabled": true,
+        "AccessControl": "Restricted",
+        "AuditLogging": true,
+        "DataRetentionDays": 90
+    },
+    "DisasterRecoverySecurity": {
+        "SecurityLevel": "High",
+        "EncryptionEnabled": true,
+        "AccessControl": "Restricted",
+        "AuditLogging": true,
+        "DataRetentionDays": 365
+    }
+}

@@ -1,0 +1,219 @@
+{
+    "ClusterConfiguration": {
+        "ClusterName": "PROD-CLUSTER",
+        "Nodes": [
+            "NODE01",
+            "NODE02",
+            "NODE03"
+        ],
+        "QuorumType": "NodeAndFileShareMajority",
+        "WitnessShare": "\\\\DC01\\ClusterWitness",
+        "StaticIPAddress": "192.168.1.100",
+        "ClusterIPSubnet": "192.168.1.0/24",
+        "EnableStorageSpacesDirect": true,
+        "EnableClusterAwareUpdating": true,
+        "ConfigureNetworks": true,
+        "ConfigureResources": true,
+        "SecurityLevel": "Enhanced"
+    },
+    "SecurityConfiguration": {
+        "SecurityLevel": "High",
+        "ComplianceStandard": "CIS",
+        "BaselineName": "CIS-High",
+        "IncludeNodes": true,
+        "IncludeCluster": true,
+        "EnableAuditLogging": true,
+        "ConfigureCertificates": true,
+        "EnableEncryption": true,
+        "ConfigureFirewall": true
+    },
+    "MonitoringConfiguration": {
+        "MonitoringLevel": "Comprehensive",
+        "IncludePerformance": true,
+        "IncludeHealth": true,
+        "IncludeSecurity": true,
+        "IncludeConnectivity": true,
+        "EnableAlerting": true,
+        "MonitoringInterval": 5,
+        "GenerateReports": true,
+        "ReportInterval": 24,
+        "AlertThresholds": {
+            "CPUUsage": 80,
+            "MemoryUsage": 85,
+            "DiskUsage": 90,
+            "NetworkUsage": 75
+        }
+    },
+    "TroubleshootingConfiguration": {
+        "DiagnosticLevel": "Comprehensive",
+        "IncludePerformance": true,
+        "IncludeSecurity": true,
+        "IncludeConnectivity": true,
+        "IncludeStorage": true,
+        "IncludeQuorum": true,
+        "IncludeResources": true,
+        "IncludeNetworks": true,
+        "RepairMode": "Automatic",
+        "GenerateReport": true,
+        "EventLogAnalysis": true,
+        "TimeRange": "24Hours"
+    },
+    "EnterpriseScenarios": {
+        "HighAvailabilityFileServices": {
+            "Enabled": true,
+            "FileShareName": "HA-FileShare",
+            "StoragePath": "C:\\ClusterStorage\\Volume1\\FileShare"
+        },
+        "HyperVClustering": {
+            "Enabled": true,
+            "VMNetworkName": "VM-Network",
+            "StoragePath": "C:\\ClusterStorage\\Volume1\\VMs"
+        },
+        "SQLServerFCI": {
+            "Enabled": true,
+            "InstanceName": "SQL-FCI",
+            "StoragePath": "C:\\ClusterStorage\\Volume1\\SQL"
+        },
+        "ScaleOutFileServer": {
+            "Enabled": true,
+            "SOFSName": "SOFS-Cluster",
+            "StoragePath": "C:\\ClusterStorage\\Volume1\\SOFS"
+        },
+        "StorageSpacesDirect": {
+            "Enabled": true,
+            "CacheMode": "WriteBack",
+            "StorageTier": "Standard"
+        },
+        "StretchCluster": {
+            "Enabled": false,
+            "PrimarySite": "Site1",
+            "SecondarySite": "Site2",
+            "ReplicationMode": "Synchronous"
+        },
+        "CloudWitness": {
+            "Enabled": false,
+            "StorageAccount": "AzureStorageAccount",
+            "Endpoint": "https://azurestorage.blob.core.windows.net",
+            "Key": "AzureStorageKey"
+        },
+        "ClusterAwareUpdating": {
+            "Enabled": true,
+            "UpdateMode": "Automatic",
+            "MaintenanceWindow": "02:00-04:00"
+        },
+        "BackupIntegration": {
+            "Enabled": true,
+            "BackupSoftware": "Veeam",
+            "BackupSchedule": "Daily",
+            "RetentionDays": 30
+        },
+        "DisasterRecovery": {
+            "Enabled": true,
+            "RecoveryTimeObjective": 240,
+            "RecoveryPointObjective": 15,
+            "ReplicationMode": "Asynchronous"
+        }
+    },
+    "NetworkConfiguration": {
+        "ClusterNetwork": {
+            "Name": "Cluster Network",
+            "Subnet": "192.168.1.0/24",
+            "Role": "ClusterAndClient"
+        },
+        "ManagementNetwork": {
+            "Name": "Management Network",
+            "Subnet": "192.168.2.0/24",
+            "Role": "Management"
+        },
+        "StorageNetwork": {
+            "Name": "Storage Network",
+            "Subnet": "192.168.3.0/24",
+            "Role": "Storage"
+        },
+        "VMNetwork": {
+            "Name": "VM Network",
+            "Subnet": "192.168.4.0/24",
+            "Role": "Client"
+        }
+    },
+    "StorageConfiguration": {
+        "StoragePools": [
+            {
+                "Name": "StoragePool1",
+                "Disks": ["Disk1", "Disk2", "Disk3"],
+                "ResiliencyType": "Mirror"
+            }
+        ],
+        "VirtualDisks": [
+            {
+                "Name": "VDisk1",
+                "Size": "1TB",
+                "ResiliencyType": "Mirror",
+                "StoragePool": "StoragePool1"
+            }
+        ],
+        "CSVVolumes": [
+            {
+                "Name": "CSV-Volume1",
+                "Path": "C:\\ClusterStorage\\Volume1",
+                "Size": "500GB"
+            }
+        ]
+    },
+    "ResourceConfiguration": {
+        "FileServer": {
+            "Name": "HA-FileServer",
+            "Dependencies": ["CSV-Volume1"],
+            "StartupDelay": 30
+        },
+        "HyperV": {
+            "Name": "HA-HyperV",
+            "Dependencies": ["VM-Network"],
+            "StartupDelay": 60
+        },
+        "SQLServer": {
+            "Name": "HA-SQLServer",
+            "Dependencies": ["SQL-Disk", "SQL-Network"],
+            "StartupDelay": 120
+        }
+    },
+    "BackupConfiguration": {
+        "BackupSoftware": "Veeam",
+        "BackupSchedule": "Daily",
+        "BackupTime": "02:00",
+        "RetentionDays": 30,
+        "BackupLocation": "\\\\BackupServer\\ClusterBackups",
+        "CompressionEnabled": true,
+        "EncryptionEnabled": true
+    },
+    "MonitoringConfiguration": {
+        "SIEMIntegration": {
+            "Enabled": true,
+            "SIEMType": "Splunk",
+            "SIEMEndpoint": "https://splunk.company.com:8089",
+            "SIEMToken": "SIEM-Token"
+        },
+        "Alerting": {
+            "EmailAlerts": true,
+            "SMTPServer": "smtp.company.com",
+            "EmailRecipients": ["admin@company.com"],
+            "SMSAlerts": false,
+            "WebhookAlerts": true,
+            "WebhookURL": "https://webhook.company.com/cluster-alerts"
+        }
+    },
+    "ComplianceConfiguration": {
+        "ComplianceStandards": ["CIS", "NIST", "SOX"],
+        "AuditLogging": {
+            "Enabled": true,
+            "LogLevel": "Comprehensive",
+            "RetentionDays": 365,
+            "LogLocation": "C:\\ClusterLogs\\Audit"
+        },
+        "SecurityBaseline": {
+            "Name": "CIS-High",
+            "Version": "2.0",
+            "LastApplied": "2025-10-01T00:00:00Z"
+        }
+    }
+}

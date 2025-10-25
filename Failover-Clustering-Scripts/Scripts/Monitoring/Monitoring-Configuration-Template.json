@@ -1,0 +1,178 @@
+{
+    "MonitoringConfiguration": {
+        "MonitoringLevel": "Comprehensive",
+        "IncludePerformance": true,
+        "IncludeHealth": true,
+        "IncludeSecurity": true,
+        "IncludeConnectivity": true,
+        "EnableAlerting": true,
+        "MonitoringInterval": 5,
+        "GenerateReports": true,
+        "ReportInterval": 24
+    },
+    "AlertThresholds": {
+        "CPUUsage": 80,
+        "MemoryUsage": 85,
+        "DiskUsage": 90,
+        "NetworkUsage": 75,
+        "ResponseTime": 1000,
+        "ErrorRate": 5,
+        "Availability": 99.9
+    },
+    "HealthMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "IncludeNodes": true,
+        "IncludeResources": true,
+        "IncludeNetworks": true,
+        "IncludeStorage": true,
+        "IncludeQuorum": true,
+        "AlertOnFailure": true,
+        "AlertOnWarning": true
+    },
+    "PerformanceMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "MetricTypes": ["CPU", "Memory", "Network", "Disk"],
+        "Duration": "1Hour",
+        "AlertOnThreshold": true,
+        "TrendAnalysis": true,
+        "CapacityPlanning": true
+    },
+    "SecurityMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "IncludeSecurityEvents": true,
+        "IncludeConfigurationChanges": true,
+        "IncludeAccessAttempts": true,
+        "IncludePrivilegeEscalation": true,
+        "AlertOnSecurityEvents": true
+    },
+    "ConnectivityMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "IncludeNodeConnectivity": true,
+        "IncludeNetworkConnectivity": true,
+        "IncludeStorageConnectivity": true,
+        "IncludeQuorumConnectivity": true,
+        "AlertOnConnectivityLoss": true
+    },
+    "EventLogMonitoring": {
+        "Enabled": true,
+        "LogLevel": "Warning,Error",
+        "TimeRange": "24Hours",
+        "IncludeDetails": true,
+        "AlertOnCriticalEvents": true,
+        "AlertOnErrorEvents": true,
+        "AlertOnWarningEvents": false
+    },
+    "ResourceMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "IncludeResourceStatus": true,
+        "IncludeResourcePerformance": true,
+        "IncludeResourceDependencies": true,
+        "AlertOnResourceFailure": true,
+        "AlertOnResourceWarning": true
+    },
+    "NetworkMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "IncludeNetworkStatus": true,
+        "IncludeNetworkPerformance": true,
+        "IncludeNetworkTraffic": true,
+        "AlertOnNetworkFailure": true,
+        "AlertOnNetworkCongestion": true
+    },
+    "StorageMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "IncludeStorageStatus": true,
+        "IncludeStoragePerformance": true,
+        "IncludeStorageCapacity": true,
+        "AlertOnStorageFailure": true,
+        "AlertOnStorageCapacity": true
+    },
+    "QuorumMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 5,
+        "IncludeQuorumStatus": true,
+        "IncludeQuorumPerformance": true,
+        "IncludeQuorumConnectivity": true,
+        "AlertOnQuorumFailure": true,
+        "AlertOnQuorumWarning": true
+    },
+    "BackupMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 60,
+        "IncludeBackupStatus": true,
+        "IncludeBackupPerformance": true,
+        "IncludeBackupIntegrity": true,
+        "AlertOnBackupFailure": true,
+        "AlertOnBackupWarning": true
+    },
+    "DisasterRecoveryMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 60,
+        "IncludeReplicationStatus": true,
+        "IncludeReplicationPerformance": true,
+        "IncludeReplicationIntegrity": true,
+        "AlertOnReplicationFailure": true,
+        "AlertOnReplicationWarning": true
+    },
+    "ComplianceMonitoring": {
+        "Enabled": true,
+        "MonitoringInterval": 1440,
+        "ComplianceStandards": ["CIS", "NIST", "SOX"],
+        "IncludeComplianceStatus": true,
+        "IncludeComplianceScore": true,
+        "AlertOnComplianceFailure": true,
+        "AlertOnComplianceWarning": true
+    },
+    "SIEMIntegration": {
+        "Enabled": true,
+        "SIEMType": "Splunk",
+        "SIEMEndpoint": "https://splunk.company.com:8089",
+        "SIEMToken": "SIEM-Token",
+        "MonitoringInterval": 5,
+        "DataRetentionDays": 90,
+        "EncryptionEnabled": true
+    },
+    "ReportGeneration": {
+        "Enabled": true,
+        "ReportTypes": ["Health", "Performance", "Security", "Compliance"],
+        "ReportInterval": 24,
+        "ReportFormat": "HTML",
+        "ReportLocation": "C:\\ClusterReports",
+        "EmailReports": true,
+        "EmailRecipients": ["admin@company.com"],
+        "SMTPServer": "smtp.company.com"
+    },
+    "Alerting": {
+        "EmailAlerts": true,
+        "SMTPServer": "smtp.company.com",
+        "EmailRecipients": ["admin@company.com"],
+        "SMSAlerts": false,
+        "WebhookAlerts": true,
+        "WebhookURL": "https://webhook.company.com/cluster-alerts",
+        "AlertSeverity": "High",
+        "AlertFrequency": "Immediate"
+    },
+    "DataRetention": {
+        "PerformanceData": 30,
+        "HealthData": 90,
+        "SecurityData": 365,
+        "EventLogData": 365,
+        "ComplianceData": 365,
+        "MonitoringData": 90
+    },
+    "PerformanceOptimization": {
+        "Enabled": true,
+        "OptimizationInterval": 1440,
+        "IncludeCPUOptimization": true,
+        "IncludeMemoryOptimization": true,
+        "IncludeDiskOptimization": true,
+        "IncludeNetworkOptimization": true,
+        "AutoOptimization": false
+    }
+}
