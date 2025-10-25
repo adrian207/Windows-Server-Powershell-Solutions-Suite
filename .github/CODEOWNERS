@@ -1,0 +1,32 @@
+# CODEOWNERS File
+# Author: Adrian Johnson (adrian207@gmail.com)
+# Version: 1.0.0
+# Date: December 2024
+
+# Global owners
+* @adrian207
+
+# PowerShell Scripts
+*.ps1 @adrian207 @powershell-team
+*.psm1 @adrian207 @powershell-team
+
+# Documentation
+*.md @adrian207 @documentation-team
+README.md @adrian207
+
+# Configuration Files
+*.json @adrian207 @devops-team
+*.yml @adrian207 @devops-team
+*.yaml @adrian207 @devops-team
+
+# Security Files
+SECURITY-COMPLIANCE.md @adrian207 @security-team
+*.security.* @adrian207 @security-team
+
+# Architecture and Design
+ARCHITECTURE.md @adrian207 @architecture-team
+DEPLOYMENT-GUIDE.md @adrian207 @devops-team
+
+# License and Legal
+LICENSE @adrian207 @legal-team
+CONTRIBUTING.md @adrian207 @maintainers

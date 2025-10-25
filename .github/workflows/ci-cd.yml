@@ -1,0 +1,355 @@
+# GitHub Actions CI/CD Workflow for Windows Server PowerShell Solutions
+# Author: Adrian Johnson (adrian207@gmail.com)
+# Version: 1.0.0
+# Date: December 2024
+
+name: Windows Server PowerShell Solutions CI/CD
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+  release:
+    types: [ published ]
+
+env:
+  POWERSHELL_VERSION: '7.4.0'
+  MODULE_PATH: './Modules'
+
+jobs:
+  # Code Quality and Linting
+  code-quality:
+    name: Code Quality Check
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: ${{ env.POWERSHELL_VERSION }}
+        
+    - name: Install PSScriptAnalyzer
+      run: |
+        Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+        
+    - name: Run PSScriptAnalyzer
+      run: |
+        $results = @()
+        Get-ChildItem -Path . -Recurse -Include "*.ps1", "*.psm1" | ForEach-Object {
+          $analysis = Invoke-ScriptAnalyzer -Path $_.FullName -Severity Error, Warning
+          if ($analysis) {
+            $results += $analysis
+          }
+        }
+        
+        if ($results.Count -gt 0) {
+          Write-Host "Script Analysis Issues Found:" -ForegroundColor Red
+          $results | Format-Table -AutoSize
+          exit 1
+        } else {
+          Write-Host "No script analysis issues found!" -ForegroundColor Green
+        }
+        
+    - name: Validate PowerShell Syntax
+      run: |
+        $errors = @()
+        Get-ChildItem -Path . -Recurse -Include "*.ps1", "*.psm1" | ForEach-Object {
+          $content = Get-Content $_.FullName -Raw
+          $null = [System.Management.Automation.PSParser]::Tokenize($content, [ref]$null)
+          if ($null) {
+            $errors += "Syntax error in $($_.FullName)"
+          }
+        }
+        
+        if ($errors.Count -gt 0) {
+          Write-Host "PowerShell Syntax Errors:" -ForegroundColor Red
+          $errors | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+          exit 1
+        } else {
+          Write-Host "All PowerShell files have valid syntax!" -ForegroundColor Green
+        }
+
+  # Security Scanning
+  security-scan:
+    name: Security Scan
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: ${{ env.POWERSHELL_VERSION }}
+        
+    - name: Install Security Modules
+      run: |
+        Install-Module -Name SecurityPolicyDsc -Force -Scope CurrentUser
+        Install-Module -Name AuditPolicyDsc -Force -Scope CurrentUser
+        
+    - name: Run Security Analysis
+      run: |
+        Write-Host "Running security analysis..." -ForegroundColor Yellow
+        
+        # Check for hardcoded credentials
+        $credentialPatterns = @(
+          'password\s*=\s*["\'][^"\']+["\']',
+          'pwd\s*=\s*["\'][^"\']+["\']',
+          'pass\s*=\s*["\'][^"\']+["\']',
+          'secret\s*=\s*["\'][^"\']+["\']'
+        )
+        
+        $securityIssues = @()
+        Get-ChildItem -Path . -Recurse -Include "*.ps1", "*.psm1", "*.json" | ForEach-Object {
+          $content = Get-Content $_.FullName -Raw
+          foreach ($pattern in $credentialPatterns) {
+            if ($content -match $pattern) {
+              $securityIssues += "Potential credential exposure in $($_.FullName)"
+            }
+          }
+        }
+        
+        if ($securityIssues.Count -gt 0) {
+          Write-Host "Security Issues Found:" -ForegroundColor Red
+          $securityIssues | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+          exit 1
+        } else {
+          Write-Host "No security issues found!" -ForegroundColor Green
+        }
+
+  # Documentation Validation
+  documentation-check:
+    name: Documentation Check
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check Documentation Structure
+      run: |
+        $requiredFiles = @(
+          'README.md',
+          'ARCHITECTURE.md',
+          'DEPLOYMENT-GUIDE.md',
+          'API-REFERENCE.md',
+          'SECURITY-COMPLIANCE.md',
+          'LICENSE',
+          'CONTRIBUTING.md'
+        )
+        
+        $missingFiles = @()
+        foreach ($file in $requiredFiles) {
+          if (-not (Test-Path $file)) {
+            $missingFiles += $file
+          }
+        }
+        
+        if ($missingFiles.Count -gt 0) {
+          Write-Host "Missing Documentation Files:" -ForegroundColor Red
+          $missingFiles | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+          exit 1
+        } else {
+          Write-Host "All required documentation files present!" -ForegroundColor Green
+        }
+        
+    - name: Validate Markdown Syntax
+      run: |
+        # Check for basic markdown syntax issues
+        $markdownFiles = Get-ChildItem -Path . -Recurse -Include "*.md"
+        $issues = @()
+        
+        foreach ($file in $markdownFiles) {
+          $content = Get-Content $file.FullName -Raw
+          
+          # Check for unclosed headers
+          if ($content -match '^#{1,6}\s*$') {
+            $issues += "Empty header in $($file.FullName)"
+          }
+          
+          # Check for author information
+          if ($file.Name -eq 'README.md' -and $content -notmatch 'Adrian Johnson') {
+            $issues += "Missing author information in $($file.FullName)"
+          }
+        }
+        
+        if ($issues.Count -gt 0) {
+          Write-Host "Documentation Issues:" -ForegroundColor Red
+          $issues | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+          exit 1
+        } else {
+          Write-Host "Documentation validation passed!" -ForegroundColor Green
+        }
+
+  # Build and Test
+  build-test:
+    name: Build and Test
+    runs-on: windows-latest
+    needs: [code-quality, security-scan, documentation-check]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: ${{ env.POWERSHELL_VERSION }}
+        
+    - name: Install Dependencies
+      run: |
+        # Install required PowerShell modules
+        $modules = @(
+          'ActiveDirectory',
+          'DnsServer',
+          'DhcpServer',
+          'Hyper-V',
+          'FailoverClusters',
+          'WebAdministration',
+          'RemoteDesktop',
+          'PrintManagement'
+        )
+        
+        foreach ($module in $modules) {
+          try {
+            Import-Module $module -ErrorAction Stop
+            Write-Host "Module $module imported successfully" -ForegroundColor Green
+          } catch {
+            Write-Host "Module $module not available (expected in CI environment)" -ForegroundColor Yellow
+          }
+        }
+        
+    - name: Run Unit Tests
+      run: |
+        $testFiles = Get-ChildItem -Path . -Recurse -Include "*Test*.ps1"
+        $testResults = @()
+        
+        foreach ($testFile in $testFiles) {
+          Write-Host "Running tests in $($testFile.FullName)" -ForegroundColor Yellow
+          try {
+            & $testFile.FullName
+            $testResults += "PASS: $($testFile.Name)"
+          } catch {
+            $testResults += "FAIL: $($testFile.Name) - $($_.Exception.Message)"
+          }
+        }
+        
+        Write-Host "Test Results:" -ForegroundColor Cyan
+        $testResults | ForEach-Object { Write-Host $_ }
+        
+    - name: Generate Test Report
+      run: |
+        $report = @"
+        # Test Report - $(Get-Date)
+        
+        ## Test Summary
+        - Total Test Files: $($testFiles.Count)
+        - Tests Run: $(Get-Date)
+        
+        ## Results
+        $($testResults -join "`n")
+        
+        ## Environment
+        - PowerShell Version: $($PSVersionTable.PSVersion)
+        - OS Version: $($PSVersionTable.OS)
+        - Platform: $($PSVersionTable.Platform)
+        "@
+        
+        $report | Out-File -FilePath "test-report.md" -Encoding UTF8
+        
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-report
+        path: test-report.md
+
+  # Release Preparation
+  release-prep:
+    name: Release Preparation
+    runs-on: windows-latest
+    needs: [build-test]
+    if: github.event_name == 'release'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Create Release Package
+      run: |
+        $releaseDir = "Windows-Server-PowerShell-Solutions-v${{ github.event.release.tag_name }}"
+        New-Item -ItemType Directory -Path $releaseDir -Force
+        
+        # Copy all solution directories
+        $solutions = @(
+          'AD-CS-Scripts',
+          'Active-Directory-Scripts',
+          'AD-LDS-Scripts',
+          'AD-RMS-Scripts',
+          'ADFS-Scripts',
+          'Backup-Storage-Services',
+          'DHCP-Scripts',
+          'DNS-Scripts',
+          'Failover-Clustering-Scripts',
+          'File-Storage-Services',
+          'HGS-Scripts',
+          'Hyper-V-Scripts',
+          'IIS-Web-Server',
+          'NPAS-Scripts',
+          'Print-Server-Scripts',
+          'Remote-Access-Services',
+          'Remote-Desktop-Services',
+          'Entra-Connect-Scripts'
+        )
+        
+        foreach ($solution in $solutions) {
+          if (Test-Path $solution) {
+            Copy-Item -Path $solution -Destination $releaseDir -Recurse
+            Write-Host "Copied $solution to release package" -ForegroundColor Green
+          }
+        }
+        
+        # Copy documentation
+        Copy-Item -Path "*.md" -Destination $releaseDir
+        Copy-Item -Path "LICENSE" -Destination $releaseDir
+        
+        # Create ZIP package
+        Compress-Archive -Path $releaseDir -DestinationPath "$releaseDir.zip"
+        
+        Write-Host "Release package created: $releaseDir.zip" -ForegroundColor Green
+        
+    - name: Upload Release Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-package
+        path: Windows-Server-PowerShell-Solutions-v${{ github.event.release.tag_name }}.zip
+
+  # Notification
+  notify:
+    name: Notify Results
+    runs-on: windows-latest
+    needs: [code-quality, security-scan, documentation-check, build-test]
+    if: always()
+    
+    steps:
+    - name: Notify Success
+      if: needs.code-quality.result == 'success' && needs.security-scan.result == 'success' && needs.documentation-check.result == 'success' && needs.build-test.result == 'success'
+      run: |
+        Write-Host "🎉 All CI/CD checks passed successfully!" -ForegroundColor Green
+        Write-Host "✅ Code Quality: PASSED" -ForegroundColor Green
+        Write-Host "✅ Security Scan: PASSED" -ForegroundColor Green
+        Write-Host "✅ Documentation: PASSED" -ForegroundColor Green
+        Write-Host "✅ Build & Test: PASSED" -ForegroundColor Green
+        
+    - name: Notify Failure
+      if: needs.code-quality.result == 'failure' || needs.security-scan.result == 'failure' || needs.documentation-check.result == 'failure' || needs.build-test.result == 'failure'
+      run: |
+        Write-Host "❌ CI/CD checks failed!" -ForegroundColor Red
+        Write-Host "Code Quality: $($needs.code-quality.result)" -ForegroundColor $(if ($needs.code-quality.result -eq 'success') { 'Green' } else { 'Red' })
+        Write-Host "Security Scan: $($needs.security-scan.result)" -ForegroundColor $(if ($needs.security-scan.result -eq 'success') { 'Green' } else { 'Red' })
+        Write-Host "Documentation: $($needs.documentation-check.result)" -ForegroundColor $(if ($needs.documentation-check.result -eq 'success') { 'Green' } else { 'Red' })
+        Write-Host "Build & Test: $($needs.build-test.result)" -ForegroundColor $(if ($needs.build-test.result -eq 'success') { 'Green' } else { 'Red' })

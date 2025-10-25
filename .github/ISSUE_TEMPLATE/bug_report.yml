@@ -1,0 +1,262 @@
+# GitHub Issue and Pull Request Templates
+# Author: Adrian Johnson (adrian207@gmail.com)
+# Version: 1.0.0
+# Date: December 2024
+
+---
+name: 🐛 Bug Report
+about: Report a bug or issue with the Windows Server PowerShell Solutions
+title: '[BUG] '
+labels: ['bug', 'needs-triage']
+assignees: ['adrian207']
+
+---
+
+## 🐛 Bug Description
+A clear and concise description of what the bug is.
+
+## 🔧 Environment Information
+- **PowerShell Version**: [e.g., 7.4.0]
+- **Windows Server Version**: [e.g., Windows Server 2022]
+- **Module Version**: [e.g., 1.0.0]
+- **Solution**: [e.g., AD-CS-Scripts, Active-Directory-Scripts, etc.]
+
+## 📋 Steps to Reproduce
+1. Go to '...'
+2. Run command '...'
+3. See error
+
+## 🎯 Expected Behavior
+A clear and concise description of what you expected to happen.
+
+## ❌ Actual Behavior
+A clear and concise description of what actually happened.
+
+## 📝 Error Messages
+```
+Paste any error messages here
+```
+
+## 📸 Screenshots
+If applicable, add screenshots to help explain your problem.
+
+## 🔍 Additional Context
+Add any other context about the problem here.
+
+## ✅ Checklist
+- [ ] I have searched existing issues to avoid duplicates
+- [ ] I have provided all required environment information
+- [ ] I have included steps to reproduce the issue
+- [ ] I have included error messages and screenshots
+- [ ] I have tested this on a clean environment
+
+---
+name: ✨ Feature Request
+about: Suggest a new feature or enhancement for the Windows Server PowerShell Solutions
+title: '[FEATURE] '
+labels: ['enhancement', 'needs-review']
+assignees: ['adrian207']
+
+---
+
+## ✨ Feature Description
+A clear and concise description of the feature you'd like to see implemented.
+
+## 🎯 Use Case
+Describe the specific use case or scenario where this feature would be valuable.
+
+## 💡 Proposed Solution
+A clear and concise description of what you want to happen.
+
+## 🔄 Alternatives Considered
+A clear and concise description of any alternative solutions or features you've considered.
+
+## 📊 Business Value
+Explain how this feature would benefit users and the organization.
+
+## 🔧 Technical Considerations
+- **Complexity**: [Low/Medium/High]
+- **Dependencies**: [List any dependencies]
+- **Breaking Changes**: [Yes/No - explain if applicable]
+
+## 📚 Additional Context
+Add any other context, mockups, or examples about the feature request here.
+
+## ✅ Checklist
+- [ ] I have searched existing issues to avoid duplicates
+- [ ] I have provided a clear description of the feature
+- [ ] I have explained the use case and business value
+- [ ] I have considered alternatives
+- [ ] I have provided technical considerations
+
+---
+name: 🔒 Security Vulnerability
+about: Report a security vulnerability or concern
+title: '[SECURITY] '
+labels: ['security', 'needs-security-review']
+assignees: ['adrian207']
+
+---
+
+## 🔒 Vulnerability Description
+A clear and concise description of the security vulnerability.
+
+## ⚠️ Severity Level
+- [ ] **Critical** - Immediate action required
+- [ ] **High** - Action required within 24 hours
+- [ ] **Medium** - Action required within 1 week
+- [ ] **Low** - Action required within 1 month
+
+## 🎯 Affected Components
+- [ ] AD-CS-Scripts
+- [ ] Active-Directory-Scripts
+- [ ] AD-LDS-Scripts
+- [ ] AD-RMS-Scripts
+- [ ] ADFS-Scripts
+- [ ] Backup-Storage-Services
+- [ ] DHCP-Scripts
+- [ ] DNS-Scripts
+- [ ] Failover-Clustering-Scripts
+- [ ] File-Storage-Services
+- [ ] HGS-Scripts
+- [ ] Hyper-V-Scripts
+- [ ] IIS-Web-Server
+- [ ] NPAS-Scripts
+- [ ] Print-Server-Scripts
+- [ ] Remote-Access-Services
+- [ ] Remote-Desktop-Services
+- [ ] Entra-Connect-Scripts
+- [ ] Documentation
+- [ ] CI/CD Pipeline
+
+## 💥 Potential Impact
+Describe the potential security impact and risk level.
+
+## 🔍 Steps to Reproduce
+1. Go to '...'
+2. Run command '...'
+3. Observe vulnerability
+
+## 🛡️ Suggested Fix
+Describe any suggested fixes or mitigation strategies.
+
+## 📋 Additional Information
+- **CVE Reference**: [If applicable]
+- **External References**: [Links to security advisories, etc.]
+- **Disclosure Timeline**: [When can this be disclosed publicly?]
+
+## ✅ Checklist
+- [ ] I have verified this is a genuine security vulnerability
+- [ ] I have provided detailed steps to reproduce
+- [ ] I have assessed the severity level
+- [ ] I have identified affected components
+- [ ] I have provided suggested fixes
+- [ ] I understand the responsible disclosure process
+
+---
+name: 📚 Documentation Issue
+about: Report an issue with documentation or request documentation improvements
+title: '[DOCS] '
+labels: ['documentation', 'needs-review']
+assignees: ['adrian207']
+
+---
+
+## 📚 Documentation Issue
+A clear and concise description of the documentation issue.
+
+## 📄 Affected Documentation
+- [ ] README.md
+- [ ] ARCHITECTURE.md
+- [ ] DEPLOYMENT-GUIDE.md
+- [ ] API-REFERENCE.md
+- [ ] SECURITY-COMPLIANCE.md
+- [ ] CONTRIBUTING.md
+- [ ] Solution-specific documentation
+- [ ] Code comments
+- [ ] Inline help
+
+## 🎯 Issue Type
+- [ ] **Missing Documentation** - Documentation doesn't exist
+- [ ] **Incorrect Information** - Documentation contains errors
+- [ ] **Outdated Information** - Documentation is no longer accurate
+- [ ] **Unclear Instructions** - Documentation is confusing or unclear
+- [ ] **Missing Examples** - Need more examples or use cases
+- [ ] **Formatting Issues** - Documentation formatting problems
+
+## 📝 Description
+Describe the specific documentation issue or improvement needed.
+
+## 💡 Suggested Improvement
+If you have suggestions for how to improve the documentation, please provide them.
+
+## 🔗 Related Files
+List any specific files or sections that need attention.
+
+## ✅ Checklist
+- [ ] I have identified the specific documentation issue
+- [ ] I have provided clear description of the problem
+- [ ] I have suggested improvements where possible
+- [ ] I have identified related files or sections
+
+---
+name: 🧪 Test Request
+about: Request additional testing or report test-related issues
+title: '[TEST] '
+labels: ['testing', 'needs-review']
+assignees: ['adrian207']
+
+---
+
+## 🧪 Test Request
+A clear and concise description of the testing need or issue.
+
+## 🎯 Test Type
+- [ ] **Unit Tests** - Individual function testing
+- [ ] **Integration Tests** - Component interaction testing
+- [ ] **Performance Tests** - Performance and scalability testing
+- [ ] **Security Tests** - Security vulnerability testing
+- [ ] **User Acceptance Tests** - End-user scenario testing
+- [ ] **Regression Tests** - Testing for existing functionality
+- [ ] **Load Tests** - High-volume testing
+- [ ] **Compatibility Tests** - Cross-platform testing
+
+## 🔧 Solution/Component
+Specify which solution or component needs testing:
+- [ ] AD-CS-Scripts
+- [ ] Active-Directory-Scripts
+- [ ] AD-LDS-Scripts
+- [ ] AD-RMS-Scripts
+- [ ] ADFS-Scripts
+- [ ] Backup-Storage-Services
+- [ ] DHCP-Scripts
+- [ ] DNS-Scripts
+- [ ] Failover-Clustering-Scripts
+- [ ] File-Storage-Services
+- [ ] HGS-Scripts
+- [ ] Hyper-V-Scripts
+- [ ] IIS-Web-Server
+- [ ] NPAS-Scripts
+- [ ] Print-Server-Scripts
+- [ ] Remote-Access-Services
+- [ ] Remote-Desktop-Services
+- [ ] Entra-Connect-Scripts
+
+## 📋 Test Scenarios
+Describe the specific test scenarios or use cases that need to be covered.
+
+## 🎯 Expected Outcomes
+What should the tests verify or validate?
+
+## 🔍 Test Environment Requirements
+- **PowerShell Version**: [e.g., 7.4.0]
+- **Windows Server Version**: [e.g., Windows Server 2022]
+- **Dependencies**: [List any required dependencies]
+- **Test Data**: [Any specific test data requirements]
+
+## ✅ Checklist
+- [ ] I have identified the specific testing need
+- [ ] I have provided clear test scenarios
+- [ ] I have specified expected outcomes
+- [ ] I have identified test environment requirements
+- [ ] I have considered edge cases and error conditions

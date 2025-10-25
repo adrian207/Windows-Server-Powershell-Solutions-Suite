@@ -1,0 +1,839 @@
+# GitHub Deployment Configuration
+# Author: Adrian Johnson (adrian207@gmail.com)
+# Version: 1.0.0
+# Date: December 2024
+
+## Deployment Strategies and Configuration
+
+### 1. Environment-Specific Deployments
+
+#### Development Environment
+```yaml
+# .github/workflows/deploy-dev.yml
+name: Deploy to Development
+
+on:
+  push:
+    branches: [ develop ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+
+env:
+  ENVIRONMENT: ${{ github.event.inputs.environment || 'development' }}
+  POWERSHELL_VERSION: '7.4.0'
+
+jobs:
+  deploy-dev:
+    name: Deploy to Development
+    runs-on: windows-latest
+    environment: development
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: ${{ env.POWERSHELL_VERSION }}
+        
+    - name: Install Dependencies
+      run: |
+        # Install required modules for development
+        $modules = @(
+          'Pester',
+          'PSScriptAnalyzer',
+          'PowerShellGet'
+        )
+        
+        foreach ($module in $modules) {
+          Install-Module -Name $module -Force -Scope CurrentUser
+        }
+        
+    - name: Run Development Tests
+      run: |
+        # Run comprehensive test suite
+        $testResults = Invoke-Pester -Path . -PassThru
+        if ($testResults.FailedCount -gt 0) {
+          Write-Error "Tests failed: $($testResults.FailedCount) failures"
+          exit 1
+        }
+        
+    - name: Deploy to Development Server
+      run: |
+        # Deploy scripts to development environment
+        $deployPath = "\\dev-server\PowerShell-Solutions"
+        Copy-Item -Path . -Destination $deployPath -Recurse -Force
+        
+        # Update module paths
+        $env:PSModulePath += ";$deployPath\Modules"
+        
+        Write-Host "Deployment to development completed successfully" -ForegroundColor Green
+        
+    - name: Notify Deployment Success
+      if: success()
+      run: |
+        Write-Host "✅ Development deployment successful!" -ForegroundColor Green
+        Write-Host "Environment: ${{ env.ENVIRONMENT }}" -ForegroundColor Cyan
+        Write-Host "Commit: ${{ github.sha }}" -ForegroundColor Cyan
+```
+
+#### Staging Environment
+```yaml
+# .github/workflows/deploy-staging.yml
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [ release/* ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
+
+env:
+  ENVIRONMENT: staging
+  VERSION: ${{ github.event.inputs.version || github.ref_name }}
+
+jobs:
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: windows-latest
+    environment: staging
+    needs: [build-test]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: '7.4.0'
+        
+    - name: Create Staging Package
+      run: |
+        $packageName = "Windows-Server-Solutions-v${{ env.VERSION }}-staging"
+        $packagePath = "$packageName.zip"
+        
+        # Create deployment package
+        Compress-Archive -Path . -DestinationPath $packagePath -Force
+        
+        # Upload to staging server
+        $stagingServer = "\\staging-server\deployments"
+        Copy-Item -Path $packagePath -Destination $stagingServer
+        
+        Write-Host "Staging package created: $packagePath" -ForegroundColor Green
+        
+    - name: Deploy to Staging Environment
+      run: |
+        # Deploy to staging with validation
+        $stagingPath = "\\staging-server\PowerShell-Solutions"
+        
+        # Backup current deployment
+        $backupPath = "$stagingPath-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+        Copy-Item -Path $stagingPath -Destination $backupPath -Recurse
+        
+        # Deploy new version
+        Copy-Item -Path . -Destination $stagingPath -Recurse -Force
+        
+        # Validate deployment
+        $validationScript = "$stagingPath\Tests\Test-Deployment.ps1"
+        if (Test-Path $validationScript) {
+          & $validationScript -Environment "staging"
+        }
+        
+        Write-Host "Staging deployment completed successfully" -ForegroundColor Green
+        
+    - name: Run Staging Tests
+      run: |
+        # Run integration tests in staging
+        $testResults = Invoke-Pester -Path ".\Tests" -PassThru
+        if ($testResults.FailedCount -gt 0) {
+          Write-Error "Staging tests failed: $($testResults.FailedCount) failures"
+          exit 1
+        }
+        
+    - name: Notify Staging Deployment
+      run: |
+        Write-Host "✅ Staging deployment successful!" -ForegroundColor Green
+        Write-Host "Version: ${{ env.VERSION }}" -ForegroundColor Cyan
+        Write-Host "Environment: ${{ env.ENVIRONMENT }}" -ForegroundColor Cyan
+```
+
+#### Production Environment
+```yaml
+# .github/workflows/deploy-production.yml
+name: Deploy to Production
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
+      approval_required:
+        description: 'Require manual approval'
+        required: true
+        default: true
+        type: boolean
+
+env:
+  ENVIRONMENT: production
+  VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
+
+jobs:
+  pre-deployment-checks:
+    name: Pre-deployment Checks
+    runs-on: windows-latest
+    environment: production-pre-checks
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Security Scan
+      run: |
+        # Comprehensive security scan
+        Write-Host "Running security scan..." -ForegroundColor Yellow
+        
+        # Check for vulnerabilities
+        $securityIssues = @()
+        
+        # Scan for hardcoded credentials
+        Get-ChildItem -Path . -Recurse -Include "*.ps1", "*.psm1" | ForEach-Object {
+          $content = Get-Content $_.FullName -Raw
+          if ($content -match 'password\s*=\s*["\'][^"\']+["\']') {
+            $securityIssues += "Potential credential exposure in $($_.FullName)"
+          }
+        }
+        
+        if ($securityIssues.Count -gt 0) {
+          Write-Error "Security issues found: $($securityIssues.Count)"
+          $securityIssues | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+          exit 1
+        }
+        
+        Write-Host "Security scan passed!" -ForegroundColor Green
+        
+    - name: Performance Testing
+      run: |
+        # Performance baseline testing
+        Write-Host "Running performance tests..." -ForegroundColor Yellow
+        
+        # Test script execution times
+        $performanceResults = @()
+        Get-ChildItem -Path . -Recurse -Include "*.ps1" | ForEach-Object {
+          $startTime = Get-Date
+          try {
+            & $_.FullName -WhatIf
+            $endTime = Get-Date
+            $duration = ($endTime - $startTime).TotalSeconds
+            $performanceResults += "$($_.Name): $duration seconds"
+          } catch {
+            # Ignore errors for performance testing
+          }
+        }
+        
+        Write-Host "Performance test results:" -ForegroundColor Cyan
+        $performanceResults | ForEach-Object { Write-Host $_ }
+        
+    - name: Compliance Check
+      run: |
+        # Compliance validation
+        Write-Host "Running compliance check..." -ForegroundColor Yellow
+        
+        $complianceIssues = @()
+        
+        # Check for required documentation
+        $requiredDocs = @('README.md', 'LICENSE', 'SECURITY-COMPLIANCE.md')
+        foreach ($doc in $requiredDocs) {
+          if (-not (Test-Path $doc)) {
+            $complianceIssues += "Missing required documentation: $doc"
+          }
+        }
+        
+        # Check for author information
+        $readmeContent = Get-Content 'README.md' -Raw
+        if ($readmeContent -notmatch 'Adrian Johnson') {
+          $complianceIssues += "Missing author information in README.md"
+        }
+        
+        if ($complianceIssues.Count -gt 0) {
+          Write-Error "Compliance issues found: $($complianceIssues.Count)"
+          $complianceIssues | ForEach-Object { Write-Host $_ -ForegroundColor Red }
+          exit 1
+        }
+        
+        Write-Host "Compliance check passed!" -ForegroundColor Green
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: windows-latest
+    environment: production
+    needs: [pre-deployment-checks]
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: '7.4.0'
+        
+    - name: Create Production Package
+      run: |
+        $packageName = "Windows-Server-Solutions-v${{ env.VERSION }}-production"
+        $packagePath = "$packageName.zip"
+        
+        # Create production package with digital signature
+        Compress-Archive -Path . -DestinationPath $packagePath -Force
+        
+        # Generate checksum
+        $checksum = Get-FileHash -Path $packagePath -Algorithm SHA256
+        $checksum.Hash | Out-File -FilePath "$packagePath.sha256" -Encoding ASCII
+        
+        Write-Host "Production package created: $packagePath" -ForegroundColor Green
+        Write-Host "Checksum: $($checksum.Hash)" -ForegroundColor Cyan
+        
+    - name: Deploy to Production
+      run: |
+        # Production deployment with rollback capability
+        $productionPath = "\\prod-server\PowerShell-Solutions"
+        $backupPath = "$productionPath-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+        
+        # Create backup
+        if (Test-Path $productionPath) {
+          Copy-Item -Path $productionPath -Destination $backupPath -Recurse
+          Write-Host "Backup created: $backupPath" -ForegroundColor Yellow
+        }
+        
+        # Deploy new version
+        Copy-Item -Path . -Destination $productionPath -Recurse -Force
+        
+        # Update module paths
+        $env:PSModulePath += ";$productionPath\Modules"
+        
+        # Validate deployment
+        $validationScript = "$productionPath\Tests\Test-ProductionDeployment.ps1"
+        if (Test-Path $validationScript) {
+          & $validationScript -Environment "production"
+        }
+        
+        Write-Host "Production deployment completed successfully" -ForegroundColor Green
+        
+    - name: Post-deployment Validation
+      run: |
+        # Comprehensive post-deployment testing
+        Write-Host "Running post-deployment validation..." -ForegroundColor Yellow
+        
+        # Test critical functionality
+        $criticalTests = @(
+          "Test-ADCSFunctionality",
+          "Test-ActiveDirectoryFunctionality",
+          "Test-DNSFunctionality",
+          "Test-DHCPFunctionality"
+        )
+        
+        $testResults = @()
+        foreach ($test in $criticalTests) {
+          try {
+            $result = & $test
+            $testResults += "✅ $test : PASSED"
+          } catch {
+            $testResults += "❌ $test : FAILED - $($_.Exception.Message)"
+          }
+        }
+        
+        Write-Host "Post-deployment test results:" -ForegroundColor Cyan
+        $testResults | ForEach-Object { Write-Host $_ }
+        
+        # Check for any failures
+        $failures = $testResults | Where-Object { $_ -match "FAILED" }
+        if ($failures.Count -gt 0) {
+          Write-Error "Post-deployment validation failed: $($failures.Count) failures"
+          exit 1
+        }
+        
+        Write-Host "Post-deployment validation passed!" -ForegroundColor Green
+        
+    - name: Notify Production Deployment
+      run: |
+        Write-Host "🎉 Production deployment successful!" -ForegroundColor Green
+        Write-Host "Version: ${{ env.VERSION }}" -ForegroundColor Cyan
+        Write-Host "Environment: ${{ env.ENVIRONMENT }}" -ForegroundColor Cyan
+        Write-Host "Deployment Time: $(Get-Date)" -ForegroundColor Cyan
+```
+
+### 2. Blue-Green Deployment Strategy
+
+#### Blue-Green Deployment Configuration
+```yaml
+# .github/workflows/blue-green-deployment.yml
+name: Blue-Green Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
+
+env:
+  ENVIRONMENT: ${{ github.event.inputs.environment }}
+  VERSION: ${{ github.event.inputs.version }}
+
+jobs:
+  blue-green-deploy:
+    name: Blue-Green Deployment
+    runs-on: windows-latest
+    environment: ${{ env.ENVIRONMENT }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: '7.4.0'
+        
+    - name: Determine Current Environment
+      run: |
+        # Determine which environment is currently active (blue or green)
+        $bluePath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-Blue"
+        $greenPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-Green"
+        
+        $currentEnv = "blue"
+        if (Test-Path "$greenPath\active.flag") {
+          $currentEnv = "green"
+        }
+        
+        $nextEnv = if ($currentEnv -eq "blue") { "green" } else { "blue" }
+        
+        Write-Host "Current environment: $currentEnv" -ForegroundColor Yellow
+        Write-Host "Next environment: $nextEnv" -ForegroundColor Yellow
+        
+        # Set environment variables for subsequent steps
+        "CURRENT_ENV=$currentEnv" | Out-File -FilePath $env:GITHUB_ENV -Append
+        "NEXT_ENV=$nextEnv" | Out-File -FilePath $env:GITHUB_ENV -Append
+        
+    - name: Deploy to Next Environment
+      run: |
+        $nextPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-${{ env.NEXT_ENV }}"
+        
+        # Deploy to inactive environment
+        Copy-Item -Path . -Destination $nextPath -Recurse -Force
+        
+        # Run validation tests
+        $testScript = "$nextPath\Tests\Test-BlueGreenDeployment.ps1"
+        if (Test-Path $testScript) {
+          & $testScript -Environment "${{ env.ENVIRONMENT }}-${{ env.NEXT_ENV }}"
+        }
+        
+        Write-Host "Deployment to ${{ env.NEXT_ENV }} environment completed" -ForegroundColor Green
+        
+    - name: Switch Traffic
+      run: |
+        $currentPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-${{ env.CURRENT_ENV }}"
+        $nextPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-${{ env.NEXT_ENV }}"
+        
+        # Remove active flag from current environment
+        if (Test-Path "$currentPath\active.flag") {
+          Remove-Item "$currentPath\active.flag" -Force
+        }
+        
+        # Add active flag to next environment
+        "active" | Out-File -FilePath "$nextPath\active.flag" -Force
+        
+        # Update load balancer configuration
+        $loadBalancerConfig = @{
+          "active_environment" = "${{ env.NEXT_ENV }}"
+          "switch_time" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+          "version" = "${{ env.VERSION }}"
+        }
+        
+        $loadBalancerConfig | ConvertTo-Json | Out-File -FilePath "\\${{ env.ENVIRONMENT }}-server\load-balancer-config.json" -Force
+        
+        Write-Host "Traffic switched to ${{ env.NEXT_ENV }} environment" -ForegroundColor Green
+        
+    - name: Validate Traffic Switch
+      run: |
+        # Validate that traffic is properly routed
+        $validationResults = @()
+        
+        # Test critical endpoints
+        $endpoints = @(
+          "https://${{ env.ENVIRONMENT }}-api.company.com/health",
+          "https://${{ env.ENVIRONMENT }}-api.company.com/version"
+        )
+        
+        foreach ($endpoint in $endpoints) {
+          try {
+            $response = Invoke-RestMethod -Uri $endpoint -Method Get
+            $validationResults += "✅ $endpoint : OK"
+          } catch {
+            $validationResults += "❌ $endpoint : FAILED - $($_.Exception.Message)"
+          }
+        }
+        
+        Write-Host "Traffic switch validation results:" -ForegroundColor Cyan
+        $validationResults | ForEach-Object { Write-Host $_ }
+        
+        # Check for any failures
+        $failures = $validationResults | Where-Object { $_ -match "FAILED" }
+        if ($failures.Count -gt 0) {
+          Write-Error "Traffic switch validation failed: $($failures.Count) failures"
+          exit 1
+        }
+        
+        Write-Host "Traffic switch validation passed!" -ForegroundColor Green
+        
+    - name: Rollback on Failure
+      if: failure()
+      run: |
+        Write-Host "Rolling back to previous environment..." -ForegroundColor Red
+        
+        $currentPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-${{ env.CURRENT_ENV }}"
+        $nextPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-${{ env.NEXT_ENV }}"
+        
+        # Restore active flag to current environment
+        "active" | Out-File -FilePath "$currentPath\active.flag" -Force
+        
+        # Remove active flag from next environment
+        if (Test-Path "$nextPath\active.flag") {
+          Remove-Item "$nextPath\active.flag" -Force
+        }
+        
+        # Update load balancer configuration
+        $loadBalancerConfig = @{
+          "active_environment" = "${{ env.CURRENT_ENV }}"
+          "rollback_time" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+          "rollback_reason" = "Deployment validation failed"
+        }
+        
+        $loadBalancerConfig | ConvertTo-Json | Out-File -FilePath "\\${{ env.ENVIRONMENT }}-server\load-balancer-config.json" -Force
+        
+        Write-Host "Rollback completed successfully" -ForegroundColor Yellow
+```
+
+### 3. Canary Deployment Strategy
+
+#### Canary Deployment Configuration
+```yaml
+# .github/workflows/canary-deployment.yml
+name: Canary Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
+      canary_percentage:
+        description: 'Canary traffic percentage'
+        required: true
+        default: '10'
+        type: string
+
+env:
+  ENVIRONMENT: ${{ github.event.inputs.environment }}
+  VERSION: ${{ github.event.inputs.version }}
+  CANARY_PERCENTAGE: ${{ github.event.inputs.canary_percentage }}
+
+jobs:
+  canary-deploy:
+    name: Canary Deployment
+    runs-on: windows-latest
+    environment: ${{ env.ENVIRONMENT }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: '7.4.0'
+        
+    - name: Deploy Canary Version
+      run: |
+        $canaryPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-Canary"
+        
+        # Deploy canary version
+        Copy-Item -Path . -Destination $canaryPath -Recurse -Force
+        
+        # Configure canary routing
+        $canaryConfig = @{
+          "version" = "${{ env.VERSION }}"
+          "traffic_percentage" = [int]${{ env.CANARY_PERCENTAGE }}
+          "deployment_time" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+          "monitoring_enabled" = $true
+        }
+        
+        $canaryConfig | ConvertTo-Json | Out-File -FilePath "\\${{ env.ENVIRONMENT }}-server\canary-config.json" -Force
+        
+        Write-Host "Canary deployment completed" -ForegroundColor Green
+        Write-Host "Traffic percentage: ${{ env.CANARY_PERCENTAGE }}%" -ForegroundColor Cyan
+        
+    - name: Monitor Canary Performance
+      run: |
+        # Monitor canary performance for 30 minutes
+        $monitoringDuration = 30 * 60 # 30 minutes in seconds
+        $startTime = Get-Date
+        
+        Write-Host "Starting canary monitoring..." -ForegroundColor Yellow
+        
+        while ((Get-Date) - $startTime -lt [TimeSpan]::FromSeconds($monitoringDuration)) {
+          # Collect metrics
+          $metrics = @{
+            "timestamp" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+            "error_rate" = 0
+            "response_time" = 0
+            "throughput" = 0
+          }
+          
+          # Simulate metric collection (replace with actual monitoring)
+          $metrics.error_rate = Get-Random -Minimum 0 -Maximum 5
+          $metrics.response_time = Get-Random -Minimum 100 -Maximum 500
+          $metrics.throughput = Get-Random -Minimum 1000 -Maximum 5000
+          
+          # Log metrics
+          $metrics | ConvertTo-Json | Out-File -FilePath "\\${{ env.ENVIRONMENT }}-server\canary-metrics.json" -Append
+          
+          # Check for issues
+          if ($metrics.error_rate -gt 2) {
+            Write-Warning "High error rate detected: $($metrics.error_rate)%"
+          }
+          
+          if ($metrics.response_time -gt 300) {
+            Write-Warning "High response time detected: $($metrics.response_time)ms"
+          }
+          
+          Start-Sleep -Seconds 60 # Check every minute
+        }
+        
+        Write-Host "Canary monitoring completed" -ForegroundColor Green
+        
+    - name: Promote or Rollback Canary
+      run: |
+        # Analyze canary performance
+        $metricsFile = "\\${{ env.ENVIRONMENT }}-server\canary-metrics.json"
+        
+        if (Test-Path $metricsFile) {
+          $metrics = Get-Content $metricsFile | ConvertFrom-Json
+          
+          # Calculate average metrics
+          $avgErrorRate = ($metrics | Measure-Object -Property error_rate -Average).Average
+          $avgResponseTime = ($metrics | Measure-Object -Property response_time -Average).Average
+          
+          Write-Host "Canary performance analysis:" -ForegroundColor Cyan
+          Write-Host "Average error rate: $([math]::Round($avgErrorRate, 2))%" -ForegroundColor Cyan
+          Write-Host "Average response time: $([math]::Round($avgResponseTime, 2))ms" -ForegroundColor Cyan
+          
+          # Decision criteria
+          $promote = $true
+          
+          if ($avgErrorRate -gt 1) {
+            Write-Warning "Error rate too high for promotion"
+            $promote = $false
+          }
+          
+          if ($avgResponseTime -gt 250) {
+            Write-Warning "Response time too high for promotion"
+            $promote = $false
+          }
+          
+          if ($promote) {
+            Write-Host "✅ Canary performance acceptable - promoting to full deployment" -ForegroundColor Green
+            
+            # Promote canary to full deployment
+            $canaryPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-Canary"
+            $productionPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions"
+            
+            # Backup current production
+            $backupPath = "$productionPath-backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+            Copy-Item -Path $productionPath -Destination $backupPath -Recurse
+            
+            # Promote canary
+            Copy-Item -Path $canaryPath -Destination $productionPath -Recurse -Force
+            
+            # Update routing to 100%
+            $routingConfig = @{
+              "version" = "${{ env.VERSION }}"
+              "traffic_percentage" = 100
+              "promotion_time" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+            }
+            
+            $routingConfig | ConvertTo-Json | Out-File -FilePath "\\${{ env.ENVIRONMENT }}-server\routing-config.json" -Force
+            
+            Write-Host "Canary promoted to full deployment" -ForegroundColor Green
+            
+          } else {
+            Write-Host "❌ Canary performance unacceptable - rolling back" -ForegroundColor Red
+            
+            # Rollback canary
+            $canaryPath = "\\${{ env.ENVIRONMENT }}-server\PowerShell-Solutions-Canary"
+            
+            # Remove canary routing
+            $routingConfig = @{
+              "version" = "${{ env.VERSION }}"
+              "traffic_percentage" = 0
+              "rollback_time" = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+              "rollback_reason" = "Performance issues detected"
+            }
+            
+            $routingConfig | ConvertTo-Json | Out-File -FilePath "\\${{ env.ENVIRONMENT }}-server\routing-config.json" -Force
+            
+            # Clean up canary deployment
+            Remove-Item -Path $canaryPath -Recurse -Force
+            
+            Write-Host "Canary rolled back successfully" -ForegroundColor Yellow
+            exit 1
+          }
+        } else {
+          Write-Error "Canary metrics file not found"
+          exit 1
+        }
+```
+
+### 4. Deployment Monitoring and Alerting
+
+#### Deployment Monitoring Configuration
+```yaml
+# .github/workflows/deployment-monitoring.yml
+name: Deployment Monitoring
+
+on:
+  workflow_run:
+    workflows: ["Deploy to Development", "Deploy to Staging", "Deploy to Production"]
+    types: [completed]
+
+jobs:
+  monitor-deployment:
+    name: Monitor Deployment
+    runs-on: windows-latest
+    if: ${{ github.event.workflow_run.conclusion != 'success' }}
+    
+    steps:
+    - name: Setup PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        version: '7.4.0'
+        
+    - name: Send Deployment Alert
+      run: |
+        $workflowName = "${{ github.event.workflow_run.name }}"
+        $conclusion = "${{ github.event.workflow_run.conclusion }}"
+        $commitSha = "${{ github.event.workflow_run.head_sha }}"
+        
+        $alertMessage = @"
+        🚨 DEPLOYMENT FAILURE ALERT 🚨
+        
+        Workflow: $workflowName
+        Status: $conclusion
+        Commit: $commitSha
+        Time: $(Get-Date)
+        
+        Please investigate immediately!
+        "@
+        
+        Write-Host $alertMessage -ForegroundColor Red
+        
+        # Send notification (implement actual notification mechanism)
+        # Example: Send to Slack, Teams, email, etc.
+        
+    - name: Create Incident Ticket
+      run: |
+        # Create incident ticket in tracking system
+        $incidentData = @{
+          "title" = "Deployment Failure: ${{ github.event.workflow_run.name }}"
+          "description" = "Deployment workflow failed with status: ${{ github.event.workflow_run.conclusion }}"
+          "priority" = "High"
+          "assignee" = "adrian207"
+          "labels" = @("deployment", "incident", "urgent")
+        }
+        
+        $incidentData | ConvertTo-Json | Out-File -FilePath "incident-ticket.json" -Force
+        
+        Write-Host "Incident ticket created" -ForegroundColor Yellow
+```
+
+### 5. Implementation Instructions
+
+#### Setup Deployment Environments
+```bash
+# Create deployment directories
+mkdir -p "\\dev-server\PowerShell-Solutions"
+mkdir -p "\\staging-server\PowerShell-Solutions"
+mkdir -p "\\prod-server\PowerShell-Solutions"
+
+# Setup blue-green environments
+mkdir -p "\\staging-server\PowerShell-Solutions-Blue"
+mkdir -p "\\staging-server\PowerShell-Solutions-Green"
+mkdir -p "\\prod-server\PowerShell-Solutions-Blue"
+mkdir -p "\\prod-server\PowerShell-Solutions-Green"
+
+# Setup canary environments
+mkdir -p "\\staging-server\PowerShell-Solutions-Canary"
+mkdir -p "\\prod-server\PowerShell-Solutions-Canary"
+```
+
+#### Configure GitHub Environments
+```bash
+# Create GitHub environments
+gh api repos/:owner/:repo/environments --method POST \
+  --field name="development" \
+  --field protection_rules='[{"type":"required_reviewers","required_reviewers":[{"id":1,"type":"User"}]}]'
+
+gh api repos/:owner/:repo/environments --method POST \
+  --field name="staging" \
+  --field protection_rules='[{"type":"required_reviewers","required_reviewers":[{"id":1,"type":"User"}]}]'
+
+gh api repos/:owner/:repo/environments --method POST \
+  --field name="production" \
+  --field protection_rules='[{"type":"required_reviewers","required_reviewers":[{"id":1,"type":"User"}]}]'
+```
+
+#### Setup Monitoring and Alerting
+```bash
+# Configure webhooks for deployment monitoring
+gh api repos/:owner/:repo/hooks --method POST \
+  --field name="deployment-monitoring" \
+  --field config='{"url":"https://monitoring.company.com/webhook","content_type":"json"}' \
+  --field events='["deployment","deployment_status"]'
+```
+
+This comprehensive deployment configuration provides enterprise-grade deployment strategies with proper monitoring, rollback capabilities, and compliance requirements for the Windows Server PowerShell Solutions Suite.

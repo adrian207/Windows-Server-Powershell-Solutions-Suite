@@ -1,0 +1,404 @@
+# GitHub Repository Rules and Branch Protection Configuration
+# Author: Adrian Johnson (adrian207@gmail.com)
+# Version: 1.0.0
+# Date: December 2024
+
+## Repository Rules Configuration
+
+### Branch Protection Rules
+
+#### Main Branch Protection (main/master)
+```yaml
+# Apply via GitHub API or Web Interface
+branch_protection:
+  main:
+    required_status_checks:
+      strict: true
+      contexts:
+        - "Code Quality Check"
+        - "Security Scan"
+        - "Documentation Check"
+        - "Build and Test"
+    enforce_admins: true
+    required_pull_request_reviews:
+      required_approving_review_count: 2
+      dismiss_stale_reviews: true
+      require_code_owner_reviews: true
+      require_last_push_approval: true
+    restrictions:
+      users: []
+      teams: []
+      apps: []
+    allow_force_pushes: false
+    allow_deletions: false
+    block_creations: false
+    required_conversation_resolution: true
+    lock_branch: false
+    allow_fork_syncing: true
+```
+
+#### Development Branch Protection (develop)
+```yaml
+develop:
+  required_status_checks:
+    strict: true
+    contexts:
+      - "Code Quality Check"
+      - "Security Scan"
+  enforce_admins: false
+  required_pull_request_reviews:
+    required_approving_review_count: 1
+    dismiss_stale_reviews: true
+    require_code_owner_reviews: false
+  restrictions:
+    users: []
+    teams: []
+    apps: []
+  allow_force_pushes: false
+  allow_deletions: false
+  block_creations: false
+  required_conversation_resolution: true
+```
+
+#### Feature Branch Rules
+```yaml
+feature/*:
+  required_status_checks:
+    strict: false
+    contexts:
+      - "Code Quality Check"
+  enforce_admins: false
+  required_pull_request_reviews:
+    required_approving_review_count: 1
+    dismiss_stale_reviews: false
+    require_code_owner_reviews: false
+  restrictions:
+    users: []
+    teams: []
+    apps: []
+  allow_force_pushes: true
+  allow_deletions: true
+  block_creations: false
+  required_conversation_resolution: false
+```
+
+### Repository Rules (GitHub Enterprise)
+
+#### Code Review Rules
+```yaml
+code_review_rules:
+  - name: "PowerShell Script Review Required"
+    conditions:
+      - file_path_contains: "*.ps1"
+      - file_path_contains: "*.psm1"
+    required_approving_review_count: 2
+    require_code_owner_reviews: true
+    dismiss_stale_reviews: true
+    
+  - name: "Documentation Review Required"
+    conditions:
+      - file_path_contains: "*.md"
+      - file_path_contains: "README"
+    required_approving_review_count: 1
+    require_code_owner_reviews: false
+    dismiss_stale_reviews: false
+```
+
+#### Bypass Rules
+```yaml
+bypass_rules:
+  - name: "Administrator Bypass"
+    actor_ids: ["admin_users"]
+    organization_admin: true
+    
+  - name: "Emergency Bypass"
+    actor_ids: ["emergency_team"]
+    required_approving_review_count: 1
+```
+
+#### Push Rules
+```yaml
+push_rules:
+  - name: "No Direct Pushes to Main"
+    branch_name_pattern: "main"
+    allowed_actors: []
+    block_force_pushes: true
+    block_deletions: true
+    
+  - name: "Feature Branch Push Rules"
+    branch_name_pattern: "feature/*"
+    allowed_actors: ["contributors"]
+    block_force_pushes: false
+    block_deletions: false
+```
+
+### CODEOWNERS File
+```bash
+# Global owners
+* @adrian207
+
+# PowerShell Scripts
+*.ps1 @adrian207 @powershell-team
+*.psm1 @adrian207 @powershell-team
+
+# Documentation
+*.md @adrian207 @documentation-team
+README.md @adrian207
+
+# Configuration Files
+*.json @adrian207 @devops-team
+*.yml @adrian207 @devops-team
+*.yaml @adrian207 @devops-team
+
+# Security Files
+SECURITY-COMPLIANCE.md @adrian207 @security-team
+*.security.* @adrian207 @security-team
+
+# Architecture and Design
+ARCHITECTURE.md @adrian207 @architecture-team
+DEPLOYMENT-GUIDE.md @adrian207 @devops-team
+
+# License and Legal
+LICENSE @adrian207 @legal-team
+CONTRIBUTING.md @adrian207 @maintainers
+```
+
+### Branch Naming Conventions
+```yaml
+branch_naming:
+  patterns:
+    - "main"                    # Production branch
+    - "master"                  # Legacy production branch
+    - "develop"                 # Development branch
+    - "feature/*"               # Feature branches
+    - "bugfix/*"                # Bug fix branches
+    - "hotfix/*"                # Hotfix branches
+    - "release/*"               # Release branches
+    - "docs/*"                  # Documentation branches
+    
+  restrictions:
+    - "No special characters except - and _"
+    - "Must start with category prefix"
+    - "Must be lowercase"
+    - "Must be descriptive"
+    
+  examples:
+    - "feature/ad-cs-certificate-management"
+    - "bugfix/dns-resolution-issue"
+    - "hotfix/security-patch-2024"
+    - "release/v2.1.0"
+    - "docs/api-reference-update"
+```
+
+### Commit Message Standards
+```yaml
+commit_standards:
+  format: "type(scope): description"
+  
+  types:
+    - "feat"     # New feature
+    - "fix"      # Bug fix
+    - "docs"     # Documentation changes
+    - "style"    # Code style changes
+    - "refactor" # Code refactoring
+    - "test"     # Test additions/changes
+    - "chore"    # Build process or auxiliary tool changes
+    - "security" # Security-related changes
+    - "perf"     # Performance improvements
+    
+  scopes:
+    - "ad-cs"           # Active Directory Certificate Services
+    - "ad"              # Active Directory
+    - "adlds"           # Active Directory Lightweight Directory Services
+    - "adrms"           # Active Directory Rights Management Services
+    - "adfs"            # Active Directory Federation Services
+    - "backup"          # Backup Storage Services
+    - "dhcp"            # DHCP Services
+    - "dns"             # DNS Services
+    - "failover"        # Failover Clustering
+    - "files"           # File Storage Services
+    - "hgs"             # Host Guardian Service
+    - "hyperv"          # Hyper-V
+    - "iis"             # IIS Web Server
+    - "npas"            # Network Policy and Access Services
+    - "print"           # Print Server
+    - "ras"             # Remote Access Services
+    - "rds"             # Remote Desktop Services
+    - "entra"           # Entra Connect
+    - "docs"            # Documentation
+    - "ci"              # Continuous Integration
+    - "security"        # Security
+    
+  examples:
+    - "feat(ad-cs): add certificate auto-renewal functionality"
+    - "fix(dns): resolve zone transfer issues"
+    - "docs(api): update PowerShell module documentation"
+    - "security(entra): implement MFA enforcement policies"
+    - "chore(ci): update GitHub Actions workflow"
+```
+
+### Pull Request Templates
+```yaml
+pr_templates:
+  required_sections:
+    - "Description"
+    - "Type of Change"
+    - "Testing"
+    - "Checklist"
+    - "Security Considerations"
+    
+  auto_labels:
+    - "needs-review"
+    - "powerShell"
+    - "windows-server"
+    
+  required_checks:
+    - "Code Quality Check"
+    - "Security Scan"
+    - "Documentation Check"
+    - "Build and Test"
+```
+
+### Issue Templates
+```yaml
+issue_templates:
+  bug_report:
+    required_fields:
+      - "PowerShell Version"
+      - "Windows Server Version"
+      - "Module Version"
+      - "Steps to Reproduce"
+      - "Expected Behavior"
+      - "Actual Behavior"
+      - "Error Messages"
+      - "Screenshots"
+      
+  feature_request:
+    required_fields:
+      - "Feature Description"
+      - "Use Case"
+      - "Proposed Solution"
+      - "Alternatives Considered"
+      - "Additional Context"
+      
+  security_vulnerability:
+    required_fields:
+      - "Vulnerability Description"
+      - "Severity Level"
+      - "Affected Components"
+      - "Potential Impact"
+      - "Steps to Reproduce"
+      - "Suggested Fix"
+```
+
+### Automation Rules
+```yaml
+automation:
+  auto_assign:
+    - "Assign to @adrian207 for PowerShell scripts"
+    - "Assign to @security-team for security-related issues"
+    - "Assign to @documentation-team for documentation issues"
+    
+  auto_labels:
+    - "Label by file type (*.ps1 → PowerShell)"
+    - "Label by directory (AD-CS-Scripts → Active Directory)"
+    - "Label by severity (Critical, High, Medium, Low)"
+    
+  auto_close:
+    - "Close stale issues after 30 days"
+    - "Close stale PRs after 7 days"
+    - "Auto-merge approved PRs with passing checks"
+```
+
+### Security Policies
+```yaml
+security_policies:
+  vulnerability_reporting:
+    - "Use GitHub Security Advisories"
+    - "Private disclosure process"
+    - "Responsible disclosure timeline"
+    
+  dependency_scanning:
+    - "Automated dependency vulnerability scanning"
+    - "License compliance checking"
+    - "Outdated dependency alerts"
+    
+  secret_scanning:
+    - "Automated secret detection"
+    - "Pre-commit hooks for secret prevention"
+    - "Regular security audits"
+    
+  access_control:
+    - "Two-factor authentication required"
+    - "Regular access reviews"
+    - "Principle of least privilege"
+```
+
+### Compliance and Governance
+```yaml
+compliance:
+  audit_logging:
+    - "All repository actions logged"
+    - "Regular audit trail reviews"
+    - "Compliance reporting"
+    
+  data_protection:
+    - "No sensitive data in repositories"
+    - "Encrypted communication"
+    - "Data retention policies"
+    
+  licensing:
+    - "MIT License for open source components"
+    - "Proprietary license for enterprise features"
+    - "Third-party license compliance"
+    
+  documentation:
+    - "Security documentation required"
+    - "API documentation standards"
+    - "Change documentation"
+```
+
+## Implementation Instructions
+
+### 1. Apply Branch Protection Rules
+```bash
+# Using GitHub CLI
+gh api repos/:owner/:repo/branches/main/protection \
+  --method PUT \
+  --field required_status_checks='{"strict":true,"contexts":["Code Quality Check","Security Scan","Documentation Check","Build and Test"]}' \
+  --field enforce_admins=true \
+  --field required_pull_request_reviews='{"required_approving_review_count":2,"dismiss_stale_reviews":true,"require_code_owner_reviews":true}' \
+  --field restrictions='{"users":[],"teams":[],"apps":[]}' \
+  --field allow_force_pushes=false \
+  --field allow_deletions=false
+```
+
+### 2. Create CODEOWNERS File
+```bash
+# Create .github/CODEOWNERS file with the content above
+```
+
+### 3. Set Up Issue and PR Templates
+```bash
+# Create .github/ISSUE_TEMPLATE/ directory
+# Create .github/PULL_REQUEST_TEMPLATE.md
+```
+
+### 4. Configure Repository Settings
+- Enable "Require pull request reviews before merging"
+- Enable "Dismiss stale pull request approvals when new commits are pushed"
+- Enable "Require review from code owners"
+- Enable "Require status checks to pass before merging"
+- Enable "Require branches to be up to date before merging"
+- Enable "Require conversation resolution before merging"
+- Enable "Restrict pushes that create files"
+- Enable "Restrict pushes that create files larger than 100MB"
+
+### 5. Set Up Security Policies
+- Enable "Dependency graph"
+- Enable "Dependabot alerts"
+- Enable "Dependabot security updates"
+- Enable "Secret scanning"
+- Enable "Push protection"
+
+This configuration provides enterprise-grade repository management with comprehensive security, compliance, and quality controls for the Windows Server PowerShell Solutions Suite.
