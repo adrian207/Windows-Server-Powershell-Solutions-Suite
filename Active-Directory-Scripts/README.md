@@ -1,5 +1,17 @@
 # Active Directory Scripts
 
+> Recommendation: Use this AD automation suite to deploy, secure, and operate Active Directory reliably at enterprise scale.
+
+### Why it matters
+- Reduce risk: codified hardening, repeatable deployments, and validated recovery.
+- Move faster: opinionated scripts and templates for day-1 to day-N operations.
+- Prove compliance: built-in auditing, RBAC alignment, and baseline enforcement.
+
+### How it works (high-level)
+- Modular PowerShell functions grouped by deployment, configuration, security, monitoring, troubleshooting.
+- Example-driven workflows and test harnesses to validate environments safely.
+- JSON configuration templates for consistent, repeatable changes.
+
 ## Overview
 
 This solution provides comprehensive PowerShell scripts for Windows Active Directory management, covering all aspects of AD deployment, configuration, security, monitoring, and troubleshooting.
@@ -9,7 +21,7 @@ This solution provides comprehensive PowerShell scripts for Windows Active Direc
 **Adrian Johnson**  
 Email: adrian207@gmail.com  
 Version: 1.0.0  
-Date: October 2025
+Last updated: 2025-10-26
 
 ## Features
 
@@ -70,6 +82,22 @@ Date: October 2025
 3. Import required modules
 4. Configure execution policy
 5. Run deployment scripts
+
+## Get started (quick wins)
+
+```powershell
+# Validate AD prerequisites and environment health
+# Deploy a new domain controller (example)
+Test-ADDomain -Identity "contoso.com"
+
+# Deploy a new domain controller (example)
+.\Scripts\Deployment\Deploy-ActiveDirectory.ps1 -ServerName "DC-SERVER01" -DomainName "contoso.com"
+
+# Apply baseline hardening
+
+# Apply baseline hardening
+.\Scripts\Security\Secure-ActiveDirectory.ps1 -ServerName "DC-SERVER01" -SecurityLevel "Standard"
+```
 
 ## Usage
 

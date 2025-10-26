@@ -1,11 +1,12 @@
-> This file has moved: see `Documentation/Quick-Start-Guide.md` for the latest version.
+# File and Storage Services PowerShell Scripts - Quick Start Guide
 
-# Quick Start Guide (relocated)
+**Author:** Adrian Johnson <adrian207@gmail.com>  
+**Version:** 1.0.0  
+**Last updated:** 2025-10-26
 
-This document was moved to keep all docs under `Documentation/`.
+## Overview
 
-- New location: [Documentation/Quick-Start-Guide.md](Documentation/Quick-Start-Guide.md)
-- Last updated: 2025-10-26
+This quick start guide will help you get up and running with the File and Storage Services PowerShell scripts in minutes. The scripts are designed to be modular, portable, and easy to use in any Windows Server environment.
 
 ## Prerequisites
 

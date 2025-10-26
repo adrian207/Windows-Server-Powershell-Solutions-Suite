@@ -1,8 +1,24 @@
 # Windows Server PowerShell Solutions Suite
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE) [![Docs](https://img.shields.io/badge/Docs-Complete-blue)](ARCHITECTURE.md) [![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--10--26-blueviolet)]
+
 **Author:** Adrian Johnson (adrian207@gmail.com)  
 **Version:** 1.0.0  
-**Date:** December 2024
+**Last updated:** 2025-10-26
+
+> Enterprise-grade PowerShell automation for Windows Server — modular, secure, and ready for production.
+
+## Executive summary
+- Recommendation: Use this suite to deploy, secure, and operate Windows Server roles with repeatable, audited automation.
+- Why: Reduce risk and time-to-value with opinionated scripts, security baselines, and tests across 18 solutions.
+- How: Modular PowerShell modules, JSON templates, examples, and CI-friendly tests under each solution folder.
+- Next: Pick a solution folder (e.g., Active Directory, AD CS, Hyper‑V) and run its Quick Start.
+
+## Table of contents
+- [Solutions Overview](#-solutions-overview)
+- [Architecture & Design](#-architecture--design)
+- [Deployment Options](#-deployment-options)
+- [Documentation & Support](#-documentation--support)
 
 ## 🚀 Enterprise-Grade Windows Server Automation Suite
 
