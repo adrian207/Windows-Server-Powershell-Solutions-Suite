@@ -1,8 +1,22 @@
 # File and Storage Services PowerShell Scripts
 
+> Recommendation: Use this file and storage automation toolkit to deploy, secure, and operate file services with reliability.
+
 **Author:** Adrian Johnson <adrian207@gmail.com>  
 **Version:** 1.0.0  
-**Date:** December 2024
+**Last updated:** 2025-10-26
+
+### Why it matters
+- Reduce complexity: codified share creation, permissions, and storage management.
+- Improve resilience: backup, shadow copy, and deduplication workflows built-in.
+- Move faster: scripted deployments and reusable patterns for common file server topologies.
+
+### How it works (high-level)
+- Modular PowerShell modules for core operations, management, monitoring, and backup.
+- Scripts for file servers, storage pools, shares, and performance tuning.
+- Examples and tests to validate changes safely before production rollout.
+
+## Overview
 
 This repository contains a comprehensive set of modular PowerShell scripts for implementing, configuring, and managing Windows File and Storage Services on Windows Server.
 

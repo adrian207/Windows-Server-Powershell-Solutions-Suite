@@ -1,10 +1,20 @@
 # ADFS PowerShell Scripts
 
+> Recommendation: Use this ADFS automation toolkit to deploy, secure, and operate federation services with confidence and consistency.
+
 **Author:** Adrian Johnson (adrian207@gmail.com)  
 **Version:** 1.0.0  
-**Date:** October 2025
+**Last updated:** 2025-10-26
 
-A comprehensive PowerShell solution for Active Directory Federation Services (ADFS) deployment, configuration, security, and troubleshooting.
+### Why it matters
+- Simplify SSO: predictable federation for SaaS, partner orgs, and Office 365.
+- Strengthen security: MFA, conditional access, and certificate management built-in.
+- Move faster: scripted deployments and scenario templates for common patterns.
+
+### How it works (high-level)
+- Modular PowerShell modules for core ADFS, federation, security, and troubleshooting.
+- Scenario scripts for SSO, OAuth, hybrid identity, and B2B federation.
+- JSON-driven configurations and examples to standardize farm rollouts.
 
 ## Overview
 

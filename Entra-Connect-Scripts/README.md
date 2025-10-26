@@ -1,8 +1,20 @@
 # Entra Connect PowerShell Scripts - Complete Enterprise Solution
 
+> Recommendation: Use this Entra Connect automation toolkit to deploy and operate hybrid identity with security and reliability.
+
 **Author:** Adrian Johnson <adrian207@gmail.com>  
 **Version:** 1.0.0  
-**Date:** December 2024
+**Last updated:** 2025-10-26
+
+### Why it matters
+- Simplify hybrid identity: password hash sync, pass-through auth, and seamless SSO made repeatable.
+- Improve security: PIM, Conditional Access, and Identity Protection integration out of the box.
+- Speed delivery: scripted deployments and scenario templates for common topologies.
+
+### How it works (high-level)
+- Modular PowerShell modules for core sync, security, monitoring, and troubleshooting.
+- Scenario scripts for multi-forest, Exchange hybrid, and federation patterns.
+- JSON-driven configurations and examples to standardize rollouts across environments.
 
 ## 🎯 Overview
 
