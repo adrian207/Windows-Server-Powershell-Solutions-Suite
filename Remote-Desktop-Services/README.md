@@ -1,8 +1,20 @@
 # RDS PowerShell Scripts
 
+> Recommendation: Use this RDS automation toolkit to deploy, secure, and operate Remote Desktop Services with confidence.
+
 **Author:** Adrian Johnson <adrian207@gmail.com>  
 **Version:** 1.0.0  
-**Date:** December 2024
+**Last updated:** 2025-10-26
+
+### Why it matters
+- Improve reliability: predictable installs, HA/load balancing patterns, and validated health.
+- Strengthen security: hardened defaults, encryption, and RBAC-aligned workflows.
+- Accelerate delivery: scripted deployments and examples for common enterprise topologies.
+
+### How it works (high-level)
+- Modular PowerShell modules for deployment, configuration, security, monitoring, troubleshooting.
+- Scenario and role scripts for CB, SH, GW, and Web Access with examples and tests.
+- JSON/template-driven configurations to standardize environments.
 
 ## Overview
 

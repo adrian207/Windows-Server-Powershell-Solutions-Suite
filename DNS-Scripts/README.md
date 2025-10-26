@@ -1,8 +1,20 @@
 # DNS PowerShell Scripts - Complete Enterprise Solution
 
+> Recommendation: Use this DNS automation toolkit to deploy, secure, and operate Windows DNS with consistency and confidence.
+
 **Author:** Adrian Johnson <adrian207@gmail.com>  
 **Version:** 1.0.0  
-**Date:** December 2024
+**Last updated:** 2025-10-26
+
+### Why it matters
+- Improves reliability: codified deployments, validated health, and safe changes at scale.
+- Strengthens security: DNSSEC, logging, and policy controls baked in.
+- Speeds delivery: templates and scenario scripts for common enterprise patterns.
+
+### How it works (high-level)
+- Modular PowerShell modules for core, security, monitoring, and troubleshooting.
+- Scenario-focused scripts for AD-integrated DNS, split-brain, DNSSEC, hybrid, and more.
+- JSON-driven configurations and examples to standardize rollouts across environments.
 
 ## Overview
 

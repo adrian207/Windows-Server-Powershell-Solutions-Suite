@@ -1,8 +1,20 @@
 # DHCP PowerShell Scripts - Complete Enterprise Solution
 
+> Recommendation: Use this DHCP automation toolkit to standardize address management with secure, reliable operations.
+
 **Author:** Adrian Johnson (adrian207@gmail.com)  
 **Version:** 1.0.0  
-**Date:** October 2025
+**Last updated:** 2025-10-26
+
+### Why it matters
+- Reduce outages: predictable scopes, failover, and backup/restore built-in.
+- Raise security: authorization, rogue detection, and auditing by default.
+- Move faster: scripted deployments and reusable configurations for every site.
+
+### How it works (high-level)
+- Modular PowerShell modules for core, security, monitoring, and troubleshooting.
+- Deployment and configuration scripts plus enterprise scenario coverage.
+- Example-driven usage and tests to validate changes safely.
 
 ## 🎯 Overview
 
