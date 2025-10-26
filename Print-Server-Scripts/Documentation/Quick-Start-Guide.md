@@ -1,11 +1,10 @@
-> This file has moved: see `Documentation/Quick-Start-Guide.md` for the latest version.
+# Print Server PowerShell Scripts - Quick Start Guide
 
-# Quick Start Guide (relocated)
+**Author:** Adrian Johnson <adrian207@gmail.com>  
+**Version:** 1.0.0  
+**Last updated:** 2025-10-26
 
-This document was moved to keep all docs under `Documentation/`.
-
-- New location: [Documentation/Quick-Start-Guide.md](Documentation/Quick-Start-Guide.md)
-- Last updated: 2025-10-26
+This guide will help you get started with the Print Server PowerShell Scripts quickly and efficiently.
 
 ## Prerequisites
 
@@ -183,38 +182,6 @@ Get-PrintJob | Where-Object { $_.JobStatus -eq "Printing" }
 ```powershell
 # Create printer pool
 .\Scripts\PrinterManagement\Manage-Printers.ps1 -Action CreatePool -PoolName "Office Pool" -Printers @("Printer1", "Printer2", "Printer3")
-```
-
-## Troubleshooting Common Issues
-
-### 1. Print Spooler Service Issues
-
-```powershell
-# Restart print spooler service
-Restart-Service -Name Spooler
-
-# Check service status
-Get-Service -Name Spooler
-```
-
-### 2. Printer Driver Issues
-
-```powershell
-# List installed drivers
-Get-PrinterDriver | Format-Table Name, DriverVersion, InfPath
-
-# Remove problematic driver
-.\Scripts\PrinterManagement\Manage-Drivers.ps1 -Action RemoveDriver -DriverName "Problematic Driver"
-```
-
-### 3. Print Queue Issues
-
-```powershell
-# Clear print queue
-.\Scripts\PrintQueue\Manage-PrintQueues.ps1 -Action ClearQueue -PrinterName "Office Printer"
-
-# Restart print queue
-.\Scripts\PrintQueue\Manage-PrintQueues.ps1 -Action RestartQueue -PrinterName "Office Printer"
 ```
 
 ## Testing

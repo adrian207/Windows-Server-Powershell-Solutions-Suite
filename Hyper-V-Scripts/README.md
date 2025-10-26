@@ -1,8 +1,20 @@
 # Windows Hyper-V Scripts
 
+> Recommendation: Use this Hyper‑V automation toolkit to standardize deployment, hardening, and operations for virtualized workloads at scale.
+
 **Author:** Adrian Johnson <adrian207@gmail.com>  
 **Version:** 1.0.0  
-**Date:** December 2024
+**Last updated:** 2025-10-26
+
+### Why it matters
+- Deliver predictable clusters and VMs faster with opinionated scripts.
+- Reduce risk via baked‑in security baselines and health validations.
+- Scale operations with consistent templates and testable workflows.
+
+### How it works (high-level)
+- Modular PowerShell modules grouped by deployment, configuration, security, monitoring, troubleshooting.
+- Enterprise scenario scripts and examples for common patterns.
+- JSON configuration and tests to validate before/after state.
 
 ## Overview
 

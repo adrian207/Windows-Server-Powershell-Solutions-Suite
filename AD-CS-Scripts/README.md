@@ -1,8 +1,20 @@
 # Windows Active Directory Certificate Services (AD CS) Scripts
 
+> Recommendation: Use this PKI automation toolkit to deploy, secure, and operate AD CS with confidence across on‑prem and hybrid environments.
+
 **Author:** Adrian Johnson <adrian207@gmail.com>  
 **Version:** 1.0.0  
-**Date:** December 2024
+**Last updated:** 2025-10-26
+
+### Why it matters
+- Eliminate toil and outages with scripted, repeatable PKI lifecycle operations.
+- Enforce security and compliance via templates, role separation, and audit.
+- Accelerate delivery for apps, VPN, Wi‑Fi, device identity, and zero‑trust.
+
+### How it works (high-level)
+- Modular PowerShell modules for deployment, configuration, security, monitoring, troubleshooting.
+- Opinionated scripts for 35 enterprise scenarios with examples and tests.
+- JSON templates to standardize CA configuration and publication settings.
 
 ## Overview
 

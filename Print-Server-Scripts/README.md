@@ -48,7 +48,7 @@ Print-Server-Scripts/
 ├── Examples/                 # Usage examples and templates
 ├── Tests/                    # Pester test files
 ├── README.md                 # This file
-└── Quick-Start-Guide.md      # Quick start guide
+└── Documentation/Quick-Start-Guide.md  # Quick start guide
 ```
 
 ## Requirements
@@ -135,7 +135,7 @@ Run the comprehensive test suite:
 
 ## Documentation
 
-- **Quick-Start-Guide.md** - Get started quickly
+- **Documentation/Quick-Start-Guide.md** - Get started quickly
 - **Documentation/User-Guide.md** - Detailed user guide
 - **Examples/** - Usage examples and templates
 
