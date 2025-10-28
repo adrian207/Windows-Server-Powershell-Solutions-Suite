@@ -3,8 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE) [![Docs](https://img.shields.io/badge/Docs-Complete-blue)](ARCHITECTURE.md) [![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--10--26-blueviolet)]
 
 **Author:** Adrian Johnson (adrian207@gmail.com)  
-**Version:** 1.4.0  
-**Last updated:** 2025-10-27
+**Version:** 1.5.0  
+**Last updated:** 2025-10-28
 
 > Enterprise-grade PowerShell automation for Windows Server — modular, secure, and ready for production.
 

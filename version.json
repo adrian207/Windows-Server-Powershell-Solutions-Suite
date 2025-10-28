@@ -1,20 +1,20 @@
 {
-  "version": "1.4.0",
+  "version": "1.5.0",
   "major": 1,
-  "minor": 4,
+  "minor": 5,
   "patch": 0,
-  "build": "2025.10.27",
-  "semver": "1.4.0",
+  "build": "2025.10.28",
+  "semver": "1.5.0",
   "status": "stable",
-  "date": "2025-10-27",
-  "release_date": "2025-10-27",
+  "date": "2025-10-28",
+  "release_date": "2025-10-28",
   "author": {
     "name": "Adrian Johnson",
     "email": "adrian207@gmail.com"
   },
-  "description": "Added Extended Monitoring module with comprehensive health monitoring",
+  "description": "Added LAPs solution with comprehensive password management and security features",
   "solutions": {
-    "total": 18,
+    "total": 19,
     "identity": 6,
     "infrastructure": 4,
     "network": 4,

@@ -1,0 +1,46 @@
+{
+  "laps_configuration": {
+    "version": "1.0.0",
+    "author": "Adrian Johnson (adrian207@gmail.com)",
+    "date": "2025-10-28",
+    
+    "domain_settings": {
+      "domain_name": "",
+      "domain_controller": "",
+      "ou_filters": []
+    },
+    
+    "password_policy": {
+      "password_length": 14,
+      "password_age_days": 30,
+      "complexity_required": true,
+      "account_name": "Administrator"
+    },
+    
+    "group_policy": {
+      "policy_name": "LAPs Policy",
+      "enabled": true,
+      "configure_password_backup": true,
+      "enable_password_expiration": true,
+      "enable_audit": true
+    },
+    
+    "backup_key": {
+      "key_size": 2048,
+      "enable_rotation": true,
+      "rotation_period_days": 365
+    },
+    
+    "monitoring": {
+      "enable_health_monitoring": true,
+      "compliance_threshold": 95,
+      "alert_on_expired_passwords": true
+    },
+    
+    "security": {
+      "audit_password_retrieval": true,
+      "limit_password_access": true,
+      "encryption_algorithm": "AES256"
+    }
+  }
+}
