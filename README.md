@@ -3,8 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE) [![Docs](https://img.shields.io/badge/Docs-Complete-blue)](ARCHITECTURE.md) [![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--10--26-blueviolet)]
 
 **Author:** Adrian Johnson (adrian207@gmail.com)  
-**Version:** 1.0.0  
-**Last updated:** 2025-10-26
+**Version:** 1.1.0  
+**Last updated:** 2024-12-27
 
 > Enterprise-grade PowerShell automation for Windows Server — modular, secure, and ready for production.
 
@@ -146,9 +146,10 @@ A comprehensive collection of **18 production-ready PowerShell solutions** for W
 - **[Troubleshooting Guide](CONTRIBUTING.md)** - Common issues and solutions
 
 ### **Version Information**
-- **Current Version:** [v1.0.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.0.0)
+- **Current Version:** v1.1.0 - Enhanced Error Handling & Logging
 - **Version File:** [version.json](version.json)
 - **Latest Release Notes:** [CHANGELOG.md](CHANGELOG.md)
+- **Previous Release:** [v1.0.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.0.0)
 
 ### **Professional Support**
 - **Author**: Adrian Johnson (adrian207@gmail.com)
