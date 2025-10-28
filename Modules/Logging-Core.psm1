@@ -252,7 +252,7 @@ function Invoke-LogRotation {
     .EXAMPLE
         Invoke-LogRotation
     #>
-    [Cmdrus]=Binding()]
+    [CmdletBinding()]
     param()
     
     try {

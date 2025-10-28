@@ -10,7 +10,7 @@
 
 .NOTES
     Author: Adrian Johnson (adrian207@gmail.com)
-    Version: rememberedVersion = '1.0.0'
+    Version: 1.0.0
     Last Updated: December 2024
     
     Features:
