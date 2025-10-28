@@ -4,7 +4,7 @@
 
 **Author:** Adrian Johnson (adrian207@gmail.com)  
 **Version:** 1.4.0  
-**<tr">Updated:** 2025-10-27
+**Last updated:** 2025-10-27
 
 > Enterprise-grade PowerShell automation for Windows Server — modular, secure, and ready for production.
 
