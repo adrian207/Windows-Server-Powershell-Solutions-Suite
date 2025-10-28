@@ -1,16 +1,16 @@
 # Enterprise Scenarios Guide
 
 **Author:** Adrian Johnson (adrian207@gmail.com)  
-**Version:** 1.2.0  
-**Last Updated:** October 27, 2025
+**Version:** 1.3.0  
+**Last Updated:** October 28, 2025
 
 ## 📋 Overview
 
-This guide provides a comprehensive index of all enterprise scenarios available across the Windows Server PowerShell Solutions Suite. The suite includes **18 production-ready solutions** covering **500+ enterprise scenarios** for Windows Server automation.
+This guide provides a comprehensive index of all enterprise scenarios available across the Windows Server PowerShell Solutions Suite. The suite includes **19 production-ready solutions** covering **500+ enterprise scenarios** for Windows Server automation.
 
 ## 🎯 Solution Categories
 
-### 🔐 **Identity & Access Management (6 Solutions)**
+### 🔐 **Identity & Access Management (7 Solutions)**
 
 #### **1. Active Directory Scripts** - 40 Scenarios
 **Location:** `Active-Directory-Scripts/Scripts/Enterprise-Scenarios/`
@@ -113,9 +113,22 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Seamless SSO
 - Multi-Forest Synchronization
 
+#### **7. LAPs Scripts** - 8 Scenarios
+**Location:** `LAPs-Scripts/Scripts/`
+
+**Key Scenarios:**
+- New LAPs Deployment
+- LAPs Configuration Management
+- Password Rotation Policy
+- Backup Key Management
+- Compliance Auditing
+- Password Recovery
+- Health Monitoring
+- Troubleshooting
+
 ### 🖥️ **Infrastructure & Virtualization (4 Solutions)**
 
-#### **7. Hyper-V Scripts** - 35 Scenarios
+#### **8. Hyper-V Scripts** - 35 Scenarios
 **Location:** `Hyper-V-Scripts/Scripts/Enterprise-Scenarios/`
 
 **Key Scenarios:**
@@ -135,7 +148,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Software-Defined Networking (SDN)
 - Storage Spaces Direct (S2D)
 
-#### **8. Failover Clustering** - 35 Scenarios
+#### **9. Failover Clustering** - 35 Scenarios
 **Location:** `Failover-Clustering-Scripts/Scripts/Enterprise-Scenarios/`
 
 **Key Scenarios:**
@@ -155,7 +168,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Scale-Out File Server (SOFS)
 - Storage Autofailover
 
-#### **9. DNS Scripts** - 35 Scenarios
+#### **10. DNS Scripts** - 35 Scenarios
 **Location:** `DNS-Scripts/Scripts/`
 
 **Key Scenarios:**
@@ -175,7 +188,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - DNS over HTTPS (DoH)
 - Query Resolution
 
-#### **10. DHCP Scripts** - 35 Scenarios
+#### **11. DHCP Scripts** - 35 Scenarios
 **Location:** `DHCP-Scripts/Scripts/`
 
 **Key Scenarios:**
@@ -194,7 +207,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 
 ### 🌐 **Network & Security Services (4 Solutions)**
 
-#### **11. Remote Desktop Services** - 30 Scenarios
+#### **12. Remote Desktop Services** - 30 Scenarios
 **Location:** `Remote-Desktop-Services/Scripts/Enterprise-Scenarios/`
 
 **Key Scenarios:**
@@ -211,7 +224,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Remote Desktop Web Access
 - Personal Desktop Collections
 
-#### **12. Remote Access Services**
+#### **13. Remote Access Services**
 **Location:** `Remote-Access-Services/Scripts/`
 
 **Key Scenarios:**
@@ -221,7 +234,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Network Access Protection (NAP)
 - Routing and Remote Access
 
-#### **13. NPAS Scripts** - 30 Scenarios
+#### **14. NPAS Scripts** - 30 Scenarios
 **Location:** `NPAS-Scripts/Scripts/Enterprise-Scenarios/`
 
 **Key Scenarios:**
@@ -235,7 +248,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Health Policies
 - Accounting Configuration
 
-#### **14. HGS Scripts** - 25 Scenarios
+#### **15. HGS Scripts** - 25 Scenarios
 **Location:** `HGS-Scripts/Scripts/Enterprise-Scenarios/`
 
 **Key Scenarios:**
@@ -251,7 +264,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 
 ### 💾 **Storage & Backup (3 Solutions)**
 
-#### **15. File Storage Services**
+#### **16. File Storage Services**
 **Location:** `File-Storage-Services/Scripts/`
 
 **Key Scenarios:**
@@ -263,7 +276,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Access Auditing
 - Quota Management
 
-#### **16. Backup Storage Services**
+#### **17. Backup Storage Services**
 **Location:** `Backup-Storage-Services/Scripts/`
 
 **Key Scenarios:**
@@ -273,7 +286,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 - Backup Scheduling
 - Backup Retention
 
-#### **17. Print Server Scripts**
+#### **18. Print Server Scripts**
 **Location:** `Print-Server-Scripts/Scripts/`
 
 **Key Scenarios:**
@@ -284,7 +297,7 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 
 ### 🌍 **Web & Application Services (1 Solution)**
 
-#### **18. IIS Web Server**
+#### **19. IIS Web Server**
 **Location:** `IIS-Web-Server/Scripts/`
 
 **Key Scenarios:**
@@ -299,12 +312,12 @@ This guide provides a comprehensive index of all enterprise scenarios available 
 
 | Category | Solutions | Total Scenarios |
 |----------|-----------|-----------------|
-| Identity & Access | 6 | 180 scenarios |
+| Identity & Access | 7 | 188 scenarios |
 | Infrastructure | 4 | 140 scenarios |
 | Network & Security | 4 | 120 scenarios |
 | Storage & Backup | 3 | 50+ scenarios |
 | Web & Application | 1 | 20+ scenarios |
-| **TOTAL** | **18** | **500+ scenarios** |
+| **TOTAL** | **19** | **508+ scenarios** |
 
 ## 🚀 Usage
 
