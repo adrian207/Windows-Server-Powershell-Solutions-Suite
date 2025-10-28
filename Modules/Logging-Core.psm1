@@ -34,7 +34,7 @@ $script:LogLevels = @{
     'ERROR' = 3
     'CRITICAL' = 4
 }
-$script:DefaultLogPath = Join-Path $env:ProgramData "WindowsServerSolutions" "Logs"
+$script:DefaultLogPath = Join-Path -Path $env:ProgramData -ChildPath "WindowsServerSolutions" | Join-Path -ChildPath "Logs"
 $script:LogTargets = @{
     File = $true
     Console = $true
