@@ -430,6 +430,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.4.0 | 2025-10-27 | Added Extended Monitoring module with health monitoring |
 | 1.3.0 | 2025-10-27 | Added Enterprise Scenarios Guide documenting 500+ scenarios |
 | 1.2.0 | 2025-10-27 | Added performance monitoring and optimization module |
 | 1.1.0 | 2024-12-27 | Added enhanced error handling and logging modules |
