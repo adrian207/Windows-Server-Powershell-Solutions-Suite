@@ -152,7 +152,7 @@ A comprehensive collection of **19 production-ready PowerShell solutions** for W
 - **Current Version:** v1.5.0 - LAPs Solution & Updated Enterprise Scenarios
 - **Version File:** [version.json](version.json)
 - **Latest Release Notes:** [CHANGELOG.md](CHANGELOG.md)
-- **Previous Releases:** [v1.4.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.4.0) • [v1.3.0](https://github.comAndy/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.3.0) • [v1.2.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.2.0) • [v1.1.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.1.0) • [v1.0.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.0.0)
+- **Previous Releases:** [v1.4.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.4.0) • [v1.3.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.3.0) • [v1.2.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.2.0) • [v1.1.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.1.0) • [v1.0.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.0.0)
 
 ### **Professional Support**
 - **Author**: Adrian Johnson (adrian207@gmail.com)
