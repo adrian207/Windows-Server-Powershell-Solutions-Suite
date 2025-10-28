@@ -15,6 +15,11 @@ Write-Host ""
 
 # Import Modules
 try {
+    # Import Logging-Core first (dependency)
+    $loggingModulePath = Resolve-Path "Modules\Logging-Core.psm1"
+    Import-Module $loggingModulePath -Force -ErrorAction SilentlyContinue
+    
+    # Import Performance-Monitoring
     $perfModulePath = Resolve-Path "Modules\Performance-Monitoring.psm1"
     Import-Module $perfModulePath -Force -ErrorAction Stop
     Write-Host "✅ Module imported successfully" -ForegroundColor Green
@@ -34,16 +39,17 @@ try {
     Write-Host "  Memory Delta: $([math]::Round($result.Metrics.MemoryDelta/1MB, 2)) MB" -ForegroundColor Gray
     Write-Host "✅ Test 1 passed" -ForegroundColor Green
 } catch {
-    Write-Host "❌ Test 1 failed: $_" -Foreground dodger red
+    Write-Host "❌ Test 1 failed: $_" -ForegroundColor Red
 }
 
 # Test 2: Performance Summary
 Write-Host "`nTest 2: Performance Summary" -ForegroundColor Yellow
 try {
+    # Create PSObject metrics for proper Measure-Object support
     $metrics = @(
-        @{ ExecutionTime = 100; MemoryDelta = 10MB }
-        @{ ExecutionTime = 150; MemoryDelta = 15MB }
-        @{ ExecutionTime = 120; MemoryDelta = 12MB }
+        [PSCustomObject]@{ ExecutionTime = 100; MemoryDelta = 10MB }
+        [PSCustomObject]@{ ExecutionTime = 150; MemoryDelta = 15MB }
+        [PSCustomObject]@{ ExecutionTime = 120; MemoryDelta = 12MB }
     )
     
     $summary = Get-PerformanceSummary -Metrics $metrics
