@@ -22,7 +22,7 @@
 
 ## 🚀 Enterprise-Grade Windows Server Automation Suite
 
-A comprehensive collection of **18 production-ready PowerShell solutions** for Windows Server environments, covering Active Directory, Certificate Services, Hyper-V, DNS, DHCP, and more. Built with enterprise security, compliance, and scalability in mind.
+A comprehensive collection of **19 production-ready PowerShell solutions** for Windows Server environments, covering Active Directory, Certificate Services, Hyper-V, DNS, DHCP, LAPs, and more. Built with enterprise security, compliance, and scalability in mind.
 
 ## 📁 Solutions Overview
 
@@ -33,6 +33,7 @@ A comprehensive collection of **18 production-ready PowerShell solutions** for W
 - **[AD-RMS-Scripts](AD-RMS-Scripts/)** - Active Directory Rights Management Services (25 scenarios)
 - **[ADFS-Scripts](ADFS-Scripts/)** - Active Directory Federation Services (30 scenarios)
 - **[Entra-Connect-Scripts](Entra-Connect-Scripts/)** - Entra Connect Hybrid Identity (25 scenarios)
+- **[LAPs-Scripts](LAPs-Scripts/)** - Local Administrator Password Solution (8 scenarios)
 
 ### 🖥️ **Infrastructure & Virtualization**
 - **[Hyper-V-Scripts](Hyper-V-Scripts/)** - Hyper-V Management (35 scenarios)
@@ -105,6 +106,7 @@ A comprehensive collection of **18 production-ready PowerShell solutions** for W
 | [AD RMS](AD-RMS-Scripts/) | 25 | Rights management, document protection |
 | [HGS](HGS-Scripts/) | 25 | Shielded VMs, attestation |
 | [Entra Connect](Entra-Connect-Scripts/) | 25 | Hybrid identity, synchronization |
+| [LAPs](LAPs-Scripts/) | 8 | Password management, security compliance |
 
 ## 🛡️ **Security & Compliance**
 
@@ -139,7 +141,7 @@ A comprehensive collection of **18 production-ready PowerShell solutions** for W
 ### **Comprehensive Documentation**
 - **[Changelog](CHANGELOG.md)** - Complete version history and release notes
 - **[Versioning Policy](VERSIONING.md)** - Version management strategy
-- **[Enterprise Scenarios Guide](Enterprise-Scenarios-Guide.md)** - Complete index of 500+ enterprise scenarios
+- **[Enterprise Scenarios Guide](Enterprise-Scenarios-Guide.md)** - Complete index of 508+ enterprise scenarios
 - **[Architecture Guide](ARCHITECTURE.md)** - System design and components
 - **[Deployment Guide](DEPLOYMENT-GUIDE.md)** - Step-by-step installation
 - **[API Reference](API-REFERENCE.md)** - Complete function documentation
@@ -147,7 +149,7 @@ A comprehensive collection of **18 production-ready PowerShell solutions** for W
 - **[Troubleshooting Guide](CONTRIBUTING.md)** - Common issues and solutions
 
 ### **Version Information**
-- **Current Version:** v1.2.0 - Performance Monitoring & Optimization
+- **Current Version:** v1.5.0 - LAPs Solution & Updated Enterprise Scenarios
 - **Version File:** [version.json](version.json)
 - **Latest Release Notes:** [CHANGELOG.md](CHANGELOG.md)
 - **Previous Releases:** [v1.1.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.1.0) • [v1.0.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.0.0)
