@@ -1,0 +1,175 @@
+name: Release Management
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+        type: string
+      release_type:
+        description: 'Release type'
+        required: true
+        type: choice
+        options:
+          - stable
+          - rc
+          - beta
+          - alpha
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for tags
+      
+      - name: Set up PowerShell
+        uses: pwsh/setup-pwsh@v2
+        with:
+          pwsh-version: '7.4.0'
+      
+      - name: Read version
+        id: read_version
+        run: |
+          $version = if ($env:GITHUB_REF -match 'refs/tags/v(.+)') {
+            $matches[1]
+          } else {
+            $env:INPUT_VERSION
+          }
+          echo "version=$version" >> $GITHUB_OUTPUT
+          echo "Detected version: $version"
+      
+      - name: Get version details
+        id: version_details
+        run: |
+          $version = '${{ steps.read_version.outputs.version }}'
+          $parts = $version -split '\.'
+          
+          if ($version -match '^(.*)-([a-z]+)\.(.+)$') {
+            $base = $matches[1]
+            $preRelease = "$($matches[2]).$($matches[3])"
+          } else {
+            $base = $version
+            $preRelease = ""
+          }
+          
+          $baseParts = $base -split '\.'
+          $major = $baseParts[0]
+          $minor = $baseParts[1]
+          $patch = $baseParts[2]
+          
+          echo "major=$major" >> $GITHUB_OUTPUT
+          echo "minor=$minor" >> $GITHUB_OUTPUT
+          echo "patch=$patch" >> $GITHUB_OUTPUT
+          echo "base=$base" >> $GITHUB_OUTPUT
+          echo "prerelease=$preRelease" >> $GITHUB_OUTPUT
+      
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          $version = '${{ steps.read_version.outputs.version }}'
+          $major = '${{ steps.version_details.outputs.major }}'
+          $minor = '${{ steps.version_details.outputs.minor }}'
+          $patch = '${{ steps.version_details.outputs.patch }}'
+          $prerelease = '${{ steps.version_details.outputs.prerelease }}'
+          
+          # Generate release title
+          $title = if ($prerelease) {
+            "Release v$version"
+          } else {
+            "Release v$major.$minor.$patch"
+          }
+          
+          # Generate release body
+          $body = @"
+## 🎉 Windows Server PowerShell Solutions Suite v$version
+
+### 📊 Version Information
+- **Version:** $version
+- **Release Date:** $(Get-Date -Format 'yyyy-MM-dd')
+- **Author:** Adrian Johnson (adrian207@gmail.com)
+
+### 📦 What's Included
+This release includes the complete Windows Server PowerShell automation suite with 18 production-ready solutions.
+
+### 🚀 Quick Start
+```powershell
+git clone https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite.git
+cd Windows-Server-Powershell-Solutions-Suite
+git checkout v$version
+```
+
+### 📚 Documentation
+- [Full Changelog](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/blob/main/CHANGELOG.md)
+- [Versioning Policy](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/blob/main/VERSIONING.md)
+- [Deployment Guide](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/blob/main/DEPLOYMENT-GUIDE.md)
+
+### 🤝 Support
+- **Email:** adrian207@gmail.com
+- **Issues:** [Report Issues](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/issues)
+
+### 📄 License
+MIT License - see [LICENSE](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/blob/main/LICENSE) file for details.
+"@
+          
+          echo "title=$title" >> $GITHUB_OUTPUT
+          # Escape for GitHub Actions
+          $body = $body.Replace('"', '`"').Replace("`n", "\n")
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo $body >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.read_version.outputs.version }}
+          release_name: Release v${{ steps.read_version.outputs.version }}
+          body: ${{ steps.release_notes.outputs.body }}
+          draft: false
+          prerelease: ${{ steps.version_details.outputs.prerelease != '' }}
+      
+      - name: Upload release artifacts
+        run: |
+          echo "Release artifacts would be uploaded here"
+          # In the future, you can add:
+          # - Compiled documentation
+          # - Installation packages
+          # - Release notes PDF
+          # etc.
+      
+      - name: Update release statistics
+        run: |
+          $version = '${{ steps.read_version.outputs.version }}'
+          $date = Get-Date -Format 'yyyy-MM-dd'
+          
+          Write-Host "✅ Release created successfully!"
+          Write-Host "   Version: v$version"
+          Write-Host "   Date: $date"
+          Write-Host "   Prerelease: ${{ steps.version_details.outputs.prerelease }}"
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: create-release
+    if: success()
+    
+    steps:
+      - name: Notify release created
+        run: |
+          echo "Release notification would be sent here"
+          # In the future, you can add:
+          # - Email notifications
+          # - Slack notifications
+          # - Issue updates
+          # etc.
+

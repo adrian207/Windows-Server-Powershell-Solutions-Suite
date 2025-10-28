@@ -137,11 +137,18 @@ A comprehensive collection of **18 production-ready PowerShell solutions** for W
 ## 📚 **Documentation & Support**
 
 ### **Comprehensive Documentation**
+- **[Changelog](CHANGELOG.md)** - Complete version history and release notes
+- **[Versioning Policy](VERSIONING.md)** - Version management strategy
 - **[Architecture Guide](ARCHITECTURE.md)** - System design and components
 - **[Deployment Guide](DEPLOYMENT-GUIDE.md)** - Step-by-step installation
 - **[API Reference](API-REFERENCE.md)** - Complete function documentation
 - **[Security Guide](SECURITY-COMPLIANCE.md)** - Security best practices
 - **[Troubleshooting Guide](CONTRIBUTING.md)** - Common issues and solutions
+
+### **Version Information**
+- **Current Version:** [v1.0.0](https://github.com/adrian207/Windows-Server-Powershell-Solutions-Suite/releases/tag/v1.0.0)
+- **Version File:** [version.json](version.json)
+- **Latest Release Notes:** [CHANGELOG.md](CHANGELOG.md)
 
 ### **Professional Support**
 - **Author**: Adrian Johnson (adrian207@gmail.com)
