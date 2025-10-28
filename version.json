@@ -1,10 +1,10 @@
 {
-  "version": "1.2.0",
+  "version": "1.4.0",
   "major": 1,
-  "minor": 2,
+  "minor": 4,
   "patch": 0,
   "build": "2025.10.27",
-  "semver": "1.2.0",
+  "semver": "1.4.0",
   "status": "stable",
   "date": "2025-10-27",
   "release_date": "2025-10-27",
@@ -12,7 +12,7 @@
     "name": "Adrian Johnson",
     "email": "adrian207@gmail.com"
   },
-  "description": "Added performance monitoring and optimization module",
+  "description": "Added Extended Monitoring module with comprehensive health monitoring",
   "solutions": {
     "total": 18,
     "identity": 6,

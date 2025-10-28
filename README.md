@@ -3,8 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE) [![Docs](https://img.shields.io/badge/Docs-Complete-blue)](ARCHITECTURE.md) [![Last Updated](https://img.shields.io/badge/Last%20Updated-2025--10--26-blueviolet)]
 
 **Author:** Adrian Johnson (adrian207@gmail.com)  
-**Version:** 1.2.0  
-**Last updated:** 2025-10-27
+**Version:** 1.4.0  
+**<tr">Updated:** 2025-10-27
 
 > Enterprise-grade PowerShell automation for Windows Server — modular, secure, and ready for production.
 
@@ -139,6 +139,7 @@ A comprehensive collection of **18 production-ready PowerShell solutions** for W
 ### **Comprehensive Documentation**
 - **[Changelog](CHANGELOG.md)** - Complete version history and release notes
 - **[Versioning Policy](VERSIONING.md)** - Version management strategy
+- **[Enterprise Scenarios Guide](Enterprise-Scenarios-Guide.md)** - Complete index of 500+ enterprise scenarios
 - **[Architecture Guide](ARCHITECTURE.md)** - System design and components
 - **[Deployment Guide](DEPLOYMENT-GUIDE.md)** - Step-by-step installation
 - **[API Reference](API-REFERENCE.md)** - Complete function documentation
